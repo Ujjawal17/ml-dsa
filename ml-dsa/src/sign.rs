@@ -23,6 +23,13 @@ use crate::vecops::{
 
 /// FIPS 204, Algorithm 7 — ML-DSA.Sign_internal: signature for a formatted message `M'`.
 pub fn sign_internal(sk: &[u8], m_prime: &[u8], rnd: &[u8; 32]) -> Vec<u8> {
+    sign_internal_traced(sk, m_prime, rnd).0
+}
+
+/// Like [`sign_internal`], but also returns the number of rejection-loop iterations
+/// (attempts until acceptance). That count is the documented, accepted leakage of
+/// Fiat–Shamir with Aborts — the signal the Part 2 side-channel chapter studies.
+pub fn sign_internal_traced(sk: &[u8], m_prime: &[u8], rnd: &[u8; 32]) -> (Vec<u8>, u32) {
     let (rho, k_seed, tr, s1, s2, t0) = sk_decode(sk).expect("valid secret key");
     let s1_hat = ntt_vec(&s1); // line 2
     let s2_hat = ntt_vec(&s2); // line 3
@@ -45,7 +52,9 @@ pub fn sign_internal(sk: &[u8], m_prime: &[u8], rnd: &[u8; 32]) -> Vec<u8> {
     hr.finalize().squeeze(&mut rho_pp);
 
     let mut kappa = 0u32; // line 8
+    let mut attempts = 0u32; // rejection-loop iteration counter (not part of the spec)
     loop {
+        attempts += 1;
         // line 11-13
         let y = expand_mask(&rho_pp, kappa);
         let w = inv_ntt_vec(&matrix_vector_ntt(&a_hat, &ntt_vec(&y)));
@@ -83,7 +92,7 @@ pub fn sign_internal(sk: &[u8], m_prime: &[u8], rnd: &[u8; 32]) -> Vec<u8> {
         }
 
         // line 33: σ ← sigEncode(c~, z mod± q, h)
-        return sig_encode(&c_tilde, &center_vec(&z), &h);
+        return (sig_encode(&c_tilde, &center_vec(&z), &h), attempts);
     }
 }
 
@@ -116,10 +125,15 @@ pub fn sign<R: CryptoRng + RngCore>(
 /// Deterministic variant (FIPS 204 §3.4): `rnd = {0}^32`. Not recommended where
 /// side-channel attacks are a concern.
 pub fn sign_deterministic(sk: &[u8], m: &[u8], ctx: &[u8]) -> Result<Vec<u8>> {
+    Ok(sign_deterministic_traced(sk, m, ctx)?.0)
+}
+
+/// Deterministic signing that also returns the rejection-loop iteration count.
+pub fn sign_deterministic_traced(sk: &[u8], m: &[u8], ctx: &[u8]) -> Result<(Vec<u8>, u32)> {
     if ctx.len() > 255 {
         return Err(Error::ContextTooLong);
     }
-    Ok(sign_internal(sk, &format_m_prime(ctx, m), &[0u8; 32]))
+    Ok(sign_internal_traced(sk, &format_m_prime(ctx, m), &[0u8; 32]))
 }
 
 #[cfg(test)]
