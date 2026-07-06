@@ -17,10 +17,9 @@
 
 use std::fs;
 
-use ml_dsa::keygen::key_gen_internal;
-use ml_dsa::params::{PK_BYTES, SIG_BYTES, SK_BYTES};
-use ml_dsa::sign::sign_deterministic_traced;
-use ml_dsa::verify::verify;
+use ml_dsa::ml_dsa_65::{
+    key_gen_internal, sign_deterministic_traced, verify, PK_BYTES, SIG_BYTES, SK_BYTES,
+};
 
 const PK_FILE: &str = "roundtrip_pk.bin";
 const SIG_FILE: &str = "roundtrip_sig.bin";

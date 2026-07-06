@@ -8,7 +8,7 @@
 //! Indexed loops mirror "for i from 0 to 255" / "for i from 0 to α−1".
 #![allow(clippy::needless_range_loop)]
 
-use crate::params::{ETA, N, Q};
+use crate::params::{ParameterSet, N, Q};
 use crate::poly::Poly;
 
 /// `bitlen b` — number of bits in the binary representation of `b` (`bitlen 0 = 0`).
@@ -83,10 +83,12 @@ pub fn coeff_from_three_bytes(b0: u8, b1: u8, b2: u8) -> Option<i32> {
 }
 
 /// FIPS 204, Algorithm 15 — CoeffFromHalfByte: nibble → an element of `{−η,…,η}` or `⊥`.
-/// ML-DSA-65 has `η = 4`; the `η = 2` branch (ML-DSA-44) is added in Phase 5.
-pub fn coeff_from_half_byte(b: u8) -> Option<i32> {
-    debug_assert_eq!(ETA, 4, "Phase 0/1 is hardcoded to ML-DSA-65 (η = 4)");
-    if b < 9 {
+/// The two branches are the spec's lines 1–2 (`η = 2`, with the `mod 5` fold) and
+/// lines 3–4 (`η = 4`).
+pub fn coeff_from_half_byte<P: ParameterSet>(b: u8) -> Option<i32> {
+    if P::ETA == 2 && b < 15 {
+        Some(2 - (b % 5) as i32)
+    } else if P::ETA == 4 && b < 9 {
         Some(4 - b as i32)
     } else {
         None // ⊥ (rejection)
@@ -195,10 +197,22 @@ mod tests {
 
     #[test]
     fn coeff_from_half_byte_eta4() {
-        assert_eq!(coeff_from_half_byte(0), Some(4));
-        assert_eq!(coeff_from_half_byte(8), Some(-4));
-        assert_eq!(coeff_from_half_byte(9), None);
-        assert_eq!(coeff_from_half_byte(15), None);
+        use crate::params::MlDsa65;
+        assert_eq!(coeff_from_half_byte::<MlDsa65>(0), Some(4));
+        assert_eq!(coeff_from_half_byte::<MlDsa65>(8), Some(-4));
+        assert_eq!(coeff_from_half_byte::<MlDsa65>(9), None);
+        assert_eq!(coeff_from_half_byte::<MlDsa65>(15), None);
+    }
+
+    #[test]
+    fn coeff_from_half_byte_eta2() {
+        use crate::params::MlDsa44;
+        // η = 2: 2 − (b mod 5) for b < 15; b = 15 rejects.
+        assert_eq!(coeff_from_half_byte::<MlDsa44>(0), Some(2));
+        assert_eq!(coeff_from_half_byte::<MlDsa44>(4), Some(-2));
+        assert_eq!(coeff_from_half_byte::<MlDsa44>(5), Some(2));
+        assert_eq!(coeff_from_half_byte::<MlDsa44>(14), Some(-2));
+        assert_eq!(coeff_from_half_byte::<MlDsa44>(15), None);
     }
 
     #[test]

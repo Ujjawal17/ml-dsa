@@ -5,7 +5,7 @@
 
 use crate::field::{mod_pm, reduce_q};
 use crate::ntt::{inv_ntt, ntt};
-use crate::params::{N, Q};
+use crate::params::{ParameterSet, N, Q};
 use crate::poly::{PolyVec, PolyVecNTT};
 use crate::rounding::{
     high_bits_poly, low_bits_poly, make_hint_poly, power2round_poly, use_hint_poly,
@@ -86,37 +86,43 @@ pub fn power2round_vec<const M: usize>(v: &PolyVec<M>) -> (PolyVec<M>, PolyVec<M
 }
 
 /// HighBits over a vector.
-pub fn high_bits_vec<const M: usize>(v: &PolyVec<M>) -> PolyVec<M> {
+pub fn high_bits_vec<P: ParameterSet, const M: usize>(v: &PolyVec<M>) -> PolyVec<M> {
     let mut out = PolyVec::<M>::zero();
     for i in 0..M {
-        out.v[i] = high_bits_poly(&v.v[i]);
+        out.v[i] = high_bits_poly::<P>(&v.v[i]);
     }
     out
 }
 
 /// LowBits over a vector.
-pub fn low_bits_vec<const M: usize>(v: &PolyVec<M>) -> PolyVec<M> {
+pub fn low_bits_vec<P: ParameterSet, const M: usize>(v: &PolyVec<M>) -> PolyVec<M> {
     let mut out = PolyVec::<M>::zero();
     for i in 0..M {
-        out.v[i] = low_bits_poly(&v.v[i]);
+        out.v[i] = low_bits_poly::<P>(&v.v[i]);
     }
     out
 }
 
 /// MakeHint over vectors (componentwise), giving a 0/1 hint vector.
-pub fn make_hint_vec<const M: usize>(z: &PolyVec<M>, r: &PolyVec<M>) -> PolyVec<M> {
+pub fn make_hint_vec<P: ParameterSet, const M: usize>(
+    z: &PolyVec<M>,
+    r: &PolyVec<M>,
+) -> PolyVec<M> {
     let mut out = PolyVec::<M>::zero();
     for i in 0..M {
-        out.v[i] = make_hint_poly(&z.v[i], &r.v[i]);
+        out.v[i] = make_hint_poly::<P>(&z.v[i], &r.v[i]);
     }
     out
 }
 
 /// UseHint over vectors (componentwise).
-pub fn use_hint_vec<const M: usize>(h: &PolyVec<M>, r: &PolyVec<M>) -> PolyVec<M> {
+pub fn use_hint_vec<P: ParameterSet, const M: usize>(
+    h: &PolyVec<M>,
+    r: &PolyVec<M>,
+) -> PolyVec<M> {
     let mut out = PolyVec::<M>::zero();
     for i in 0..M {
-        out.v[i] = use_hint_poly(&h.v[i], &r.v[i]);
+        out.v[i] = use_hint_poly::<P>(&h.v[i], &r.v[i]);
     }
     out
 }
