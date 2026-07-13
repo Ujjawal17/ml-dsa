@@ -73,6 +73,75 @@ pub fn verify_internal<P: ParameterSet, const K: usize, const L: usize>(
     inf_norm(&z) < P::GAMMA1 - P::BETA && c_tilde == c_tilde_prime
 }
 
+/// Improved-path [`verify_internal`]: identical structure and results, using the
+/// division-free NTT components. Verification handles only public data, so the
+/// branchless `_ct` variants are not required here.
+pub fn verify_internal_fast<P: ParameterSet, const K: usize, const L: usize>(
+    pk: &[u8],
+    m_prime: &[u8],
+    sig: &[u8],
+) -> bool {
+    use crate::ntt::ntt_fast;
+    use crate::ntt_arith::{matrix_vector_ntt_fast, scalar_vector_ntt_fast};
+    use crate::vecops::{inv_ntt_vec_fast, ntt_vec_fast};
+
+    let (rho, t1) = match pk_decode::<P, K>(pk) {
+        Ok(v) => v,
+        Err(_) => return false,
+    };
+    let (c_tilde, z, h) = match sig_decode::<P, K, L>(sig) {
+        Ok(v) => v,
+        Err(_) => return false,
+    };
+
+    let a_hat = expand_a::<K, L>(&rho);
+
+    let mut th = H::init();
+    th.absorb(pk);
+    let mut tr = [0u8; 64];
+    th.finalize().squeeze(&mut tr);
+
+    let mut hm = H::init();
+    hm.absorb(&tr);
+    hm.absorb(m_prime);
+    let mut mu = [0u8; 64];
+    hm.finalize().squeeze(&mut mu);
+
+    let c = sample_in_ball::<P>(&c_tilde);
+
+    let mut t1_scaled = PolyVec::<K>::zero();
+    for i in 0..K {
+        for j in 0..N {
+            t1_scaled.v[i].coeffs[j] = t1.v[i].coeffs[j] << D;
+        }
+    }
+    let az = matrix_vector_ntt_fast(&a_hat, &ntt_vec_fast(&z));
+    let ct1 = scalar_vector_ntt_fast(&ntt_fast(&c), &ntt_vec_fast(&t1_scaled));
+    let w_prime = sub_vec(&inv_ntt_vec_fast(&az), &inv_ntt_vec_fast(&ct1));
+
+    let w1_prime = use_hint_vec::<P, K>(&h, &w_prime);
+
+    let mut hc = H::init();
+    hc.absorb(&mu);
+    hc.absorb(&w1_encode::<P, K>(&w1_prime));
+    let c_tilde_prime = hc.finalize().squeeze_vec(P::C_TILDE_BYTES);
+
+    inf_norm(&z) < P::GAMMA1 - P::BETA && c_tilde == c_tilde_prime
+}
+
+/// Improved-path [`verify`].
+pub fn verify_fast<P: ParameterSet, const K: usize, const L: usize>(
+    pk: &[u8],
+    m: &[u8],
+    sig: &[u8],
+    ctx: &[u8],
+) -> bool {
+    if ctx.len() > 255 {
+        return false;
+    }
+    verify_internal_fast::<P, K, L>(pk, &format_m_prime(ctx, m), sig)
+}
+
 /// FIPS 204, Algorithm 3 — ML-DSA.Verify.
 pub fn verify<P: ParameterSet, const K: usize, const L: usize>(
     pk: &[u8],

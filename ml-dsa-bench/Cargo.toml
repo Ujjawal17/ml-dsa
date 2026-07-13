@@ -1,0 +1,26 @@
+[package]
+name = "ml-dsa-bench"
+version = "0.0.0"
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Instruction-count benchmarks (iai-callgrind) for the ml-dsa reference vs improved path"
+
+[dependencies]
+ml-dsa = { path = "../ml-dsa" }
+
+[dev-dependencies]
+# Version MUST match the installed `iai-callgrind-runner` binary (0.14.0).
+iai-callgrind = "=0.14.0"
+
+[[bench]]
+name = "ntt"
+harness = false
+
+[[bench]]
+name = "operations"
+harness = false
+
+[[bench]]
+name = "signer_amortized"
+harness = false

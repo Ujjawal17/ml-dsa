@@ -1,0 +1,2061 @@
+--------------------------------------------------------------------------------
+-- Metadata
+--------------------------------------------------------------------------------
+Invocation:       /usr/bin/cg_annotate --auto=yes --show=Dr,Dw --threshold=0 results/cg_ball.7.out
+I1 cache:         32768 B, 64 B, 8-way associative
+D1 cache:         32768 B, 64 B, 8-way associative
+LL cache:         6291456 B, 64 B, 12-way associative
+Command:          target/release/examples/cachegrind_ball 7
+Events recorded:  Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw
+Events shown:     Dr Dw
+Event sort order: Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw
+Threshold:        0.0%
+Annotation:       on
+
+--------------------------------------------------------------------------------
+-- Summary
+--------------------------------------------------------------------------------
+Dr_____________ Dw_____________ 
+
+84,093 (100.0%) 37,432 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+-- File:function summary
+--------------------------------------------------------------------------------
+  Dr____________________ Dw____________________  file:function
+
+< 80,242 (95.4%,  95.4%) 34,755 (92.8%,  92.8%)  ???:
+  75,518 (89.8%)         31,904 (85.2%)            ???
+   1,148  (1.4%)            656  (1.8%)            _IO_sputbackc
+   1,145  (1.4%)            554  (1.5%)            getdelim
+     287  (0.3%)            697  (1.9%)            __isoc23_sscanf
+     287  (0.3%)            119  (0.3%)            pthread_getattr_np
+     178  (0.2%)            177  (0.5%)            _IO_setb
+     129  (0.2%)             33  (0.1%)            __tunable_get_val
+     115  (0.1%)             48  (0.1%)            free
+     164  (0.2%)              0                    __strtoul_internal
+      45  (0.1%)             14  (0.0%)            __cpu_indicator_init
+      84  (0.1%)            105  (0.3%)            _dl_catch_exception
+      54  (0.1%)              2  (0.0%)            getauxval
+      88  (0.1%)             76  (0.2%)            __libc_sigaction
+      50  (0.1%)              4  (0.0%)            malloc
+      73  (0.1%)             34  (0.1%)            _dl_allocate_tls_init
+      70  (0.1%)             37  (0.1%)            _IO_file_underflow
+      65  (0.1%)             31  (0.1%)            _IO_flush_all
+      48  (0.1%)             21  (0.1%)            __cxa_finalize
+       0                      0                    getline
+      44  (0.1%)              9  (0.0%)            __underflow
+      17  (0.0%)             11  (0.0%)            _IO_file_fopen
+      20  (0.0%)             10  (0.0%)            sigaction
+      25  (0.0%)             21  (0.1%)            (below main)
+      19  (0.0%)             16  (0.0%)            _IO_file_close_it
+      26  (0.0%)             24  (0.1%)            _IO_link_in
+      28  (0.0%)             24  (0.1%)            _IO_switch_to_get_mode
+       8  (0.0%)              4  (0.0%)            realloc
+      12  (0.0%)              0                    memset
+      12  (0.0%)              0                    memmove
+      12  (0.0%)              0                    memcpy
+      15  (0.0%)              0                    strlen
+      20  (0.0%)             10  (0.0%)            fclose
+      10  (0.0%)             13  (0.0%)            __libc_early_init
+      17  (0.0%)              6  (0.0%)            _IO_file_seekoff
+       8  (0.0%)              0                    calloc
+      14  (0.0%)              6  (0.0%)            sbrk
+      13  (0.0%)              7  (0.0%)            _IO_file_doallocate
+       8  (0.0%)              0                    __memset_chk
+      10  (0.0%)              0                    strnlen
+      10  (0.0%)              0                    wcschr
+      10  (0.0%)              0                    bcmp
+       7  (0.0%)              4  (0.0%)            sysconf
+       8  (0.0%)              0                    wmemchr
+      15  (0.0%)             12  (0.0%)            pthread_attr_setaffinity_np
+      10  (0.0%)              4  (0.0%)            pthread_mutex_lock
+       6  (0.0%)              7  (0.0%)            _IO_file_open
+       8  (0.0%)              0                    wmemset
+       5  (0.0%)              3  (0.0%)            __open_nocancel
+       4  (0.0%)              3  (0.0%)            mmap
+       4  (0.0%)              0                    mempcpy
+       4  (0.0%)              0                    __mempcpy_chk
+       4  (0.0%)              0                    __memmove_chk
+       4  (0.0%)              0                    __memcpy_chk
+       5  (0.0%)              0                    wmemcmp
+       5  (0.0%)              0                    wcscmp
+       5  (0.0%)              0                    strchrnul
+       5  (0.0%)              0                    rindex
+       5  (0.0%)              0                    memrchr
+       4  (0.0%)              0                    __read_nocancel
+       6  (0.0%)              3  (0.0%)            _IO_doallocbuf
+       6  (0.0%)              0                    strncasecmp
+       6  (0.0%)              0                    strncmp
+       6  (0.0%)              0                    strcasecmp_l
+       6  (0.0%)              0                    strcasecmp
+       5  (0.0%)              8  (0.0%)            __sigsetjmp
+       6  (0.0%)              0                    strncasecmp_l
+       4  (0.0%)              0                    memchr
+       6  (0.0%)              4  (0.0%)            __default_morecore
+       4  (0.0%)              2  (0.0%)            pthread_getaffinity_np
+       4  (0.0%)              0                    index
+       6  (0.0%)              0                    wcslen
+       6  (0.0%)              0                    strcmp
+       7  (0.0%)              2  (0.0%)            _IO_default_finish
+       6  (0.0%)              0                    wcsnlen
+       8  (0.0%)              0                    _IO_file_read
+       4  (0.0%)              0                    strncpy
+       4  (0.0%)              0                    stpncpy
+       2  (0.0%)              0                    getrlimit
+       4  (0.0%)              0                    strcat
+       4  (0.0%)              0                    stpcpy
+       4  (0.0%)              0                    strcpy
+       4  (0.0%)              2  (0.0%)            brk
+       4  (0.0%)              0                    wcsncpy
+       4  (0.0%)              0                    wcscat
+       4  (0.0%)              0                    wcpncpy
+       3  (0.0%)              8  (0.0%)            pthread_attr_init
+       3  (0.0%)              0                    sigaltstack
+      10  (0.0%)              3  (0.0%)            __ctype_init
+       4  (0.0%)              0                    wcscpy
+       8  (0.0%)              4  (0.0%)            pthread_attr_destroy
+       6  (0.0%)              3  (0.0%)            __call_tls_dtors
+       2  (0.0%)              3  (0.0%)            poll
+       9  (0.0%)              0                    __errno_location
+       6  (0.0%)              0                    getpagesize
+       3  (0.0%)              3  (0.0%)            main
+       2  (0.0%)              0                    lseek
+       0                      0                    signal
+       3  (0.0%)              2  (0.0%)            pthread_attr_getstack
+       3  (0.0%)              0                    _IO_un_link
+       3  (0.0%)              0                    strcspn
+       7  (0.0%)              0                    __rustc::__rust_no_alloc_shim_is_unstable_v2
+       3  (0.0%)              0                    strspn
+       3  (0.0%)              0                    strpbrk
+       0                      2  (0.0%)            exit
+       3  (0.0%)              0                    _IO_unsave_markers
+       1  (0.0%)              0                    munmap
+       1  (0.0%)              0                    mprotect
+       1  (0.0%)              0                    fstat
+       1  (0.0%)              0                    __close_nocancel
+       2  (0.0%)              0                    _IO_file_seek
+       0                      0                    __rustc::__rust_dealloc
+       0                      0                    __rustc::__rust_alloc
+       1  (0.0%)              0                    _IO_file_finish
+       1  (0.0%)              0                    _Exit
+       2  (0.0%)              0                    _dl_audit_preinit
+       2  (0.0%)              0                    _dl_debug_state
+       1  (0.0%)              0                    gettid
+       2  (0.0%)              0                    pthread_self
+       1  (0.0%)              0                    _IO_file_stat
+       1  (0.0%)              0                    _IO_file_close
+       0                      0                    pthread_mutex_unlock
+       0                      0                    fopen
+       0                      0                    _setjmp
+       0                      0                    __cxa_atexit
+       0                      0                    __rustc::__rust_alloc_zeroed
+       0                      0                    <unspecified>
+
+<  2,112  (2.5%,  97.9%)  1,200  (3.2%,  96.1%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/bit.rs:
+   2,112  (2.5%)          1,200  (3.2%)            keccak::keccak_p
+       0                      0                    <unspecified>
+
+<    480  (0.6%,  98.5%)    192  (0.5%,  96.6%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/intrinsics/mod.rs:
+     480  (0.6%)            192  (0.5%)            keccak::keccak_p
+       0                      0                    std::env::args_os
+       0                      0                    std::rt::lang_start_internal
+       0                      0                    ml_dsa::encoding::bytes_to_bits
+       0                      0                    <unspecified>
+
+<    440  (0.5%,  99.0%)    379  (1.0%,  97.6%)  /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/hash.rs:
+     427  (0.5%)            366  (1.0%)            ml_dsa::hash::HReader::squeeze
+       5  (0.0%)              5  (0.0%)            ml_dsa::hash::H::finalize
+       7  (0.0%)              7  (0.0%)            ml_dsa::hash::H::absorb
+       1  (0.0%)              1  (0.0%)            ml_dsa::hash::H::init
+       0                      0                    <unspecified>
+
+<    167  (0.2%,  99.2%)    167  (0.4%,  98.0%)  /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/sample.rs:
+     167  (0.2%)            167  (0.4%)            cachegrind_ball::main
+       0                      0                    <unspecified>
+
+<     65  (0.1%,  99.3%)     83  (0.2%,  98.2%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:
+      62  (0.1%)             63  (0.2%)            ml_dsa::hash::HReader::squeeze
+       2  (0.0%)             10  (0.0%)            ml_dsa::hash::H::finalize
+       0                      9  (0.0%)            ml_dsa::hash::H::init
+       1  (0.0%)              1  (0.0%)            ml_dsa::hash::H::absorb
+       0                      0                    <unspecified>
+
+<     83  (0.1%,  99.4%)    178  (0.5%,  98.7%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs:
+      82  (0.1%)            178  (0.5%)            keccak::keccak_p
+       0                      0                    std::rt::lang_start_internal
+       1  (0.0%)              0                    ml_dsa::hash::HReader::squeeze
+       0                      0                    std::sys::pal::unix::stack_overflow::imp::drop_handler
+       0                      0                    ml_dsa::hash::H::finalize
+       0                      0                    <unspecified>
+
+<     49  (0.1%,  99.5%)      0  (0.0%,  98.7%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:
+       0                      0                    ml_dsa::encoding::bytes_to_bits
+      49  (0.1%)              0                    cachegrind_ball::main
+       0                      0                    ml_dsa::hash::HReader::squeeze
+       0                      0                    ml_dsa::hash::H::finalize
+       0                      0                    ml_dsa::hash::H::absorb
+       0                      0                    <unspecified>
+
+<     80  (0.1%,  99.6%)    101  (0.3%,  99.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:
+      60  (0.1%)             62  (0.2%)            ml_dsa::hash::HReader::squeeze
+       0                     14  (0.0%)            std::rt::lang_start_internal
+       7  (0.0%)              8  (0.0%)            <alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Mut, usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::collections::btree::node::marker::Leaf>, alloc::collections::btree::node::marker::KV>>::remove_leaf_kv::<<alloc::collections::btree::map::entry::OccupiedEntry<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>>::remove_kv::{closure#0}, alloc::alloc::Global>
+       4  (0.0%)              8  (0.0%)            std::env::args_os
+       0                      3  (0.0%)            cachegrind_ball::main
+       3  (0.0%)              0                    std::sys::pal::unix::stack_overflow::imp::drop_handler
+       3  (0.0%)              3  (0.0%)            std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       0                      2  (0.0%)            std::sys::pal::unix::stack_overflow::imp::make_handler
+       1  (0.0%)              1  (0.0%)            ml_dsa::hash::H::absorb
+       2  (0.0%)              0                    <std::env::Args as core::iter::traits::iterator::Iterator>::next
+       0                      0                    <unspecified>
+
+<     14  (0.0%,  99.6%)     72  (0.2%,  99.2%)  /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/encoding.rs:
+      14  (0.0%)             72  (0.2%)            ml_dsa::encoding::bytes_to_bits
+       0                      0                    <unspecified>
+
+<     34  (0.0%,  99.6%)     42  (0.1%,  99.3%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow.rs:
+      12  (0.0%)             17  (0.0%)            std::rt::lang_start_internal
+      12  (0.0%)             12  (0.0%)            std::sys::pal::unix::stack_overflow::imp::make_handler
+      10  (0.0%)             12  (0.0%)            std::sys::pal::unix::stack_overflow::imp::drop_handler
+       0                      1  (0.0%)            <std::sync::once::Once>::call_once::<std::rt::cleanup::{closure#0}>::{closure#0}
+       0                      0                    <unspecified>
+
+<      0  (0.0%,  99.6%)      0  (0.0%,  99.3%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/xof_reader.rs:
+       0                      0                    ml_dsa::hash::HReader::squeeze
+       0                      0                    <unspecified>
+
+<     14  (0.0%,  99.6%)      0  (0.0%,  99.3%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/str/validations.rs:
+      14  (0.0%)              0                    core::str::converts::from_utf8
+       0                      0                    <unspecified>
+
+<      3  (0.0%,  99.6%)      0  (0.0%,  99.3%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs:
+       0                      0                    cachegrind_ball::main
+       0                      0                    ml_dsa::encoding::bytes_to_bits
+       2  (0.0%)              0                    std::env::args_os
+       1  (0.0%)              0                    std::sys::pal::unix::stack_overflow::imp::drop_handler
+       0                      0                    std::sys::pal::unix::stack_overflow::imp::make_handler
+       0                      0                    <unspecified>
+
+<      3  (0.0%,  99.6%)      3  (0.0%,  99.3%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:
+       1  (0.0%)              1  (0.0%)            cachegrind_ball::main
+       2  (0.0%)              2  (0.0%)            std::env::args_os
+       0                      0                    ml_dsa::encoding::bytes_to_bits
+       0                      0                    <unspecified>
+
+<     21  (0.0%,  99.7%)     22  (0.1%,  99.4%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/sync/once/futex.rs:
+      21  (0.0%)             22  (0.1%)            <std::sys::sync::once::futex::Once>::call
+       0                      0                    <unspecified>
+
+<     42  (0.0%,  99.7%)     11  (0.0%,  99.4%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/sync/atomic.rs:
+      12  (0.0%)              6  (0.0%)            std::rt::lang_start_internal
+      10  (0.0%)              0                    <std::sys::sync::once::futex::Once>::call
+       7  (0.0%)              1  (0.0%)            std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       6  (0.0%)              1  (0.0%)            std::sys::pal::unix::stack_overflow::imp::drop_handler
+       2  (0.0%)              1  (0.0%)            std::env::args_os
+       2  (0.0%)              0                    std::sys::pal::unix::stack_overflow::imp::make_handler
+       0                      2  (0.0%)            std::sys::args::unix::imp::ARGV_INIT_ARRAY::init_wrapper
+       2  (0.0%)              0                    <std::sync::once::Once>::call_once::<std::rt::cleanup::{closure#0}>::{closure#0}
+       1  (0.0%)              0                    <std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::initialize::<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::get_or_init<std::io::stdio::cleanup::{closure#0}>::{closure#0}, !>
+       0                      0                    <unspecified>
+
+<     16  (0.0%,  99.7%)      0  (0.0%,  99.4%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/alloc/unix.rs:
+       6  (0.0%)              0                    __rustc::__rdl_alloc
+       4  (0.0%)              0                    __rustc::__rdl_alloc_zeroed
+       6  (0.0%)              0                    __rustc::__rdl_dealloc
+       0                      0                    <unspecified>
+
+<      4  (0.0%,  99.7%)      0  (0.0%,  99.4%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs:
+       0                      0                    keccak::keccak_p
+       0                      0                    std::rt::lang_start_internal
+       4  (0.0%)              0                    <std::env::Args as core::iter::traits::iterator::Iterator>::next
+       0                      0                    ml_dsa::hash::HReader::squeeze
+       0                      0                    std::sys::pal::unix::stack_overflow::imp::drop_handler
+       0                      0                    <unspecified>
+
+<     24  (0.0%,  99.8%)     20  (0.1%,  99.4%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/env.rs:
+      16  (0.0%)             10  (0.0%)            <std::env::Args as core::iter::traits::iterator::Iterator>::next
+       7  (0.0%)             10  (0.0%)            std::env::args_os
+       1  (0.0%)              0                    std::env::args
+       0                      0                    <unspecified>
+
+<     21  (0.0%,  99.8%)     24  (0.1%,  99.5%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs:
+      19  (0.0%)             10  (0.0%)            ml_dsa::hash::H::finalize
+       0                     13  (0.0%)            ml_dsa::hash::H::init
+       2  (0.0%)              1  (0.0%)            ml_dsa::hash::HReader::squeeze
+       0                      0                    <unspecified>
+
+<     16  (0.0%,  99.8%)     15  (0.0%,  99.6%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs:
+       7  (0.0%)              6  (0.0%)            cachegrind_ball::main
+       3  (0.0%)              3  (0.0%)            std::env::args_os
+       4  (0.0%)              4  (0.0%)            std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       1  (0.0%)              1  (0.0%)            std::sys::pal::unix::stack_overflow::imp::drop_handler
+       1  (0.0%)              1  (0.0%)            ml_dsa::encoding::bytes_to_bits
+       0                      0                    <unspecified>
+
+<     14  (0.0%,  99.8%)     21  (0.1%,  99.6%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/remove.rs:
+      14  (0.0%)             17  (0.0%)            <alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Mut, usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::collections::btree::node::marker::Leaf>, alloc::collections::btree::node::marker::KV>>::remove_leaf_kv::<<alloc::collections::btree::map::entry::OccupiedEntry<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>>::remove_kv::{closure#0}, alloc::alloc::Global>
+       0                      4  (0.0%)            std::sys::pal::unix::stack_overflow::imp::drop_handler
+       0                      0                    <unspecified>
+
+<     10  (0.0%,  99.8%)     11  (0.0%,  99.6%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once.rs:
+       3  (0.0%)              6  (0.0%)            <std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::initialize::<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::get_or_init<std::io::stdio::cleanup::{closure#0}>::{closure#0}, !>
+       1  (0.0%)              3  (0.0%)            std::rt::lang_start_internal
+       4  (0.0%)              2  (0.0%)            <std::sync::once::Once>::call_once::<std::rt::cleanup::{closure#0}>::{closure#0}
+       2  (0.0%)              0                    <std::sync::once::Once>::call_once_force::<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::initialize<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::get_or_init<std::io::stdio::cleanup::{closure#0}>::{closure#0}, !>::{closure#0}>::{closure#0}
+       0                      0                    <unspecified>
+
+<      4  (0.0%,  99.8%)      5  (0.0%,  99.7%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs:
+       3  (0.0%)              3  (0.0%)            std::env::args_os
+       1  (0.0%)              1  (0.0%)            ml_dsa::encoding::bytes_to_bits
+       0                      1  (0.0%)            cachegrind_ball::main
+       0                      0                    <unspecified>
+
+<     14  (0.0%,  99.9%)     12  (0.0%,  99.7%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/keccak-0.1.6/src/lib.rs:
+      14  (0.0%)             12  (0.0%)            keccak::keccak_p
+       0                      0                    keccak::p1600
+       0                      0                    <unspecified>
+
+<      4  (0.0%,  99.9%)      8  (0.0%,  99.7%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/option.rs:
+       0                      6  (0.0%)            <std::env::Args as core::iter::traits::iterator::Iterator>::next
+       3  (0.0%)              0                    cachegrind_ball::main
+       0                      0                    <alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Mut, usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::collections::btree::node::marker::Leaf>, alloc::collections::btree::node::marker::KV>>::remove_leaf_kv::<<alloc::collections::btree::map::entry::OccupiedEntry<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>>::remove_kv::{closure#0}, alloc::alloc::Global>
+       1  (0.0%)              0                    std::sys::pal::unix::stack_overflow::imp::drop_handler
+       0                      0                    <std::sync::once::Once>::call_once::<std::rt::cleanup::{closure#0}>::{closure#0}
+       0                      2  (0.0%)            std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       0                      0                    std::rt::lang_start_internal
+       0                      0                    <std::sync::once::Once>::call_once_force::<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::initialize<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::get_or_init<std::io::stdio::cleanup::{closure#0}>::{closure#0}, !>::{closure#0}>::{closure#0}
+       0                      0                    <unspecified>
+
+<      8  (0.0%,  99.9%)      4  (0.0%,  99.7%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/mod.rs:
+       8  (0.0%)              4  (0.0%)            std::rt::lang_start_internal
+       0                      0                    <unspecified>
+
+<     10  (0.0%,  99.9%)      9  (0.0%,  99.7%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/rt.rs:
+       7  (0.0%)              7  (0.0%)            std::rt::lang_start_internal
+       3  (0.0%)              2  (0.0%)            std::rt::lang_start::{{closure}}
+       0                      0                    <unspecified>
+
+<      8  (0.0%,  99.9%)     12  (0.0%,  99.8%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/str/converts.rs:
+       8  (0.0%)             12  (0.0%)            core::str::converts::from_utf8
+       0                      0                    <unspecified>
+
+<      9  (0.0%,  99.9%)      9  (0.0%,  99.8%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow/thread_info.rs:
+       8  (0.0%)              8  (0.0%)            std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       1  (0.0%)              1  (0.0%)            std::sys::pal::unix::stack_overflow::imp::drop_handler
+       0                      0                    <unspecified>
+
+<      2  (0.0%,  99.9%)      0  (0.0%,  99.8%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/mod.rs:
+       2  (0.0%)              0                    cachegrind_ball::main
+       0                      0                    <unspecified>
+
+<      9  (0.0%,  99.9%)      5  (0.0%,  99.8%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/node.rs:
+       7  (0.0%)              4  (0.0%)            <alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Mut, usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::collections::btree::node::marker::Leaf>, alloc::collections::btree::node::marker::KV>>::remove_leaf_kv::<<alloc::collections::btree::map::entry::OccupiedEntry<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>>::remove_kv::{closure#0}, alloc::alloc::Global>
+       2  (0.0%)              0                    std::sys::pal::unix::stack_overflow::imp::drop_handler
+       0                      1  (0.0%)            std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       0                      0                    <unspecified>
+
+<      8  (0.0%,  99.9%)      7  (0.0%,  99.8%)  /home/rick/unl/king's/thesis/ml-dsa/ml-dsa-leakage/examples/cachegrind_ball.rs:
+       8  (0.0%)              7  (0.0%)            cachegrind_ball::main
+       0                      0                    <unspecified>
+
+<      4  (0.0%,  99.9%)      5  (0.0%,  99.8%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/args/unix.rs:
+       3  (0.0%)              5  (0.0%)            std::env::args_os
+       1  (0.0%)              0                    std::sys::args::unix::imp::ARGV_INIT_ARRAY::init_wrapper
+       0                      0                    <unspecified>
+
+<      4  (0.0%,  99.9%)     11  (0.0%,  99.9%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/mem/maybe_uninit.rs:
+       4  (0.0%)              6  (0.0%)            std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       0                      5  (0.0%)            <std::sync::once::Once>::call_once_force::<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::initialize<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::get_or_init<std::io::stdio::cleanup::{closure#0}>::{closure#0}, !>::{closure#0}>::{closure#0}
+       0                      0                    <unspecified>
+
+<      0  (0.0%,  99.9%)      7  (0.0%,  99.9%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/poison.rs:
+       0                      4  (0.0%)            std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       0                      3  (0.0%)            std::sys::pal::unix::stack_overflow::imp::drop_handler
+       0                      0                    <unspecified>
+
+<      0  (0.0%,  99.9%)      0  (0.0%,  99.9%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/search.rs:
+       0                      0                    std::sys::pal::unix::stack_overflow::imp::drop_handler
+       0                      0                    <unspecified>
+
+<      3  (0.0%,  99.9%)      2  (0.0%,  99.9%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/thread/current.rs:
+       2  (0.0%)              2  (0.0%)            std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       1  (0.0%)              0                    std::rt::lang_start_internal
+       0                      0                    <unspecified>
+
+<      0  (0.0%,  99.9%)      3  (0.0%,  99.9%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/alloc.rs:
+       0                      3  (0.0%)            __rustc::__rdl_alloc_zeroed
+       0                      0                    __rustc::__rdl_alloc
+       0                      0                    <unspecified>
+
+<      0  (0.0%,  99.9%)      0  (0.0%,  99.9%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs:
+       0                      0                    <alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Mut, usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::collections::btree::node::marker::Leaf>, alloc::collections::btree::node::marker::KV>>::remove_leaf_kv::<<alloc::collections::btree::map::entry::OccupiedEntry<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>>::remove_kv::{closure#0}, alloc::alloc::Global>
+       0                      0                    std::env::args_os
+       0                      0                    std::sys::pal::unix::stack_overflow::imp::make_handler
+       0                      0                    std::sys::pal::unix::stack_overflow::imp::drop_handler
+       0                      0                    <unspecified>
+
+<      1  (0.0%,  99.9%)      2  (0.0%,  99.9%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/wrapper.rs:
+       1  (0.0%)              2  (0.0%)            ml_dsa::hash::H::finalize
+       0                      0                    ml_dsa::hash::H::absorb
+       0                      0                    <unspecified>
+
+<      0  (0.0%,  99.9%)      0  (0.0%,  99.9%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs:
+       0                      0                    core::str::converts::from_utf8
+       0                      0                    cachegrind_ball::main
+       0                      0                    std::rt::lang_start_internal
+       0                      0                    std::env::args_os
+       0                      0                    <unspecified>
+
+<      4  (0.0%,  99.9%)      2  (0.0%,  99.9%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/string.rs:
+       4  (0.0%)              2  (0.0%)            <std::env::Args as core::iter::traits::iterator::Iterator>::next
+       0                      0                    <unspecified>
+
+<      4  (0.0%,  99.9%)      2  (0.0%,  99.9%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/traits/iterator.rs:
+       4  (0.0%)              2  (0.0%)            cachegrind_ball::main
+       0                      0                    <unspecified>
+
+<      6  (0.0%, 100.0%)      1  (0.0%,  99.9%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/map/entry.rs:
+       4  (0.0%)              1  (0.0%)            std::sys::pal::unix::stack_overflow::imp::drop_handler
+       2  (0.0%)              0                    std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       0                      0                    <unspecified>
+
+<      3  (0.0%, 100.0%)      6  (0.0%,  99.9%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/mem/mod.rs:
+       0                      4  (0.0%)            std::rt::lang_start_internal
+       2  (0.0%)              1  (0.0%)            <std::sync::once::Once>::call_once_force::<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::initialize<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::get_or_init<std::io::stdio::cleanup::{closure#0}>::{closure#0}, !>::{closure#0}>::{closure#0}
+       1  (0.0%)              1  (0.0%)            <std::sync::once::Once>::call_once::<std::rt::cleanup::{closure#0}>::{closure#0}
+       0                      0                    <unspecified>
+
+<      3  (0.0%, 100.0%)      3  (0.0%,  99.9%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/hint.rs:
+       3  (0.0%)              3  (0.0%)            cachegrind_ball::main
+       0                      0                    <unspecified>
+
+<      4  (0.0%, 100.0%)      2  (0.0%,  99.9%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/into_iter.rs:
+       4  (0.0%)              0                    cachegrind_ball::main
+       0                      2  (0.0%)            <std::env::Args as core::iter::traits::iterator::Iterator>::next
+       0                      0                    <unspecified>
+
+<      1  (0.0%, 100.0%)      2  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once_lock.rs:
+       1  (0.0%)              1  (0.0%)            <std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::initialize::<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::get_or_init<std::io::stdio::cleanup::{closure#0}>::{closure#0}, !>
+       0                      1  (0.0%)            <std::sync::once::Once>::call_once::<std::rt::cleanup::{closure#0}>::{closure#0}
+       0                      0                    <unspecified>
+
+<      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/panicking.rs:
+       0                      0                    std::sys::pal::unix::stack_overflow::imp::drop_handler
+       0                      0                    std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       0                      0                    <unspecified>
+
+<      4  (0.0%, 100.0%)      2  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/mod.rs:
+       4  (0.0%)              2  (0.0%)            std::env::args_os
+       0                      0                    <unspecified>
+
+<      2  (0.0%, 100.0%)      2  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ffi/c_str.rs:
+       2  (0.0%)              2  (0.0%)            std::env::args_os
+       0                      0                    <unspecified>
+
+<      1  (0.0%, 100.0%)      2  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/io/stdio.rs:
+       1  (0.0%)              1  (0.0%)            <std::sync::once::Once>::call_once::<std::rt::cleanup::{closure#0}>::{closure#0}
+       0                      1  (0.0%)            <std::sync::once::Once>::call_once_force::<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::initialize<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::get_or_init<std::io::stdio::cleanup::{closure#0}>::{closure#0}, !>::{closure#0}>::{closure#0}
+       0                      0                    <unspecified>
+
+<      2  (0.0%, 100.0%)      1  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/weak/syscall.rs:
+       2  (0.0%)              1  (0.0%)            std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       0                      0                    <unspecified>
+
+<      1  (0.0%, 100.0%)      1  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/spec_from_elem.rs:
+       1  (0.0%)              1  (0.0%)            cachegrind_ball::main
+       0                      0                    <unspecified>
+
+<      1  (0.0%, 100.0%)      1  (0.0%, 100.0%)  /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/poly.rs:
+       1  (0.0%)              1  (0.0%)            cachegrind_ball::main
+       0                      0                    <unspecified>
+
+<      4  (0.0%, 100.0%)      0  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cell.rs:
+       2  (0.0%)              0                    <std::sys::sync::once::futex::Once>::call
+       1  (0.0%)              0                    std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       1  (0.0%)              0                    std::rt::lang_start_internal
+       0                      0                    <unspecified>
+
+<      3  (0.0%, 100.0%)      0  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/fix.rs:
+       3  (0.0%)              0                    <alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Mut, usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::collections::btree::node::marker::Leaf>, alloc::collections::btree::node::marker::KV>>::remove_leaf_kv::<<alloc::collections::btree::map::entry::OccupiedEntry<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>>::remove_kv::{closure#0}, alloc::alloc::Global>
+       0                      0                    <unspecified>
+
+<      2  (0.0%, 100.0%)      1  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/backtrace.rs:
+       2  (0.0%)              1  (0.0%)            std::sys::backtrace::__rust_begin_short_backtrace
+       0                      0                    <unspecified>
+
+<      1  (0.0%, 100.0%)      1  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/exit.rs:
+       1  (0.0%)              1  (0.0%)            std::rt::lang_start_internal
+       0                      0                    <unspecified>
+
+<      1  (0.0%, 100.0%)      0  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/result.rs:
+       0                      0                    std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       1  (0.0%)              0                    ml_dsa::hash::H::finalize
+       0                      0                    <unspecified>
+
+<      1  (0.0%, 100.0%)      0  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/map.rs:
+       1  (0.0%)              0                    std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       0                      0                    <unspecified>
+
+<      0  (0.0%, 100.0%)      1  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/sync/mutex/futex.rs:
+       0                      1  (0.0%)            std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       0                      0                    std::sys::pal::unix::stack_overflow::imp::drop_handler
+       0                      0                    <unspecified>
+
+<      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/boxed.rs:
+       0                      0                    std::sys::pal::unix::stack_overflow::thread_info::set_current_info
+       0                      0                    <unspecified>
+
+<      1  (0.0%, 100.0%)      1  (0.0%, 100.0%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/macros.rs:
+       1  (0.0%)              1  (0.0%)            ml_dsa::hash::H::finalize
+       0                      0                    <unspecified>
+
+<      1  (0.0%, 100.0%)      1  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/conf.rs:
+       1  (0.0%)              1  (0.0%)            std::rt::lang_start_internal
+       0                      0                    <unspecified>
+
+<      1  (0.0%, 100.0%)      2  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/function.rs:
+       1  (0.0%)              1  (0.0%)            std::rt::lang_start_internal
+       0                      1  (0.0%)            std::sys::backtrace::__rust_begin_short_backtrace
+       0                      0                    <unspecified>
+
+<      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/slice.rs:
+       0                      0                    std::env::args_os
+       0                      0                    <unspecified>
+
+<      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/sealed.rs:
+       0                      0                    ml_dsa::hash::H::absorb
+       0                      0                    <unspecified>
+
+<      0  (0.0%, 100.0%)      1  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/metadata.rs:
+       0                      1  (0.0%)            std::rt::lang_start_internal
+       0                      0                    <unspecified>
+
+<      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/thread/id.rs:
+       0                      0                    std::rt::lang_start_internal
+       0                      0                    <unspecified>
+
+<      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/const_ptr.rs:
+       0                      0                    cachegrind_ball::main
+       0                      0                    <unspecified>
+
+<      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/char/methods.rs:
+       0                      0                    cachegrind_ball::main
+       0                      0                    <unspecified>
+
+--------------------------------------------------------------------------------
+-- Function:file summary
+--------------------------------------------------------------------------------
+  Dr____________________ Dw____________________  function:file
+
+> 75,518 (89.8%,  89.8%) 31,904 (85.2%,  85.2%)  ???:???
+
+>  2,688  (3.2%,  93.0%)  1,582  (4.2%,  89.5%)  keccak::keccak_p:
+   2,112  (2.5%)          1,200  (3.2%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/bit.rs
+     480  (0.6%)            192  (0.5%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/intrinsics/mod.rs
+      82  (0.1%)            178  (0.5%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs
+      14  (0.0%)             12  (0.0%)            /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/keccak-0.1.6/src/lib.rs
+
+>  1,148  (1.4%,  94.4%)    656  (1.8%,  91.2%)  _IO_sputbackc:???
+
+>  1,145  (1.4%,  95.7%)    554  (1.5%,  92.7%)  getdelim:???
+
+>    552  (0.7%,  96.4%)    492  (1.3%,  94.0%)  ml_dsa::hash::HReader::squeeze:
+     427  (0.5%)            366  (1.0%)            /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/hash.rs
+      62  (0.1%)             63  (0.2%)            /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs
+      60  (0.1%)             62  (0.2%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+       0                      0                    /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/xof_reader.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs
+       2  (0.0%)              1  (0.0%)            /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs
+       1  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs
+
+>    287  (0.3%,  96.7%)    697  (1.9%,  95.9%)  __isoc23_sscanf:???
+
+>    250  (0.3%,  97.0%)    192  (0.5%,  96.4%)  cachegrind_ball::main:
+     167  (0.2%)            167  (0.4%)            /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/sample.rs
+      49  (0.1%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs
+       1  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs
+       2  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/mod.rs
+       8  (0.0%)              7  (0.0%)            /home/rick/unl/king's/thesis/ml-dsa/ml-dsa-leakage/examples/cachegrind_ball.rs
+       7  (0.0%)              6  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs
+       0                      3  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+       0                      1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs
+       4  (0.0%)              2  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/traits/iterator.rs
+       3  (0.0%)              3  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/hint.rs
+       3  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/option.rs
+       1  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/spec_from_elem.rs
+       4  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/into_iter.rs
+       1  (0.0%)              1  (0.0%)            /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/poly.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/const_ptr.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/char/methods.rs
+
+>    287  (0.3%,  97.4%)    119  (0.3%,  96.7%)  pthread_getattr_np:???
+
+>    178  (0.2%,  97.6%)    177  (0.5%,  97.2%)  _IO_setb:???
+
+>    129  (0.2%,  97.7%)     33  (0.1%,  97.3%)  __tunable_get_val:???
+
+>     16  (0.0%,  97.7%)     74  (0.2%,  97.5%)  ml_dsa::encoding::bytes_to_bits:
+      14  (0.0%)             72  (0.2%)            /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/encoding.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs
+       1  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs
+       1  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/intrinsics/mod.rs
+
+>    115  (0.1%,  97.9%)     48  (0.1%,  97.6%)  free:???
+
+>    164  (0.2%,  98.1%)      0  (0.0%,  97.6%)  __strtoul_internal:???
+
+>     45  (0.1%,  98.1%)     14  (0.0%,  97.6%)  __cpu_indicator_init:???
+
+>     84  (0.1%,  98.2%)    105  (0.3%,  97.9%)  _dl_catch_exception:???
+
+>     54  (0.1%,  98.3%)      2  (0.0%,  97.9%)  getauxval:???
+
+>     88  (0.1%,  98.4%)     76  (0.2%,  98.1%)  __libc_sigaction:???
+
+>     50  (0.1%,  98.5%)      4  (0.0%,  98.1%)  malloc:???
+
+>     45  (0.1%,  98.5%)     59  (0.2%,  98.3%)  std::rt::lang_start_internal:
+      12  (0.0%)             17  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow.rs
+       8  (0.0%)              4  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/mod.rs
+      12  (0.0%)              6  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/sync/atomic.rs
+       7  (0.0%)              7  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/rt.rs
+       0                     14  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+       1  (0.0%)              3  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs
+       0                      4  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/mem/mod.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs
+       1  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/exit.rs
+       1  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/thread/current.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs
+       1  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/conf.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/option.rs
+       1  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/function.rs
+       1  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cell.rs
+       0                      1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/metadata.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/thread/id.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/intrinsics/mod.rs
+
+>     73  (0.1%,  98.6%)     34  (0.1%,  98.4%)  _dl_allocate_tls_init:???
+
+>     70  (0.1%,  98.7%)     37  (0.1%,  98.5%)  _IO_file_underflow:???
+
+>     65  (0.1%,  98.8%)     31  (0.1%,  98.6%)  _IO_flush_all:???
+
+>     48  (0.1%,  98.8%)     21  (0.1%,  98.6%)  __cxa_finalize:???
+
+>      0  (0.0%,  98.8%)      0  (0.0%,  98.6%)  getline:???
+
+>     22  (0.0%,  98.8%)     12  (0.0%,  98.6%)  core::str::converts::from_utf8:
+      14  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/str/validations.rs
+       8  (0.0%)             12  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/str/converts.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs
+
+>     44  (0.1%,  98.9%)      9  (0.0%,  98.7%)  __underflow:???
+
+>     32  (0.0%,  98.9%)     36  (0.1%,  98.8%)  std::env::args_os:
+       7  (0.0%)             10  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/env.rs
+       3  (0.0%)              3  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs
+       3  (0.0%)              5  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/args/unix.rs
+       4  (0.0%)              8  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+       3  (0.0%)              3  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs
+       2  (0.0%)              2  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs
+       4  (0.0%)              2  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/mod.rs
+       2  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs
+       2  (0.0%)              2  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ffi/c_str.rs
+       2  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/sync/atomic.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/intrinsics/mod.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/slice.rs
+
+>     29  (0.0%,  99.0%)     23  (0.1%,  98.8%)  std::sys::pal::unix::stack_overflow::imp::drop_handler:
+      10  (0.0%)             12  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/search.rs
+       3  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+       6  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/sync/atomic.rs
+       0                      4  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/remove.rs
+       0                      3  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/poison.rs
+       1  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs
+       4  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/map/entry.rs
+       1  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/panicking.rs
+       2  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/node.rs
+       1  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow/thread_info.rs
+       1  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/option.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/sync/mutex/futex.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs
+
+>     34  (0.0%,  99.0%)     33  (0.1%,  98.9%)  std::sys::pal::unix::stack_overflow::thread_info::set_current_info:
+       8  (0.0%)              8  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow/thread_info.rs
+       7  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/sync/atomic.rs
+       3  (0.0%)              3  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+       4  (0.0%)              6  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/mem/maybe_uninit.rs
+       2  (0.0%)              2  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/thread/current.rs
+       4  (0.0%)              4  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs
+       0                      4  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/poison.rs
+       2  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/weak/syscall.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/panicking.rs
+       2  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/map/entry.rs
+       1  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/map.rs
+       0                      2  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/option.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/boxed.rs
+       0                      1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/sync/mutex/futex.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/result.rs
+       1  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cell.rs
+       0                      1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/node.rs
+
+>     17  (0.0%,  99.0%)     11  (0.0%,  98.9%)  _IO_file_fopen:???
+
+>     33  (0.0%,  99.1%)     22  (0.1%,  99.0%)  <std::sys::sync::once::futex::Once>::call:
+      21  (0.0%)             22  (0.1%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/sync/once/futex.rs
+      10  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/sync/atomic.rs
+       2  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cell.rs
+
+>     20  (0.0%,  99.1%)     10  (0.0%,  99.0%)  sigaction:???
+
+>     25  (0.0%,  99.1%)     21  (0.1%,  99.1%)  (below main):???
+
+>     19  (0.0%,  99.1%)     16  (0.0%,  99.1%)  _IO_file_close_it:???
+
+>     26  (0.0%,  99.2%)     24  (0.1%,  99.2%)  _IO_link_in:???
+
+>     28  (0.0%,  99.2%)     24  (0.1%,  99.3%)  _IO_switch_to_get_mode:???
+
+>     31  (0.0%,  99.2%)     29  (0.1%,  99.3%)  <alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Mut, usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::collections::btree::node::marker::Leaf>, alloc::collections::btree::node::marker::KV>>::remove_leaf_kv::<<alloc::collections::btree::map::entry::OccupiedEntry<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>>::remove_kv::{closure#0}, alloc::alloc::Global>:
+      14  (0.0%)             17  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/remove.rs
+       7  (0.0%)              8  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+       7  (0.0%)              4  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/node.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/option.rs
+       3  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/fix.rs
+
+>     29  (0.0%,  99.3%)     28  (0.1%,  99.4%)  ml_dsa::hash::H::finalize:
+      19  (0.0%)             10  (0.0%)            /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs
+       5  (0.0%)              5  (0.0%)            /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/hash.rs
+       2  (0.0%)             10  (0.0%)            /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs
+       1  (0.0%)              2  (0.0%)            /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/wrapper.rs
+       1  (0.0%)              1  (0.0%)            /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/macros.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs
+       1  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/result.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs
+
+>      8  (0.0%,  99.3%)      4  (0.0%,  99.4%)  realloc:???
+
+>     12  (0.0%,  99.3%)      0  (0.0%,  99.4%)  memset:???
+
+>     12  (0.0%,  99.3%)      0  (0.0%,  99.4%)  memmove:???
+
+>     12  (0.0%,  99.3%)      0  (0.0%,  99.4%)  memcpy:???
+
+>     26  (0.0%,  99.4%)     20  (0.1%,  99.5%)  <std::env::Args as core::iter::traits::iterator::Iterator>::next:
+      16  (0.0%)             10  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/env.rs
+       4  (0.0%)              2  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/string.rs
+       0                      6  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/option.rs
+       4  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs
+       0                      2  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/into_iter.rs
+       2  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+
+>     15  (0.0%,  99.4%)      0  (0.0%,  99.5%)  strlen:???
+
+>     20  (0.0%,  99.4%)     10  (0.0%,  99.5%)  fclose:???
+
+>     14  (0.0%,  99.4%)     14  (0.0%,  99.5%)  std::sys::pal::unix::stack_overflow::imp::make_handler:
+      12  (0.0%)             12  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow.rs
+       0                      2  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs
+       2  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/sync/atomic.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs
+
+>     10  (0.0%,  99.4%)     13  (0.0%,  99.6%)  __libc_early_init:???
+
+>     17  (0.0%,  99.5%)      6  (0.0%,  99.6%)  _IO_file_seekoff:???
+
+>      8  (0.0%,  99.5%)      0  (0.0%,  99.6%)  calloc:???
+
+>      6  (0.0%,  99.5%)      0  (0.0%,  99.6%)  __rustc::__rdl_alloc:
+       6  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/alloc/unix.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/alloc.rs
+
+>     14  (0.0%,  99.5%)      6  (0.0%,  99.6%)  sbrk:???
+
+>     13  (0.0%,  99.5%)      7  (0.0%,  99.6%)  _IO_file_doallocate:???
+
+>      8  (0.0%,  99.5%)      0  (0.0%,  99.6%)  __memset_chk:???
+
+>     10  (0.0%,  99.5%)      0  (0.0%,  99.6%)  strnlen:???
+
+>     10  (0.0%,  99.5%)      0  (0.0%,  99.6%)  wcschr:???
+
+>     10  (0.0%,  99.5%)      0  (0.0%,  99.6%)  bcmp:???
+
+>      7  (0.0%,  99.6%)      4  (0.0%,  99.6%)  sysconf:???
+
+>      8  (0.0%,  99.6%)      0  (0.0%,  99.6%)  wmemchr:???
+
+>     15  (0.0%,  99.6%)     12  (0.0%,  99.7%)  pthread_attr_setaffinity_np:???
+
+>     10  (0.0%,  99.6%)      4  (0.0%,  99.7%)  pthread_mutex_lock:???
+
+>      6  (0.0%,  99.6%)      7  (0.0%,  99.7%)  _IO_file_open:???
+
+>      8  (0.0%,  99.6%)      0  (0.0%,  99.7%)  wmemset:???
+
+>      9  (0.0%,  99.6%)      9  (0.0%,  99.7%)  ml_dsa::hash::H::absorb:
+       7  (0.0%)              7  (0.0%)            /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/hash.rs
+       1  (0.0%)              1  (0.0%)            /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs
+       1  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+       0                      0                    /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/sealed.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs
+       0                      0                    /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/wrapper.rs
+
+>      5  (0.0%,  99.6%)      3  (0.0%,  99.7%)  __open_nocancel:???
+
+>      4  (0.0%,  99.6%)      3  (0.0%,  99.7%)  mmap:???
+
+>      1  (0.0%,  99.6%)     23  (0.1%,  99.8%)  ml_dsa::hash::H::init:
+       0                     13  (0.0%)            /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs
+       0                      9  (0.0%)            /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs
+       1  (0.0%)              1  (0.0%)            /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/hash.rs
+
+>      4  (0.0%,  99.6%)      0  (0.0%,  99.8%)  mempcpy:???
+
+>      4  (0.0%,  99.6%)      0  (0.0%,  99.8%)  __mempcpy_chk:???
+
+>      4  (0.0%,  99.6%)      0  (0.0%,  99.8%)  __memmove_chk:???
+
+>      4  (0.0%,  99.7%)      0  (0.0%,  99.8%)  __memcpy_chk:???
+
+>      8  (0.0%,  99.7%)      6  (0.0%,  99.8%)  <std::sync::once::Once>::call_once::<std::rt::cleanup::{closure#0}>::{closure#0}:
+       4  (0.0%)              2  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once.rs
+       1  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/io/stdio.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/option.rs
+       0                      1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once_lock.rs
+       2  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/sync/atomic.rs
+       1  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/mem/mod.rs
+       0                      1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow.rs
+
+>      5  (0.0%,  99.7%)      0  (0.0%,  99.8%)  wmemcmp:???
+
+>      5  (0.0%,  99.7%)      0  (0.0%,  99.8%)  wcscmp:???
+
+>      5  (0.0%,  99.7%)      0  (0.0%,  99.8%)  strchrnul:???
+
+>      5  (0.0%,  99.7%)      0  (0.0%,  99.8%)  rindex:???
+
+>      5  (0.0%,  99.7%)      0  (0.0%,  99.8%)  memrchr:???
+
+>      4  (0.0%,  99.7%)      0  (0.0%,  99.8%)  __read_nocancel:???
+
+>      6  (0.0%,  99.7%)      3  (0.0%,  99.8%)  _IO_doallocbuf:???
+
+>      5  (0.0%,  99.7%)      7  (0.0%,  99.8%)  <std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::initialize::<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::get_or_init<std::io::stdio::cleanup::{closure#0}>::{closure#0}, !>:
+       3  (0.0%)              6  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once.rs
+       1  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once_lock.rs
+       1  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/sync/atomic.rs
+
+>      6  (0.0%,  99.7%)      0  (0.0%,  99.8%)  strncasecmp:???
+
+>      6  (0.0%,  99.7%)      0  (0.0%,  99.8%)  strncmp:???
+
+>      6  (0.0%,  99.7%)      0  (0.0%,  99.8%)  strcasecmp_l:???
+
+>      6  (0.0%,  99.7%)      0  (0.0%,  99.8%)  strcasecmp:???
+
+>      5  (0.0%,  99.7%)      8  (0.0%,  99.9%)  __sigsetjmp:???
+
+>      6  (0.0%,  99.8%)      0  (0.0%,  99.9%)  strncasecmp_l:???
+
+>      4  (0.0%,  99.8%)      0  (0.0%,  99.9%)  memchr:???
+
+>      6  (0.0%,  99.8%)      4  (0.0%,  99.9%)  __default_morecore:???
+
+>      4  (0.0%,  99.8%)      2  (0.0%,  99.9%)  pthread_getaffinity_np:???
+
+>      4  (0.0%,  99.8%)      0  (0.0%,  99.9%)  index:???
+
+>      6  (0.0%,  99.8%)      0  (0.0%,  99.9%)  wcslen:???
+
+>      6  (0.0%,  99.8%)      0  (0.0%,  99.9%)  strcmp:???
+
+>      7  (0.0%,  99.8%)      2  (0.0%,  99.9%)  _IO_default_finish:???
+
+>      6  (0.0%,  99.8%)      0  (0.0%,  99.9%)  wcsnlen:???
+
+>      8  (0.0%,  99.8%)      0  (0.0%,  99.9%)  _IO_file_read:???
+
+>      4  (0.0%,  99.8%)      0  (0.0%,  99.9%)  strncpy:???
+
+>      4  (0.0%,  99.8%)      0  (0.0%,  99.9%)  stpncpy:???
+
+>      2  (0.0%,  99.8%)      0  (0.0%,  99.9%)  getrlimit:???
+
+>      4  (0.0%,  99.8%)      0  (0.0%,  99.9%)  strcat:???
+
+>      4  (0.0%,  99.8%)      0  (0.0%,  99.9%)  stpcpy:???
+
+>      4  (0.0%,  99.8%)      3  (0.0%,  99.9%)  __rustc::__rdl_alloc_zeroed:
+       4  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/alloc/unix.rs
+       0                      3  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/alloc.rs
+
+>      4  (0.0%,  99.8%)      0  (0.0%,  99.9%)  strcpy:???
+
+>      4  (0.0%,  99.8%)      2  (0.0%,  99.9%)  brk:???
+
+>      4  (0.0%,  99.9%)      0  (0.0%,  99.9%)  wcsncpy:???
+
+>      4  (0.0%,  99.9%)      0  (0.0%,  99.9%)  wcscat:???
+
+>      4  (0.0%,  99.9%)      0  (0.0%,  99.9%)  wcpncpy:???
+
+>      3  (0.0%,  99.9%)      8  (0.0%,  99.9%)  pthread_attr_init:???
+
+>      3  (0.0%,  99.9%)      0  (0.0%,  99.9%)  sigaltstack:???
+
+>     10  (0.0%,  99.9%)      3  (0.0%,  99.9%)  __ctype_init:???
+
+>      4  (0.0%,  99.9%)      0  (0.0%,  99.9%)  wcscpy:???
+
+>      8  (0.0%,  99.9%)      4  (0.0%,  99.9%)  pthread_attr_destroy:???
+
+>      4  (0.0%,  99.9%)      7  (0.0%,  99.9%)  <std::sync::once::Once>::call_once_force::<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::initialize<<std::sync::once_lock::OnceLock<std::sync::reentrant_lock::ReentrantLock<core::cell::RefCell<std::io::buffered::linewriter::LineWriter<std::io::stdio::StdoutRaw>>>>>::get_or_init<std::io::stdio::cleanup::{closure#0}>::{closure#0}, !>::{closure#0}>::{closure#0}:
+       0                      5  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/mem/maybe_uninit.rs
+       2  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/mem/mod.rs
+       2  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/option.rs
+       0                      1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/io/stdio.rs
+
+>      6  (0.0%,  99.9%)      3  (0.0%, 100.0%)  __call_tls_dtors:???
+
+>      2  (0.0%,  99.9%)      3  (0.0%, 100.0%)  poll:???
+
+>      9  (0.0%,  99.9%)      0  (0.0%, 100.0%)  __errno_location:???
+
+>      6  (0.0%,  99.9%)      0  (0.0%, 100.0%)  getpagesize:???
+
+>      3  (0.0%,  99.9%)      3  (0.0%, 100.0%)  main:???
+
+>      2  (0.0%,  99.9%)      0  (0.0%, 100.0%)  lseek:???
+
+>      0  (0.0%,  99.9%)      0  (0.0%, 100.0%)  signal:???
+
+>      3  (0.0%,  99.9%)      2  (0.0%, 100.0%)  pthread_attr_getstack:???
+
+>      3  (0.0%,  99.9%)      0  (0.0%, 100.0%)  _IO_un_link:???
+
+>      3  (0.0%,  99.9%)      0  (0.0%, 100.0%)  strcspn:???
+
+>      7  (0.0%, 100.0%)      0  (0.0%, 100.0%)  __rustc::__rust_no_alloc_shim_is_unstable_v2:???
+
+>      3  (0.0%, 100.0%)      0  (0.0%, 100.0%)  strspn:???
+
+>      3  (0.0%, 100.0%)      0  (0.0%, 100.0%)  strpbrk:???
+
+>      0  (0.0%, 100.0%)      2  (0.0%, 100.0%)  exit:???
+
+>      3  (0.0%, 100.0%)      0  (0.0%, 100.0%)  _IO_unsave_markers:???
+
+>      6  (0.0%, 100.0%)      0  (0.0%, 100.0%)  __rustc::__rdl_dealloc:/rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/alloc/unix.rs
+
+>      3  (0.0%, 100.0%)      2  (0.0%, 100.0%)  std::rt::lang_start::{{closure}}:/rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/rt.rs
+
+>      1  (0.0%, 100.0%)      0  (0.0%, 100.0%)  munmap:???
+
+>      1  (0.0%, 100.0%)      0  (0.0%, 100.0%)  mprotect:???
+
+>      1  (0.0%, 100.0%)      0  (0.0%, 100.0%)  fstat:???
+
+>      1  (0.0%, 100.0%)      0  (0.0%, 100.0%)  __close_nocancel:???
+
+>      2  (0.0%, 100.0%)      0  (0.0%, 100.0%)  _IO_file_seek:???
+
+>      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  __rustc::__rust_dealloc:???
+
+>      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  __rustc::__rust_alloc:???
+
+>      1  (0.0%, 100.0%)      0  (0.0%, 100.0%)  _IO_file_finish:???
+
+>      1  (0.0%, 100.0%)      0  (0.0%, 100.0%)  _Exit:???
+
+>      2  (0.0%, 100.0%)      0  (0.0%, 100.0%)  _dl_audit_preinit:???
+
+>      1  (0.0%, 100.0%)      2  (0.0%, 100.0%)  std::sys::args::unix::imp::ARGV_INIT_ARRAY::init_wrapper:
+       1  (0.0%)              0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/args/unix.rs
+       0                      2  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/sync/atomic.rs
+
+>      2  (0.0%, 100.0%)      0  (0.0%, 100.0%)  _dl_debug_state:???
+
+>      2  (0.0%, 100.0%)      2  (0.0%, 100.0%)  std::sys::backtrace::__rust_begin_short_backtrace:
+       2  (0.0%)              1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/backtrace.rs
+       0                      1  (0.0%)            /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/function.rs
+
+>      1  (0.0%, 100.0%)      0  (0.0%, 100.0%)  gettid:???
+
+>      2  (0.0%, 100.0%)      0  (0.0%, 100.0%)  pthread_self:???
+
+>      1  (0.0%, 100.0%)      0  (0.0%, 100.0%)  _IO_file_stat:???
+
+>      1  (0.0%, 100.0%)      0  (0.0%, 100.0%)  _IO_file_close:???
+
+>      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  pthread_mutex_unlock:???
+
+>      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  fopen:???
+
+>      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  _setjmp:???
+
+>      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  __cxa_atexit:???
+
+>      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  keccak::p1600:/home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/keccak-0.1.6/src/lib.rs
+
+>      1  (0.0%, 100.0%)      0  (0.0%, 100.0%)  std::env::args:/rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/env.rs
+
+>      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  __rustc::__rust_alloc_zeroed:???
+
+>      0  (0.0%, 100.0%)      0  (0.0%, 100.0%)  <unspecified>:
+       0                      0                    ???
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/thread/id.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/thread/current.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/sync/once/futex.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/sync/mutex/futex.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/weak/syscall.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow/thread_info.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/mod.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/conf.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/exit.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/backtrace.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/args/unix.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/alloc/unix.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/poison.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once_lock.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/rt.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/panicking.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/io/stdio.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/env.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/alloc.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/sync/atomic.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/str/validations.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/str/converts.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/result.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/metadata.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/const_ptr.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/option.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/function.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/bit.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/mod.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/mem/mod.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/mem/maybe_uninit.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/traits/iterator.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/intrinsics/mod.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/hint.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ffi/c_str.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/char/methods.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cell.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/spec_from_elem.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/mod.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/into_iter.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/string.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/slice.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/search.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/remove.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/node.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/map/entry.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/map.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/fix.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/boxed.rs
+       0                      0                    /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs
+       0                      0                    /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/sample.rs
+       0                      0                    /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/poly.rs
+       0                      0                    /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/hash.rs
+       0                      0                    /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/encoding.rs
+       0                      0                    /home/rick/unl/king's/thesis/ml-dsa/ml-dsa-leakage/examples/cachegrind_ball.rs
+       0                      0                    /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs
+       0                      0                    /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/macros.rs
+       0                      0                    /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/keccak-0.1.6/src/lib.rs
+       0                      0                    /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/xof_reader.rs
+       0                      0                    /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/wrapper.rs
+       0                      0                    /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/sealed.rs
+       0                      0                    /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs
+--------------------------------------------------------------------------------
+Dr_______ Dw_______ 
+
+ 1 (0.0%)  1 (0.0%)  <unknown (line 0)>
+
+-- line 68 ----------------------------------------
+ .         .             BlockSize: ArrayLength<u8> + IsLess<U256>,
+ .         .             Le<BlockSize, U256>: NonZero,
+ .         .             Kind: BufferKind,
+ .         .         {
+ .         .             fn default() -> Self {
+ .         .                 if BlockSize::USIZE == 0 {
+ .         .                     panic!("Block size can not be equal to zero");
+ .         .                 }
+ 0        18 (0.0%)          Self {
+ .         .                     buffer: Default::default(),
+ .         .                     pos: 0,
+ .         .                     _pd: PhantomData,
+ .         .                 }
+ .         .             }
+ .         .         }
+ .         .         
+ .         .         impl<BlockSize, Kind> Clone for BlockBuffer<BlockSize, Kind>
+-- line 84 ----------------------------------------
+-- line 138 ----------------------------------------
+ .         .             pub fn digest_blocks(
+ .         .                 &mut self,
+ .         .                 mut input: &[u8],
+ .         .                 mut compress: impl FnMut(&[Block<BlockSize>]),
+ .         .             ) {
+ .         .                 let pos = self.get_pos();
+ .         .                 // using `self.remaining()` for some reason
+ .         .                 // prevents panic elimination
+ 0         0                 let rem = self.size() - pos;
+ .         .                 let n = input.len();
+ .         .                 // Note that checking condition `pos + n < BlockSize` is
+ .         .                 // equivalent to checking `n < rem`, where `rem` is equal
+ .         .                 // to `BlockSize - pos`. Using the latter allows us to work
+ .         .                 // around compiler accounting for possible overflow of
+ .         .                 // `pos + n` which results in it inserting unreachable
+ .         .                 // panic branches. Using `unreachable_unchecked` in `get_pos`
+ .         .                 // we convince compiler that `BlockSize - pos` never underflows.
+ 0         0                 if Kind::invariant(n, rem) {
+ .         .                     // double slicing allows to remove panic branches
+ .         .                     self.buffer[pos..][..n].copy_from_slice(input);
+ 0         0                     self.set_pos_unchecked(pos + n);
+ .         .                     return;
+ .         .                 }
+ .         .                 if pos != 0 {
+ .         .                     let (left, right) = input.split_at(rem);
+ .         .                     input = right;
+ .         .                     self.buffer[pos..].copy_from_slice(left);
+ .         .                     compress(slice::from_ref(&self.buffer));
+ .         .                 }
+-- line 166 ----------------------------------------
+-- line 180 ----------------------------------------
+ .         .             pub fn reset(&mut self) {
+ .         .                 self.set_pos_unchecked(0);
+ .         .             }
+ .         .         
+ .         .             /// Pad remaining data with zeros and return resulting block.
+ .         .             #[inline(always)]
+ .         .             pub fn pad_with_zeros(&mut self) -> &mut Block<BlockSize> {
+ .         .                 let pos = self.get_pos();
+ 1 (0.0%)  1 (0.0%)          self.buffer[pos..].iter_mut().for_each(|b| *b = 0);
+ .         .                 self.set_pos_unchecked(0);
+ .         .                 &mut self.buffer
+ .         .             }
+ .         .         
+ .         .             /// Return current cursor position.
+ .         .             #[inline(always)]
+ .         .             pub fn get_pos(&self) -> usize {
+63 (0.1%)  0                 let pos = self.pos as usize;
+ .         .                 if !Kind::invariant(pos, BlockSize::USIZE) {
+ .         .                     debug_assert!(false);
+ .         .                     // SAFETY: `pos` never breaks the invariant
+ .         .                     unsafe {
+ .         .                         core::hint::unreachable_unchecked();
+ .         .                     }
+ .         .                 }
+ .         .                 pos
+-- line 204 ----------------------------------------
+-- line 231 ----------------------------------------
+ .         .             #[inline(always)]
+ .         .             pub fn remaining(&self) -> usize {
+ .         .                 self.size() - self.get_pos()
+ .         .             }
+ .         .         
+ .         .             #[inline(always)]
+ .         .             fn set_pos_unchecked(&mut self, pos: usize) {
+ .         .                 debug_assert!(Kind::invariant(pos, BlockSize::USIZE));
+ 0        62 (0.2%)          self.pos = pos as u8;
+ .         .             }
+ .         .         }
+ .         .         
+ .         .         impl<BlockSize> BlockBuffer<BlockSize, Eager>
+ .         .         where
+ .         .             BlockSize: ArrayLength<u8> + IsLess<U256>,
+ .         .             Le<BlockSize, U256>: NonZero,
+ .         .         {
+-- line 247 ----------------------------------------
+-- line 250 ----------------------------------------
+ .         .             pub fn set_data(
+ .         .                 &mut self,
+ .         .                 mut data: &mut [u8],
+ .         .                 mut process_blocks: impl FnMut(&mut [Block<BlockSize>]),
+ .         .             ) {
+ .         .                 let pos = self.get_pos();
+ .         .                 let r = self.remaining();
+ .         .                 let n = data.len();
+ 0         0                 if pos != 0 {
+ 0         0                     if n < r {
+ .         .                         // double slicing allows to remove panic branches
+ .         .                         data.copy_from_slice(&self.buffer[pos..][..n]);
+ .         .                         self.set_pos_unchecked(pos + n);
+ .         .                         return;
+ .         .                     }
+ .         .                     let (left, right) = data.split_at_mut(r);
+ .         .                     data = right;
+ .         .                     left.copy_from_slice(&self.buffer[pos..]);
+ .         .                 }
+ .         .         
+ .         .                 let (blocks, leftover) = to_blocks_mut(data);
+ .         .                 process_blocks(blocks);
+ .         .         
+ .         .                 let n = leftover.len();
+ 0         0                 if n != 0 {
+ .         .                     let mut block = Default::default();
+ .         .                     process_blocks(slice::from_mut(&mut block));
+ .         .                     leftover.copy_from_slice(&block[..n]);
+ 0         1 (0.0%)              self.buffer = block;
+ .         .                 }
+ .         .                 self.set_pos_unchecked(n);
+ .         .             }
+ .         .         
+ .         .             /// Compress remaining data after padding it with `delim`, zeros and
+ .         .             /// the `suffix` bytes. If there is not enough unused space, `compress`
+ .         .             /// will be called twice.
+ .         .             ///
+-- line 286 ----------------------------------------
+-- line 336 ----------------------------------------
+ .         .                 self.digest_pad(0x80, &data_len.to_be_bytes(), compress);
+ .         .             }
+ .         .         }
+ .         .         
+ .         .         /// Split message into mutable slice of parallel blocks, blocks, and leftover bytes.
+ .         .         #[inline(always)]
+ .         .         fn to_blocks_mut<N: ArrayLength<u8>>(data: &mut [u8]) -> (&mut [Block<N>], &mut [u8]) {
+ .         .             let nb = data.len() / N::USIZE;
+ 0         0             let (left, right) = data.split_at_mut(nb * N::USIZE);
+ .         .             let p = left.as_mut_ptr() as *mut Block<N>;
+ .         .             // SAFETY: we guarantee that `blocks` does not point outside of `data`, and `p` is valid for
+ .         .             // mutation
+ .         .             let blocks = unsafe { slice::from_raw_parts_mut(p, nb) };
+ .         .             (blocks, right)
+ .         .         }
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/sealed.rs
+--------------------------------------------------------------------------------
+Dr Dw 
+
+-- line 9 ----------------------------------------
+ .  .  
+ .  .      /// Split input data into slice of blocks and tail.
+ .  .      fn split_blocks<N: ArrayLength<u8>>(data: &[u8]) -> (&[Block<N>], &[u8]);
+ .  .  }
+ .  .  
+ .  .  impl Sealed for super::Eager {
+ .  .      #[inline(always)]
+ .  .      fn invariant(pos: usize, block_size: usize) -> bool {
+ 0  0          pos < block_size
+ .  .      }
+ .  .  
+ .  .      #[inline(always)]
+ .  .      fn split_blocks<N: ArrayLength<u8>>(data: &[u8]) -> (&[Block<N>], &[u8]) {
+ .  .          let nb = data.len() / N::USIZE;
+ .  .          let blocks_len = nb * N::USIZE;
+ .  .          let tail_len = data.len() - blocks_len;
+ .  .          // SAFETY: we guarantee that created slices do not point
+-- line 25 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/wrapper.rs
+--------------------------------------------------------------------------------
+Dr______ Dw______ 
+
+1 (0.0%) 0         <unknown (line 0)>
+
+-- line 141 ----------------------------------------
+.        .         impl<T> Update for CoreWrapper<T>
+.        .         where
+.        .             T: BufferKindUser + UpdateCore,
+.        .             T::BlockSize: IsLess<U256>,
+.        .             Le<T::BlockSize, U256>: NonZero,
+.        .         {
+.        .             #[inline]
+.        .             fn update(&mut self, input: &[u8]) {
+0        0                 let Self { core, buffer } = self;
+.        .                 buffer.digest_blocks(input, |blocks| core.update_blocks(blocks));
+.        .             }
+.        .         }
+.        .         
+.        .         impl<T> OutputSizeUser for CoreWrapper<T>
+.        .         where
+.        .             T: BufferKindUser + OutputSizeUser,
+.        .             T::BlockSize: IsLess<U256>,
+-- line 157 ----------------------------------------
+-- line 195 ----------------------------------------
+.        .             Le<T::BlockSize, U256>: NonZero,
+.        .             <T::ReaderCore as BlockSizeUser>::BlockSize: IsLess<U256>,
+.        .             Le<<T::ReaderCore as BlockSizeUser>::BlockSize, U256>: NonZero,
+.        .         {
+.        .             type Reader = XofReaderCoreWrapper<T::ReaderCore>;
+.        .         
+.        .             #[inline]
+.        .             fn finalize_xof(self) -> Self::Reader {
+0        2 (0.0%)          let (mut core, mut buffer) = self.decompose();
+.        .                 let core = core.finalize_xof_core(&mut buffer);
+.        .                 let buffer = Default::default();
+.        .                 Self::Reader { core, buffer }
+.        .             }
+.        .         }
+.        .         
+.        .         impl<T> ExtendableOutputReset for CoreWrapper<T>
+.        .         where
+-- line 211 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/xof_reader.rs
+--------------------------------------------------------------------------------
+Dr Dw 
+
+ 0  0  <unknown (line 0)>
+
+-- line 33 ----------------------------------------
+ .  .  impl<T> XofReader for XofReaderCoreWrapper<T>
+ .  .  where
+ .  .      T: XofReaderCore,
+ .  .      T::BlockSize: IsLess<U256>,
+ .  .      Le<T::BlockSize, U256>: NonZero,
+ .  .  {
+ .  .      #[inline]
+ .  .      fn read(&mut self, buffer: &mut [u8]) {
+ 0  0          let Self { core, buffer: buf } = self;
+ .  .          buf.set_data(buffer, |blocks| {
+ .  .              for block in blocks {
+ .  .                  *block = core.read_block();
+ .  .              }
+ .  .          });
+ .  .      }
+ .  .  }
+ .  .  
+-- line 49 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/keccak-0.1.6/src/lib.rs
+--------------------------------------------------------------------------------
+Dr_______ Dw_______ 
+
+ 0         0         <unknown (line 0)>
+
+-- line 158 ----------------------------------------
+ .         .             Self::from_le_bytes(tmp[..size_of::<Self>()].try_into().unwrap())
+ .         .         });
+ .         .         impl_lanesize!(u64, 24, |rc: u64| { rc });
+ .         .         
+ .         .         macro_rules! impl_keccak {
+ .         .             ($pname:ident, $fname:ident, $type:ty) => {
+ .         .                 /// Keccak-p sponge function
+ .         .                 pub fn $pname(state: &mut [$type; PLEN], round_count: usize) {
+ 0         0                     keccak_p(state, round_count);
+ .         .                 }
+ .         .         
+ .         .                 /// Keccak-f sponge function
+ .         .                 pub fn $fname(state: &mut [$type; PLEN]) {
+ .         .                     keccak_p(state, <$type>::KECCAK_F_ROUND_COUNT);
+ .         .                 }
+ .         .             };
+ .         .         }
+-- line 174 ----------------------------------------
+-- line 228 ----------------------------------------
+ .         .         
+ .         .             impl_keccak!(p1600x2, f1600x2, u64x2);
+ .         .             impl_keccak!(p1600x4, f1600x4, u64x4);
+ .         .             impl_keccak!(p1600x8, f1600x8, u64x8);
+ .         .         }
+ .         .         
+ .         .         #[allow(unused_assignments)]
+ .         .         /// Generic Keccak-p sponge function
+ 0        12 (0.0%)  pub fn keccak_p<L: LaneSize>(state: &mut [L; PLEN], round_count: usize) {
+ 0         0             if round_count > L::KECCAK_F_ROUND_COUNT {
+ .         .                 panic!("A round_count greater than KECCAK_F_ROUND_COUNT is not supported!");
+ .         .             }
+ .         .         
+ .         .             // https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf#page=25
+ .         .             // "the rounds of KECCAK-p[b, nr] match the last rounds of KECCAK-f[b]"
+ .         .             let round_consts = &RC[(L::KECCAK_F_ROUND_COUNT - round_count)..L::KECCAK_F_ROUND_COUNT];
+ .         .         
+ .         .             // not unrolling this loop results in a much smaller function, plus
+-- line 245 ----------------------------------------
+-- line 283 ----------------------------------------
+ .         .                         let t2 = array[(x + 2) % 5];
+ .         .                         state[y + x] = array[x] ^ (t1 & t2);
+ .         .                     });
+ .         .                 });
+ .         .         
+ .         .                 // Iota
+ .         .                 state[0] ^= L::truncate_rc(rc);
+ .         .             }
+14 (0.0%)  0         }
+ .         .         
+ .         .         #[cfg(test)]
+ .         .         mod tests {
+ .         .             use crate::{keccak_p, LaneSize, PLEN};
+ .         .         
+ .         .             fn keccak_f<L: LaneSize>(state_first: [L; PLEN], state_second: [L; PLEN]) {
+ .         .                 let mut state = [L::default(); PLEN];
+ .         .         
+-- line 299 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/macros.rs
+--------------------------------------------------------------------------------
+Dr______ Dw______ 
+
+-- line 131 ----------------------------------------
+.        .         
+.        .                 impl ExtendableOutputCore for $name {
+.        .                     type ReaderCore = $reader;
+.        .         
+.        .                     #[inline]
+.        .                     fn finalize_xof_core(&mut self, buffer: &mut Buffer<Self>) -> Self::ReaderCore {
+.        .                         let pos = buffer.get_pos();
+.        .                         let block = buffer.pad_with_zeros();
+0        1 (0.0%)                  block[pos] = $pad;
+.        .                         let n = block.len();
+1 (0.0%) 0                         block[n - 1] |= 0x80;
+.        .         
+.        .                         self.state.absorb_block(block);
+.        .                         $reader {
+.        .                             state: self.state.clone(),
+.        .                         }
+.        .                     }
+.        .                 }
+.        .         
+-- line 149 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs
+--------------------------------------------------------------------------------
+Dr_______ Dw_______ 
+
+ 0         0         <unknown (line 0)>
+
+ .         .         use core::convert::TryInto;
+ .         .         #[cfg(feature = "zeroize")]
+ .         .         use zeroize::{Zeroize, ZeroizeOnDrop};
+ .         .         
+ .         .         const PLEN: usize = 25;
+ .         .         const DEFAULT_ROUND_COUNT: usize = 24;
+ .         .         
+ 0         1 (0.0%)  #[derive(Clone)]
+ .         .         pub(crate) struct Sha3State {
+ .         .             pub state: [u64; PLEN],
+ .         .             round_count: usize,
+ .         .         }
+ .         .         
+ .         .         impl Default for Sha3State {
+ .         .             fn default() -> Self {
+ .         .                 Self {
+ 0        13 (0.0%)              state: [0u64; PLEN],
+ .         .                     round_count: DEFAULT_ROUND_COUNT,
+ .         .                 }
+ .         .             }
+ .         .         }
+ .         .         
+ .         .         #[cfg(feature = "zeroize")]
+ .         .         impl Drop for Sha3State {
+ .         .             fn drop(&mut self) {
+-- line 25 ----------------------------------------
+-- line 38 ----------------------------------------
+ .         .                 }
+ .         .             }
+ .         .         
+ .         .             #[inline(always)]
+ .         .             pub(crate) fn absorb_block(&mut self, block: &[u8]) {
+ .         .                 debug_assert_eq!(block.len() % 8, 0);
+ .         .         
+ .         .                 for (b, s) in block.chunks_exact(8).zip(self.state.iter_mut()) {
+17 (0.0%)  8 (0.0%)              *s ^= u64::from_le_bytes(b.try_into().unwrap());
+ .         .                 }
+ .         .         
+ 2 (0.0%)  1 (0.0%)          keccak::p1600(&mut self.state, self.round_count);
+ .         .             }
+ .         .         
+ .         .             #[inline(always)]
+ .         .             pub(crate) fn as_bytes(&self, out: &mut [u8]) {
+ .         .                 for (o, s) in out.chunks_mut(8).zip(self.state.iter()) {
+ .         .                     o.copy_from_slice(&s.to_le_bytes()[..o.len()]);
+ .         .                 }
+ .         .             }
+ .         .         
+ .         .             #[inline(always)]
+ .         .             pub(crate) fn permute(&mut self) {
+ 2 (0.0%)  1 (0.0%)          keccak::p1600(&mut self.state, self.round_count);
+ .         .             }
+ .         .         }
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /home/rick/unl/king's/thesis/ml-dsa/ml-dsa-leakage/examples/cachegrind_ball.rs
+--------------------------------------------------------------------------------
+Dr______ Dw______ 
+
+0        0         <unknown (line 0)>
+
+-- line 8 ----------------------------------------
+.        .         //!   * the write `c.coeffs[j] = c.coeffs[i]` — executed a FIXED τ = 49 times, but at
+.        .         //!     a secret-derived index `j` (the data-address / cache-line leak).
+.        .         
+.        .         use std::hint::black_box;
+.        .         
+.        .         use ml_dsa::params::MlDsa65;
+.        .         use ml_dsa::sample::sample_in_ball;
+.        .         
+0        6 (0.0%)  fn main() {
+1 (0.0%) 1 (0.0%)      let b: u8 = std::env::args().nth(1).and_then(|s| s.parse().ok()).unwrap_or(7);
+.        .             let seed = vec![b; 48]; // c~ is 48 bytes for ML-DSA-65
+.        .             black_box(sample_in_ball::<MlDsa65>(black_box(&seed)));
+7 (0.0%) 0         }
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/encoding.rs
+--------------------------------------------------------------------------------
+Dr______ Dw_______ 
+
+0         0         <unknown (line 0)>
+
+-- line 53 ----------------------------------------
+.         .             let mut z = vec![0u8; alpha.div_ceil(8)];
+.         .             for i in 0..alpha {
+.         .                 z[i / 8] += y[i] << (i % 8);
+.         .             }
+.         .             z
+.         .         }
+.         .         
+.         .         /// FIPS 204, Algorithm 13 — BytesToBits: unpack bytes into a bit string, LSB-first.
+0         5 (0.0%)  pub fn bytes_to_bits(z: &[u8]) -> Vec<u8> {
+.         .             let alpha = z.len();
+0         0             let mut y = vec![0u8; 8 * alpha];
+.         .             for i in 0..alpha {
+8 (0.0%)  0                 let mut zi = z[i];
+.         .                 for j in 0..8 {
+0        64 (0.2%)              y[8 * i + j] = zi & 1;
+0         0                     zi >>= 1;
+.         .                 }
+.         .             }
+0         3 (0.0%)      y
+6 (0.0%)  0         }
+.         .         
+.         .         /// FIPS 204, Algorithm 14 — CoeffFromThreeBytes: 3 bytes → an element of `{0,…,q−1}` or `⊥`.
+.         .         pub fn coeff_from_three_bytes(b0: u8, b1: u8, b2: u8) -> Option<i32> {
+.         .             let b2p = (b2 & 0x7f) as i32; // clear the top bit of b2
+.         .             let z = (b2p << 16) + ((b1 as i32) << 8) + b0 as i32; // 0 ≤ z ≤ 2^23 − 1
+.         .             if z < Q {
+.         .                 Some(z)
+.         .             } else {
+-- line 80 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/hash.rs
+--------------------------------------------------------------------------------
+Dr________ Dw________ 
+
+-- line 14 ----------------------------------------
+  .          .         }
+  .          .         
+  .          .         /// Squeeze side of an [`H`] instance.
+  .          .         pub struct HReader {
+  .          .             reader: <Shake256 as ExtendableOutput>::Reader,
+  .          .         }
+  .          .         
+  .          .         impl H {
+  0          0             pub fn init() -> Self {
+  0          1 (0.0%)          Self { state: Shake256::default() }
+  1 (0.0%)   0             }
+  .          .         
+  0          7 (0.0%)      pub fn absorb(&mut self, data: &[u8]) {
+  .          .                 self.state.update(data);
+  7 (0.0%)   0             }
+  .          .         
+  0          4 (0.0%)      pub fn finalize(self) -> HReader {
+  0          1 (0.0%)          HReader { reader: self.state.finalize_xof() }
+  5 (0.0%)   0             }
+  .          .         }
+  .          .         
+  .          .         impl HReader {
+  .          .             /// Squeeze exactly `out.len()` bytes into `out`.
+  0        366 (1.0%)      pub fn squeeze(&mut self, out: &mut [u8]) {
+  .          .                 self.reader.read(out);
+427 (0.5%)   0             }
+  .          .         
+  .          .             /// Squeeze `n` bytes into a freshly allocated buffer.
+  .          .             pub fn squeeze_vec(&mut self, n: usize) -> Vec<u8> {
+  .          .                 let mut buf = vec![0u8; n];
+  .          .                 self.reader.read(&mut buf);
+  .          .                 buf
+  .          .             }
+  .          .         }
+-- line 47 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/poly.rs
+--------------------------------------------------------------------------------
+Dr______ Dw______ 
+
+-- line 24 ----------------------------------------
+.        .         #[derive(Clone, Copy, PartialEq, Eq, Debug)]
+.        .         pub struct PolyNTT {
+.        .             pub coeffs: [Zq; N],
+.        .         }
+.        .         
+.        .         impl Poly {
+.        .             /// The zero polynomial.
+.        .             pub const fn zero() -> Self {
+1 (0.0%) 1 (0.0%)          Self { coeffs: [0; N] }
+.        .             }
+.        .         }
+.        .         
+.        .         impl Default for Poly {
+.        .             fn default() -> Self {
+.        .                 Self::zero()
+.        .             }
+.        .         }
+-- line 40 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/sample.rs
+--------------------------------------------------------------------------------
+Dr_______ Dw_______ 
+
+61 (0.1%)  1 (0.0%)  <unknown (line 0)>
+
+-- line 12 ----------------------------------------
+ .         .         use crate::poly::{Poly, PolyNTT};
+ .         .         
+ .         .         /// FIPS 204, Algorithm 29 — SampleInBall: `c ∈ R`, `τ` nonzero coeffs in `{−1, 1}`.
+ .         .         /// `rho` is the commitment hash `c~` (`λ/4` bytes).
+ .         .         pub fn sample_in_ball<P: ParameterSet>(rho: &[u8]) -> Poly {
+ .         .             let tau = P::TAU;
+ .         .             let mut c = Poly::zero();
+ .         .             let mut reader = {
+ 1 (0.0%)  1 (0.0%)          let mut h = H::init();
+ 1 (0.0%)  1 (0.0%)          h.absorb(rho);
+ 2 (0.0%)  2 (0.0%)          h.finalize()
+ .         .             };
+ 0         1 (0.0%)      let mut s = [0u8; 8];
+ 1 (0.0%)  1 (0.0%)      reader.squeeze(&mut s); // line 4
+ 1 (0.0%)  1 (0.0%)      let hbits = bytes_to_bits(&s); // line 5: 64-bit sign string
+ 1 (0.0%)  1 (0.0%)      let mut byte = [0u8; 1];
+ .         .             for i in (N - tau)..N {
+ 0        49 (0.1%)          reader.squeeze(&mut byte); // line 7
+ .         .                 let mut j = byte[0] as usize;
+ 0         0                 while j > i {
+ .         .                     // line 8: rejection sampling of a position in {0,…,i}
+ 0        11 (0.0%)              reader.squeeze(&mut byte);
+ .         .                     j = byte[0] as usize;
+ .         .                 }
+49 (0.1%) 49 (0.1%)          c.coeffs[i] = c.coeffs[j]; // line 11
+49 (0.1%) 49 (0.1%)          c.coeffs[j] = if hbits[i + tau - N] == 1 { -1 } else { 1 }; // line 12: (-1)^h
+ .         .             }
+ .         .             c
+ 1 (0.0%)  0         }
+ .         .         
+ .         .         /// FIPS 204, Algorithm 30 — RejNTTPoly: `â ∈ T_q` from a public 34-byte seed.
+ .         .         pub fn rej_ntt_poly(rho: &[u8; 34]) -> PolyNTT {
+ .         .             let mut a = PolyNTT::zero();
+ .         .             let mut reader = {
+ .         .                 let mut g = G::init();
+ .         .                 g.absorb(rho);
+ .         .                 g.finalize()
+-- line 48 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/boxed.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/boxed.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/fix.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/fix.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/map.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/map.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/map/entry.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/map/entry.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/node.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/node.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/remove.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/remove.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/search.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/collections/btree/search.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/slice.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/slice.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/string.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/string.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/into_iter.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/into_iter.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/mod.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/mod.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/spec_from_elem.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/spec_from_elem.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cell.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cell.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/char/methods.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/char/methods.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ffi/c_str.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ffi/c_str.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/hint.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/hint.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/intrinsics/mod.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/intrinsics/mod.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/traits/iterator.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/traits/iterator.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/mem/maybe_uninit.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/mem/maybe_uninit.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/mem/mod.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/mem/mod.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/mod.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/mod.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/bit.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/bit.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/function.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/function.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/option.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/option.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/const_ptr.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/const_ptr.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/metadata.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/metadata.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/result.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/result.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/str/converts.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/str/converts.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/str/validations.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/str/validations.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/sync/atomic.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/sync/atomic.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/alloc.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/alloc.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/env.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/env.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/io/stdio.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/io/stdio.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/panicking.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/panicking.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/rt.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/rt.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once_lock.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/once_lock.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/poison.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sync/poison.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/alloc/unix.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/alloc/unix.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/args/unix.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/args/unix.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/backtrace.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/backtrace.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/exit.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/exit.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/conf.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/conf.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/mod.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/mod.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow/thread_info.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/stack_overflow/thread_info.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/weak/syscall.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/pal/unix/weak/syscall.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/sync/mutex/futex.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/sync/mutex/futex.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/sync/once/futex.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/sync/once/futex.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/thread/current.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/thread/current.rs
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/thread/id.rs
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/thread/id.rs
+
+--------------------------------------------------------------------------------
+-- Annotation summary
+--------------------------------------------------------------------------------
+Dr____________ Dw____________ 
+
+   669  (0.8%)    746  (2.0%)    annotated: files known & above threshold & readable, line numbers known
+    63  (0.1%)      2  (0.0%)    annotated: files known & above threshold & readable, line numbers unknown
+     0              0          unannotated: files known & above threshold & two or more non-identical
+ 3,119  (3.7%)  1,929  (5.2%)  unannotated: files known & above threshold & unreadable 
+     0              0          unannotated: files known & below threshold
+80,242 (95.4%) 34,755 (92.8%)  unannotated: files unknown
+

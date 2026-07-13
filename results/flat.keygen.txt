@@ -1,0 +1,221 @@
+--------------------------------------------------------------------------------
+Profile data file 'results/cg.baseline.keygen.out' (creator: callgrind-3.25.1)
+--------------------------------------------------------------------------------
+I1 cache: 
+D1 cache: 
+LL cache: 
+Timerange: Basic block 0 - 2086106
+Trigger: Program termination
+Profiled target:  target/release/examples/profile (PID 243801, part 1)
+Events recorded:  Ir
+Events shown:     Ir
+Event sort order: Ir
+Thresholds:       100
+Include dirs:     
+User annotated:   
+Auto-annotation:  off
+
+--------------------------------------------------------------------------------
+Ir                 
+--------------------------------------------------------------------------------
+4,954,338 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+Ir                  file:function
+--------------------------------------------------------------------------------
+1,125,432 (22.72%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/bit.rs:keccak::keccak_p
+  326,558 ( 6.59%)  ml-dsa/src/encoding.rs:ml_dsa::encoding::bits_to_bytes [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+  305,129 ( 6.16%)  ???:0x0000000000171fc0 [/usr/lib/libc.so.6]
+  267,486 ( 5.40%)  ???:calloc [/usr/lib/libc.so.6]
+  252,576 ( 5.10%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/int_macros.rs:ml_dsa::ntt::inv_ntt
+  249,480 ( 5.04%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/intrinsics/mod.rs:keccak::keccak_p
+  241,419 ( 4.87%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:block_buffer::BlockBuffer<BlockSize,block_buffer::Eager>::set_data [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+  195,903 ( 3.95%)  ???:free [/usr/lib/libc.so.6]
+  177,280 ( 3.58%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/int_macros.rs:ml_dsa::ntt::ntt
+  155,851 ( 3.15%)  ml-dsa/src/encoding.rs:ml_dsa::encoding::bit_pack [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+  153,600 ( 3.10%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/int_macros.rs:ml_dsa::ntt_arith::matrix_vector_ntt
+  110,292 ( 2.23%)  ml-dsa/src/ntt.rs:ml_dsa::ntt::inv_ntt [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+   93,184 ( 1.88%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:ml_dsa::encoding::bits_to_bytes
+   86,730 ( 1.75%)  ml-dsa/src/ntt.rs:ml_dsa::ntt::ntt [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+   76,856 ( 1.55%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/alloc/unix.rs:__rustc::__rdl_alloc_zeroed
+   63,132 ( 1.27%)  ml-dsa/src/encoding.rs:ml_dsa::encoding::simple_bit_pack [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+   61,990 ( 1.25%)  ml-dsa/src/sample.rs:ml_dsa::expand::expand_a
+   61,595 ( 1.24%)  ml-dsa/src/ntt_arith.rs:ml_dsa::ntt_arith::matrix_vector_ntt [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+   60,433 ( 1.22%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:ml_dsa::encoding::bit_pack
+   53,823 ( 1.09%)  ml-dsa/src/encoding.rs:ml_dsa::expand::expand_a
+   52,906 ( 1.07%)  ???:0x00000000001729c0 [/usr/lib/libc.so.6]
+   46,661 ( 0.94%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:ml_dsa::encoding::bits_to_bytes
+   46,638 ( 0.94%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs:ml_dsa::encoding::bits_to_bytes
+   46,615 ( 0.94%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs:ml_dsa::encoding::bits_to_bytes
+   46,134 ( 0.93%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/xof_reader.rs:ml_dsa::expand::expand_a
+   42,704 ( 0.86%)  ml-dsa/src/hash.rs:ml_dsa::hash::HReader::squeeze [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+   39,100 ( 0.79%)  ml-dsa/src/sample.rs:ml_dsa::expand::expand_s
+   37,422 ( 0.76%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs:keccak::keccak_p
+   35,472 ( 0.72%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/alloc.rs:__rustc::__rdl_alloc_zeroed [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+   34,918 ( 0.70%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs:ml_dsa::encoding::bit_pack
+   30,726 ( 0.62%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:ml_dsa::encoding::simple_bit_pack
+   30,519 ( 0.62%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:ml_dsa::hash::HReader::squeeze
+   26,282 ( 0.53%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs:ml_dsa::encoding::bit_pack
+   23,967 ( 0.48%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:block_buffer::BlockBuffer<BlockSize,block_buffer::Eager>::set_data
+   22,032 ( 0.44%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/mod.rs:ml_dsa::encoding::bit_pack
+   15,414 ( 0.31%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs:ml_dsa::encoding::simple_bit_pack
+   15,360 ( 0.31%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/int_macros.rs:ml_dsa::vecops::add_vec
+   15,360 ( 0.31%)  ml-dsa/src/field.rs:ml_dsa::ntt_arith::matrix_vector_ntt
+   13,830 ( 0.28%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs:ml_dsa::ntt_arith::matrix_vector_ntt
+   13,824 ( 0.28%)  ml-dsa/src/field.rs:ml_dsa::ntt::inv_ntt
+   13,056 ( 0.26%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:ml_dsa::encoding::bit_pack
+   12,840 ( 0.26%)  ml-dsa/src/encoding.rs:ml_dsa::expand::expand_s
+   11,827 ( 0.24%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs:ml_dsa::encoding::bit_pack
+   10,788 ( 0.22%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs:ml_dsa::encoding::simple_bit_pack
+   10,752 ( 0.22%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/int_macros.rs:ml_dsa::vecops::power2round_vec
+   10,240 ( 0.21%)  ml-dsa/src/field.rs:ml_dsa::ntt::ntt
+    7,723 ( 0.16%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:ml_dsa::ntt_arith::matrix_vector_ntt
+    7,662 ( 0.15%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:ml_dsa::hash::HReader::squeeze
+    7,539 ( 0.15%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:block_buffer::BlockBuffer<BlockSize,block_buffer::Eager>::set_data
+    6,228 ( 0.13%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/mod.rs:ml_dsa::encoding::simple_bit_pack
+    6,162 ( 0.12%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs:ml_dsa::encoding::simple_bit_pack
+    6,160 ( 0.12%)  ml-dsa/src/vecops.rs:ml_dsa::vecops::add_vec [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+    5,948 ( 0.12%)  ???:__rustc::__rust_no_alloc_shim_is_unstable_v2 [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+    5,935 ( 0.12%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/alloc/unix.rs:__rustc::__rdl_dealloc [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+    5,935 ( 0.12%)  ???:__rustc::__rust_dealloc [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+    5,912 ( 0.12%)  ???:__rustc::__rust_alloc_zeroed [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+    5,775 ( 0.12%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs:keccak::keccak_p
+    5,024 ( 0.10%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/xof_reader.rs:ml_dsa::hash::HReader::squeeze
+    4,608 ( 0.09%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:ml_dsa::encoding::simple_bit_pack
+    4,352 ( 0.09%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs:ml_dsa::encoding::bit_pack
+    4,352 ( 0.09%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs:ml_dsa::encoding::bit_pack
+    4,158 ( 0.08%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/keccak-0.1.6/src/lib.rs:keccak::keccak_p [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+    3,504 ( 0.07%)  ml-dsa/src/rounding.rs:ml_dsa::vecops::power2round_vec
+    2,514 ( 0.05%)  ???:0x00000000000a6dc0 [/usr/lib/libc.so.6]
+    2,489 ( 0.05%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:ml_dsa::hash::HReader::squeeze
+    1,542 ( 0.03%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs:ml_dsa::ntt_arith::matrix_vector_ntt
+    1,536 ( 0.03%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs:ml_dsa::encoding::simple_bit_pack
+    1,536 ( 0.03%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs:ml_dsa::encoding::simple_bit_pack
+    1,536 ( 0.03%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs:ml_dsa::ntt::inv_ntt
+    1,536 ( 0.03%)  ml-dsa/src/field.rs:ml_dsa::vecops::add_vec
+    1,536 ( 0.03%)  ml-dsa/src/field.rs:ml_dsa::vecops::power2round_vec
+    1,422 ( 0.03%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs:ml_dsa::ntt::inv_ntt
+    1,170 ( 0.02%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs:ml_dsa::hash::G::finalize
+      782 ( 0.02%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:ml_dsa::vecops::power2round_vec
+      778 ( 0.02%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:ml_dsa::vecops::add_vec
+      768 ( 0.02%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs:ml_dsa::vecops::add_vec
+      768 ( 0.02%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs:ml_dsa::vecops::add_vec
+      764 ( 0.02%)  ???:malloc [/usr/lib/libc.so.6]
+      762 ( 0.02%)  ???:0x00000000000a6140 [/usr/lib/libc.so.6]
+      540 ( 0.01%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs:block_buffer::BlockBuffer<BlockSize,block_buffer::Eager>::set_data
+      540 ( 0.01%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs:ml_dsa::ntt::ntt
+      540 ( 0.01%)  ml-dsa/src/hash.rs:ml_dsa::hash::G::absorb [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+      540 ( 0.01%)  ml-dsa/src/hash.rs:ml_dsa::hash::G::finalize [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+      450 ( 0.01%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:ml_dsa::hash::G::finalize
+      450 ( 0.01%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs:block_buffer::BlockBuffer<BlockSize,block_buffer::Eager>::set_data
+      429 ( 0.01%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs:ml_dsa::hash::H::finalize
+      420 ( 0.01%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs:ml_dsa::expand::expand_a
+      392 ( 0.01%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs:ml_dsa::hash::H::absorb
+      384 ( 0.01%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs:ml_dsa::vecops::power2round_vec
+      360 ( 0.01%)  ml-dsa/src/poly.rs:ml_dsa::ntt_arith::matrix_vector_ntt
+      330 ( 0.01%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:ml_dsa::expand::expand_a
+      311 ( 0.01%)  ml-dsa/src/expand.rs:ml_dsa::expand::expand_a [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+      300 ( 0.01%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/wrapper.rs:ml_dsa::hash::G::finalize
+      270 ( 0.01%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs:block_buffer::BlockBuffer<BlockSize,block_buffer::Eager>::set_data
+      252 ( 0.01%)  ml-dsa/src/hash.rs:ml_dsa::hash::H::absorb [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+      240 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs:block_buffer::BlockBuffer<BlockSize,block_buffer::Eager>::set_data
+      234 ( 0.00%)  ml-dsa/src/hash.rs:ml_dsa::hash::H::finalize [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+      231 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/keccak-0.1.6/src/lib.rs:keccak::p1600 [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+      216 ( 0.00%)  ???:0x00000000000a4f60 [/usr/lib/libc.so.6]
+      210 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:ml_dsa::hash::G::absorb
+      200 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/alloc/unix.rs:__rustc::__rdl_alloc
+      196 ( 0.00%)  ml-dsa/src/expand.rs:ml_dsa::expand::expand_s [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+      195 ( 0.00%)  ml-dsa/src/keygen.rs:ml_dsa::keygen::key_gen_internal [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+      169 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:ml_dsa::hash::H::finalize
+      166 ( 0.00%)  ml-dsa/src/poly.rs:ml_dsa::expand::expand_a
+      154 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs:ml_dsa::expand::expand_s
+      151 ( 0.00%)  ml-dsa/src/vecops.rs:ml_dsa::vecops::power2round_vec [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+      130 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/wrapper.rs:ml_dsa::hash::H::finalize
+      126 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/result.rs:ml_dsa::hash::H::absorb
+      123 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/mod.rs:ml_dsa::serdes::sk_encode
+      121 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs:ml_dsa::serdes::sk_encode
+      120 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:ml_dsa::expand::expand_a
+      115 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs:ml_dsa::encoding::bits_to_bytes
+      112 ( 0.00%)  ml-dsa/src/serdes.rs:ml_dsa::serdes::sk_encode [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+      102 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:ml_dsa::hash::H::absorb
+       99 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:ml_dsa::expand::expand_s
+       90 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:ml_dsa::hash::G::absorb
+       90 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:ml_dsa::hash::G::finalize
+       90 ( 0.00%)  ml-dsa/src/vecops.rs:ml_dsa::keygen::key_gen_internal
+       75 ( 0.00%)  ml-dsa/src/poly.rs:ml_dsa::vecops::power2round_vec
+       69 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs:ml_dsa::hash::HReader::squeeze
+       69 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs:ml_dsa::encoding::bits_to_bytes
+       68 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:ml_dsa::serdes::sk_encode
+       68 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs:ml_dsa::hash::HReader::squeeze
+       68 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs:ml_dsa::hash::HReader::squeeze
+       62 ( 0.00%)  ???:0x00000000000a4e90 [/usr/lib/libc.so.6]
+       60 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/sealed.rs:ml_dsa::hash::G::absorb
+       60 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/macros.rs:ml_dsa::hash::G::finalize
+       56 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs:ml_dsa::serdes::sk_encode
+       48 ( 0.00%)  ml-dsa/src/serdes.rs:ml_dsa::serdes::pk_encode [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+       44 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs:ml_dsa::serdes::pk_encode
+       43 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:ml_dsa::hash::H::absorb
+       42 ( 0.00%)  ml-dsa/src/poly.rs:ml_dsa::expand::expand_s
+       37 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/sealed.rs:ml_dsa::hash::H::absorb
+       35 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/mod.rs:ml_dsa::serdes::pk_encode
+       33 ( 0.00%)  ml-dsa/src/hash.rs:ml_dsa::expand::expand_s
+       30 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/wrapper.rs:ml_dsa::hash::G::absorb
+       30 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs:ml_dsa::keygen::key_gen_internal
+       30 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/result.rs:ml_dsa::hash::G::finalize
+       30 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:ml_dsa::hash::G::absorb
+       30 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs:ml_dsa::hash::G::finalize
+       30 ( 0.00%)  ml-dsa/src/hash.rs:ml_dsa::expand::expand_a
+       29 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:ml_dsa::hash::HReader::squeeze_vec
+       28 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs:ml_dsa::hash::H::absorb
+       26 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/macros.rs:ml_dsa::hash::H::finalize
+       26 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:ml_dsa::hash::H::finalize
+       25 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/alloc.rs:__rustc::__rdl_alloc [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+       25 ( 0.00%)  ???:__rustc::__rust_alloc [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+       23 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:ml_dsa::serdes::pk_encode
+       21 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs:ml_dsa::serdes::pk_encode
+       21 ( 0.00%)  ml-dsa/src/hash.rs:ml_dsa::hash::HReader::squeeze_vec [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+       18 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:ml_dsa::keygen::key_gen_internal
+       18 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:ml_dsa::keygen::key_gen_internal
+       17 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs:ml_dsa::serdes::sk_encode
+       17 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs:ml_dsa::serdes::sk_encode
+       14 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/wrapper.rs:ml_dsa::hash::H::absorb
+       14 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs:ml_dsa::hash::H::absorb
+       13 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/result.rs:ml_dsa::hash::H::finalize
+       13 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:ml_dsa::hash::H::absorb
+       13 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs:ml_dsa::hash::H::finalize
+       12 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:ml_dsa::expand::expand_a
+       11 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs:ml_dsa::hash::HReader::squeeze
+       10 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs:ml_dsa::expand::expand_s
+        9 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:ml_dsa::hash::HReader::squeeze_vec
+        8 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs:ml_dsa::hash::HReader::squeeze_vec
+        6 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs:ml_dsa::expand::expand_a
+        6 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs:ml_dsa::expand::expand_a
+        6 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mut_ptr.rs:ml_dsa::serdes::pk_encode
+        6 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:ml_dsa::keygen::key_gen_internal
+        5 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs:ml_dsa::keygen::key_gen_internal
+        5 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs:ml_dsa::serdes::pk_encode
+        5 ( 0.00%)  ml-dsa/src/poly.rs:ml_dsa::vecops::add_vec
+        4 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/hint.rs:profile::bench_keygen
+        4 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs:ml_dsa::hash::HReader::squeeze_vec
+        4 ( 0.00%)  ml-dsa/examples/profile.rs:profile::bench_keygen [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+        3 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sha3-0.10.9/src/state.rs:ml_dsa::hash::HReader::squeeze_vec
+        3 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs:ml_dsa::hash::HReader::squeeze_vec
+        3 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs:ml_dsa::keygen::key_gen_internal
+        3 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/mod.rs:ml_dsa::keygen::key_gen_internal
+        2 ( 0.00%)  ml-dsa/src/hash.rs:ml_dsa::keygen::key_gen_internal
+        1 ( 0.00%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/xof_reader.rs:ml_dsa::hash::HReader::squeeze_vec
+        1 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/intrinsics/mod.rs:ml_dsa::hash::HReader::squeeze_vec
+        1 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/const_ptr.rs:ml_dsa::hash::H::absorb
+        1 ( 0.00%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs:ml_dsa::hash::HReader::squeeze_vec
+        1 ( 0.00%)  ml-dsa/src/lib.rs:ml_dsa::ml_dsa_65::key_gen_internal [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+        .           /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/function.rs:std::rt::lang_start_internal
+        .           /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/function.rs:std::sys::backtrace::__rust_begin_short_backtrace
+        .           /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/rt.rs:std::rt::lang_start::{{closure}} [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+        .           /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/rt.rs:std::rt::lang_start_internal [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+        .           /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/backtrace.rs:std::sys::backtrace::__rust_begin_short_backtrace [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+        .           ???:(below main) [/usr/lib/libc.so.6]
+        .           ???:0x000000000001f300 [/usr/lib/ld-linux-x86-64.so.2]
+        .           ???:0x00000000000276c0 [/usr/lib/libc.so.6]
+        .           ???:main [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+        .           ml-dsa/examples/profile.rs:profile::main [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+

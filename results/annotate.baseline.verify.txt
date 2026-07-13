@@ -1,0 +1,1000 @@
+--------------------------------------------------------------------------------
+Profile data file 'results/cg.baseline.verify.out' (creator: callgrind-3.25.1)
+--------------------------------------------------------------------------------
+I1 cache: 
+D1 cache: 
+LL cache: 
+Timerange: Basic block 0 - 2086106
+Trigger: Program termination
+Profiled target:  target/release/examples/profile (PID 243813, part 1)
+Events recorded:  Ir
+Events shown:     Ir
+Event sort order: Ir
+Thresholds:       99
+Include dirs:     
+User annotated:   
+Auto-annotation:  on
+
+--------------------------------------------------------------------------------
+Ir                 
+--------------------------------------------------------------------------------
+4,922,544 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+Ir                  file:function
+--------------------------------------------------------------------------------
+1,013,376 (20.59%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/bit.rs:keccak::keccak_p
+  505,152 (10.26%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/int_macros.rs:ml_dsa::ntt::inv_ntt
+  425,472 ( 8.64%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/int_macros.rs:ml_dsa::ntt::ntt
+  241,419 ( 4.90%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:block_buffer::BlockBuffer<BlockSize,block_buffer::Eager>::set_data [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+  224,640 ( 4.56%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/intrinsics/mod.rs:keccak::keccak_p
+  220,584 ( 4.48%)  ml-dsa/src/ntt.rs:ml_dsa::ntt::inv_ntt [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+  208,152 ( 4.23%)  ml-dsa/src/ntt.rs:ml_dsa::ntt::ntt [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+  202,899 ( 4.12%)  ???:0x0000000000171fc0 [/usr/lib/libc.so.6]
+  159,172 ( 3.23%)  ml-dsa/src/encoding.rs:ml_dsa::encoding::bytes_to_bits [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+  153,600 ( 3.12%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/int_macros.rs:ml_dsa::ntt_arith::matrix_vector_ntt
+  129,280 ( 2.63%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs:ml_dsa::encoding::bit_unpack
+  108,639 ( 2.21%)  ???:calloc [/usr/lib/libc.so.6]
+   82,096 ( 1.67%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:ml_dsa::encoding::bytes_to_bits
+   78,336 ( 1.59%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs:ml_dsa::encoding::simple_bit_unpack
+   74,240 ( 1.51%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/range.rs:ml_dsa::encoding::bit_unpack
+   69,283 ( 1.41%)  ???:0x00000000001729c0 [/usr/lib/libc.so.6]
+   61,990 ( 1.26%)  ml-dsa/src/sample.rs:ml_dsa::expand::expand_a
+   61,595 ( 1.25%)  ml-dsa/src/ntt_arith.rs:ml_dsa::ntt_arith::matrix_vector_ntt [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+   61,560 ( 1.25%)  ml-dsa/src/encoding.rs:ml_dsa::encoding::bit_unpack [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+   53,823 ( 1.09%)  ml-dsa/src/encoding.rs:ml_dsa::expand::expand_a
+   51,623 ( 1.05%)  ???:free [/usr/lib/libc.so.6]
+   49,920 ( 1.01%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:ml_dsa::encoding::bit_unpack
+   46,134 ( 0.94%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/xof_reader.rs:ml_dsa::expand::expand_a
+   43,116 ( 0.88%)  ml-dsa/src/encoding.rs:ml_dsa::encoding::bits_to_bytes [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+   43,008 ( 0.87%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/range.rs:ml_dsa::encoding::simple_bit_unpack
+   40,008 ( 0.81%)  ml-dsa/src/encoding.rs:ml_dsa::encoding::simple_bit_unpack [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+   33,696 ( 0.68%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs:keccak::keccak_p
+   29,184 ( 0.59%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:ml_dsa::encoding::simple_bit_unpack
+   28,800 ( 0.59%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/int_macros.rs:ml_dsa::vecops::use_hint_vec
+   27,648 ( 0.56%)  ml-dsa/src/field.rs:ml_dsa::ntt::inv_ntt
+   26,268 ( 0.53%)  ml-dsa/src/encoding.rs:ml_dsa::encoding::simple_bit_pack [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+   24,576 ( 0.50%)  ml-dsa/src/field.rs:ml_dsa::ntt::ntt
+   23,967 ( 0.49%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:block_buffer::BlockBuffer<BlockSize,block_buffer::Eager>::set_data
+   20,215 ( 0.41%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/alloc/unix.rs:__rustc::__rdl_alloc_zeroed
+   15,414 ( 0.31%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs:ml_dsa::encoding::simple_bit_pack
+   15,360 ( 0.31%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/int_macros.rs:ml_dsa::ntt_arith::scalar_vector_ntt
+   15,360 ( 0.31%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/int_macros.rs:ml_dsa::vecops::sub_vec
+   15,360 ( 0.31%)  ml-dsa/src/field.rs:ml_dsa::ntt_arith::matrix_vector_ntt
+   13,830 ( 0.28%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs:ml_dsa::ntt_arith::matrix_vector_ntt
+   13,056 ( 0.27%)  ml-dsa/src/rounding.rs:ml_dsa::vecops::use_hint_vec
+   12,294 ( 0.25%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:ml_dsa::encoding::simple_bit_pack
+   12,288 ( 0.25%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:ml_dsa::encoding::bits_to_bytes
+   10,788 ( 0.22%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs:ml_dsa::encoding::simple_bit_pack
+   10,268 ( 0.21%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs:ml_dsa::encoding::bytes_to_bits
+    9,600 ( 0.20%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/int_macros.rs:ml_dsa::vecops::inf_norm
+    9,330 ( 0.19%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/alloc.rs:__rustc::__rdl_alloc_zeroed [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+    9,216 ( 0.19%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:ml_dsa::encoding::simple_bit_unpack
+    7,723 ( 0.16%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:ml_dsa::ntt_arith::matrix_vector_ntt
+    7,680 ( 0.16%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:ml_dsa::encoding::bit_unpack
+    7,539 ( 0.15%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs:block_buffer::BlockBuffer<BlockSize,block_buffer::Eager>::set_data
+    6,228 ( 0.13%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/mod.rs:ml_dsa::encoding::simple_bit_pack
+    6,196 ( 0.13%)  ml-dsa/src/ntt_arith.rs:ml_dsa::ntt_arith::scalar_vector_ntt [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+    6,162 ( 0.13%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:ml_dsa::encoding::bits_to_bytes
+    6,160 ( 0.13%)  ml-dsa/src/vecops.rs:ml_dsa::vecops::sub_vec [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+    6,156 ( 0.13%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs:ml_dsa::encoding::bits_to_bytes
+    6,150 ( 0.12%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs:ml_dsa::encoding::bits_to_bytes
+    5,200 ( 0.11%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs:keccak::keccak_p
+    5,152 ( 0.10%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs:ml_dsa::encoding::bytes_to_bits
+    4,626 ( 0.09%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs:ml_dsa::encoding::simple_bit_pack
+    4,608 ( 0.09%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs:ml_dsa::encoding::simple_bit_pack
+    3,744 ( 0.08%)  /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/keccak-0.1.6/src/lib.rs:keccak::keccak_p [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+    3,210 ( 0.07%)  ml-dsa/src/vecops.rs:ml_dsa::vecops::inf_norm [/home/rick/unl/king's/thesis/ml-dsa/target/release/examples/profile]
+    3,072 ( 0.06%)  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs:ml_dsa::ntt::inv_ntt
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: ml-dsa/src/encoding.rs
+--------------------------------------------------------------------------------
+Ir              
+
+-- line 8 ----------------------------------------
+     .           //! Indexed loops mirror "for i from 0 to 255" / "for i from 0 to α−1".
+     .           #![allow(clippy::needless_range_loop)]
+     .           
+     .           use crate::params::{ParameterSet, N, Q};
+     .           use crate::poly::Poly;
+     .           
+     .           /// `bitlen b` — number of bits in the binary representation of `b` (`bitlen 0 = 0`).
+     .           pub const fn bitlen(b: u32) -> u32 {
+    17 ( 0.00%)      32 - b.leading_zeros()
+     .           }
+     .           
+     .           /// FIPS 204, Algorithm 9 — IntegerToBits: `x mod 2^α` as `α` bits, little-endian.
+     .           pub fn integer_to_bits(x: u64, alpha: usize) -> Vec<u8> {
+     .               let mut y = vec![0u8; alpha];
+     .               let mut xp = x;
+     .               for i in 0..alpha {
+23,040 ( 0.47%)          y[i] = (xp & 1) as u8;
+ 1,536 ( 0.03%)          xp >>= 1;
+     .               }
+     .               y
+     .           }
+     .           
+     .           /// FIPS 204, Algorithm 10 — BitsToInteger: integer value of an `α`-bit little-endian string.
+     .           pub fn bits_to_integer(y: &[u8], alpha: usize) -> u64 {
+     .               let mut x = 0u64;
+     .               for i in 1..=alpha {
+81,920 ( 1.66%)          x = 2 * x + y[alpha - i] as u64;
+     .               }
+     .               x
+     .           }
+     .           
+     .           /// FIPS 204, Algorithm 11 — IntegerToBytes: `x mod 256^α` as `α` bytes, little-endian.
+     .           pub fn integer_to_bytes(x: u64, alpha: usize) -> Vec<u8> {
+     .               let mut y = vec![0u8; alpha];
+     .               let mut xp = x;
+-- line 42 ----------------------------------------
+-- line 43 ----------------------------------------
+     .               for i in 0..alpha {
+     .                   y[i] = (xp & 0xff) as u8;
+     .                   xp >>= 8;
+     .               }
+     .               y
+     .           }
+     .           
+     .           /// FIPS 204, Algorithm 12 — BitsToBytes: pack a bit string into bytes, LSB-first.
+    48 ( 0.00%)  pub fn bits_to_bytes(y: &[u8]) -> Vec<u8> {
+     .               let alpha = y.len();
+     .               let mut z = vec![0u8; alpha.div_ceil(8)];
+     .               for i in 0..alpha {
+36,864 ( 0.75%)          z[i / 8] += y[i] << (i % 8);
+     .               }
+    18 ( 0.00%)      z
+    42 ( 0.00%)  }
+     .           
+     .           /// FIPS 204, Algorithm 13 — BytesToBits: unpack bytes into a bit string, LSB-first.
+    60 ( 0.00%)  pub fn bytes_to_bits(z: &[u8]) -> Vec<u8> {
+     .               let alpha = z.len();
+    12 ( 0.00%)      let mut y = vec![0u8; 8 * alpha];
+     .               for i in 0..alpha {
+ 5,128 ( 0.10%)          let mut zi = z[i];
+     .                   for j in 0..8 {
+82,048 ( 1.67%)              y[8 * i + j] = zi & 1;
+66,664 ( 1.35%)              zi >>= 1;
+     .                   }
+     .               }
+    36 ( 0.00%)      y
+    84 ( 0.00%)  }
+     .           
+     .           /// FIPS 204, Algorithm 14 — CoeffFromThreeBytes: 3 bytes → an element of `{0,…,q−1}` or `⊥`.
+     .           pub fn coeff_from_three_bytes(b0: u8, b1: u8, b2: u8) -> Option<i32> {
+ 7,689 ( 0.16%)      let b2p = (b2 & 0x7f) as i32; // clear the top bit of b2
+30,756 ( 0.62%)      let z = (b2p << 16) + ((b1 as i32) << 8) + b0 as i32; // 0 ≤ z ≤ 2^23 − 1
+15,378 ( 0.31%)      if z < Q {
+     .                   Some(z)
+     .               } else {
+     .                   None // ⊥ (rejection)
+     .               }
+     .           }
+     .           
+     .           /// FIPS 204, Algorithm 15 — CoeffFromHalfByte: nibble → an element of `{−η,…,η}` or `⊥`.
+     .           /// The two branches are the spec's lines 1–2 (`η = 2`, with the `mod 5` fold) and
+-- line 86 ----------------------------------------
+-- line 91 ----------------------------------------
+     .               } else if P::ETA == 4 && b < 9 {
+     .                   Some(4 - b as i32)
+     .               } else {
+     .                   None // ⊥ (rejection)
+     .               }
+     .           }
+     .           
+     .           /// FIPS 204, Algorithm 16 — SimpleBitPack: pack `w` (coeffs in `[0, b]`) into bytes.
+    54 ( 0.00%)  pub fn simple_bit_pack(w: &Poly, b: u32) -> Vec<u8> {
+     .               let c = bitlen(b) as usize;
+    12 ( 0.00%)      let mut bits = Vec::with_capacity(N * c);
+     .               for i in 0..N {
+ 1,536 ( 0.03%)          bits.extend_from_slice(&integer_to_bits(w.coeffs[i] as u64, c));
+     .               }
+    30 ( 0.00%)      bits_to_bytes(&bits)
+74,460 ( 1.51%)  => ml-dsa/src/encoding.rs:ml_dsa::encoding::bits_to_bytes (18x)
+    54 ( 0.00%)  }
+     .           
+     .           /// FIPS 204, Algorithm 17 — BitPack: pack `w` (coeffs in `[−a, b]`) into bytes.
+     .           pub fn bit_pack(w: &Poly, a: u32, b: u32) -> Vec<u8> {
+     .               let c = bitlen(a + b) as usize;
+     .               let mut bits = Vec::with_capacity(N * c);
+     .               for i in 0..N {
+     .                   let v = b as i64 - w.coeffs[i] as i64; // b − w_i ∈ [0, a + b]
+     .                   bits.extend_from_slice(&integer_to_bits(v as u64, c));
+     .               }
+     .               bits_to_bytes(&bits)
+     .           }
+     .           
+     .           /// FIPS 204, Algorithm 18 — SimpleBitUnpack: reverse SimpleBitPack.
+    54 ( 0.00%)  pub fn simple_bit_unpack(v: &[u8], b: u32) -> Poly {
+     .               let c = bitlen(b) as usize;
+     6 ( 0.00%)      let z = bytes_to_bits(v);
+112,944 ( 2.29%)  => ml-dsa/src/encoding.rs:ml_dsa::encoding::bytes_to_bits (6x)
+     .               let mut w = Poly::zero();
+     .               for i in 0..N {
+ 6,144 ( 0.12%)          w.coeffs[i] = bits_to_integer(&z[i * c..i * c + c], c) as i32;
+     .               }
+     .               w
+     .           }
+     .           
+     .           /// FIPS 204, Algorithm 19 — BitUnpack: reverse BitPack.
+    50 ( 0.00%)  pub fn bit_unpack(v: &[u8], a: u32, b: u32) -> Poly {
+     5 ( 0.00%)      let c = bitlen(a + b) as usize;
+     5 ( 0.00%)      let z = bytes_to_bits(v);
+186,900 ( 3.80%)  => ml-dsa/src/encoding.rs:ml_dsa::encoding::bytes_to_bits (27x)
+     .               let mut w = Poly::zero();
+     .               for i in 0..N {
+ 7,680 ( 0.16%)          w.coeffs[i] = b as i32 - bits_to_integer(&z[i * c..i * c + c], c) as i32;
+     .               }
+     .               w
+    45 ( 0.00%)  }
+     .           
+     .           #[cfg(test)]
+     .           mod tests {
+     .               use super::*;
+     .           
+     .               struct XorShift(u64);
+     .               impl XorShift {
+     .                   fn next_u32(&mut self) -> u32 {
+-- line 147 ----------------------------------------
+
+16,932 ( 0.34%)  <counts for unidentified lines in ml-dsa/src/encoding.rs>
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: ml-dsa/src/ntt.rs
+--------------------------------------------------------------------------------
+Ir              
+
+-- line 69 ----------------------------------------
+     .               z
+     .           };
+     .           
+     .           /// `256^{-1} · R mod q`: one Montgomery reduction by this both applies the final
+     .           /// `256^{-1}` scaling of NTT^{-1} (Algorithm 42, line 21) and cancels the `R^{-1}`.
+     .           const F_256_INV_MONT: i64 = ((F_256_INV as i128 * (1i128 << 32)) % Q as i128) as i64;
+     .           
+     .           /// FIPS 204, Algorithm 41 — NTT: maps `w ∈ R_q` to `ŵ ∈ T_q`.
+   108 ( 0.00%)  pub fn ntt(w: &Poly) -> PolyNTT {
+    24 ( 0.00%)      let mut a = w.coeffs;
+ 1,500 ( 0.03%)  => ???:0x0000000000171fc0 (34x)
+     .               for c in a.iter_mut() {
+ 1,536 ( 0.03%)          *c = c.rem_euclid(Q); // line 2: copy w_j into [0, q)
+     .               }
+     .               let mut m = 0usize;
+     .               let mut len = 128usize;
+    96 ( 0.00%)      while len >= 1 {
+     .                   let mut start = 0usize;
+ 6,408 ( 0.13%)          while start < N {
+ 3,060 ( 0.06%)              m += 1;
+18,360 ( 0.37%)              let z = ZETAS[m] as i64; // line 10: z ← zetas[m]
+     .                       let mut j = start;
+24,576 ( 0.50%)              while j < start + len {
+61,440 ( 1.25%)                  let t = reduce_q(z * a[j + len] as i64); // line 12
+49,152 ( 1.00%)                  a[j + len] = reduce_q(a[j] as i64 - t as i64); // line 13
+24,576 ( 0.50%)                  a[j] = reduce_q(a[j] as i64 + t as i64); // line 14
+12,288 ( 0.25%)                  j += 1;
+     .                       }
+ 3,060 ( 0.06%)              start += 2 * len;
+     .                   }
+    96 ( 0.00%)          len /= 2;
+     .               }
+    48 ( 0.00%)      PolyNTT { coeffs: a }
+ 1,500 ( 0.03%)  => ???:0x0000000000171fc0 (34x)
+   108 ( 0.00%)  }
+     .           
+     .           /// FIPS 204, Algorithm 42 — NTT^{-1}: maps `ŵ ∈ T_q` back to `w ∈ R_q`.
+   108 ( 0.00%)  pub fn inv_ntt(w_hat: &PolyNTT) -> Poly {
+    24 ( 0.00%)      let mut a = w_hat.coeffs;
+ 1,500 ( 0.03%)  => ???:0x0000000000171fc0 (41x)
+     .               for c in a.iter_mut() {
+ 1,536 ( 0.03%)          *c = c.rem_euclid(Q);
+     .               }
+     .               let mut m = 256usize;
+     .               let mut len = 1usize;
+   288 ( 0.01%)      while len < N {
+     .                   let mut start = 0usize;
+ 6,408 ( 0.13%)          while start < N {
+ 3,060 ( 0.06%)              m -= 1;
+12,240 ( 0.25%)              let z = reduce_q(-(ZETAS[m] as i64)) as i64; // line 10: z ← -zetas[m] mod q
+     .                       let mut j = start;
+24,576 ( 0.50%)              while j < start + len {
+36,864 ( 0.75%)                  let t = a[j]; // line 12
+73,728 ( 1.50%)                  a[j] = reduce_q(t as i64 + a[j + len] as i64); // line 13
+12,288 ( 0.25%)                  a[j + len] = reduce_q(t as i64 - a[j + len] as i64); // line 14
+24,576 ( 0.50%)                  a[j + len] = reduce_q(z * a[j + len] as i64); // line 15
+12,288 ( 0.25%)                  j += 1;
+     .                       }
+ 3,060 ( 0.06%)              start += 2 * len;
+     .                   }
+     .                   len *= 2;
+     .               }
+     .               for c in a.iter_mut() {
+ 9,216 ( 0.19%)          *c = reduce_q(F_256_INV * (*c as i64)); // lines 21-24: multiply by 256^-1
+     .               }
+    48 ( 0.00%)      Poly { coeffs: a }
+ 1,500 ( 0.03%)  => ???:0x0000000000171fc0 (41x)
+   108 ( 0.00%)  }
+     .           
+     .           // --- Improved path: Montgomery + deferred ("lazy") reduction ---
+     .           //
+     .           // Identical loop structure to the baseline above, but each butterfly costs one
+     .           // Montgomery multiply instead of three `rem_euclid` divisions; coefficients are
+     .           // left unreduced between layers and canonicalized once at the end, so the output
+     .           // arrays are **value-equal** to the baseline's (pinned by the equivalence tests).
+     .           
+-- line 140 ----------------------------------------
+
+ 3,384 ( 0.07%)  <counts for unidentified lines in ml-dsa/src/ntt.rs>
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: ml-dsa/src/ntt_arith.rs
+--------------------------------------------------------------------------------
+Ir              
+
+-- line 8 ----------------------------------------
+     .           use crate::field::reduce_q;
+     .           use crate::params::N;
+     .           use crate::poly::{PolyMatNTT, PolyNTT, PolyVecNTT};
+     .           
+     .           /// FIPS 204, Algorithm 44 — AddNTT: componentwise sum in `T_q`.
+     .           pub fn add_ntt(a: &PolyNTT, b: &PolyNTT) -> PolyNTT {
+     .               let mut c = PolyNTT::zero();
+     .               for i in 0..N {
+30,720 ( 0.62%)          c.coeffs[i] = reduce_q(a.coeffs[i] as i64 + b.coeffs[i] as i64);
+     .               }
+     .               c
+     .           }
+     .           
+     .           /// FIPS 204, Algorithm 45 — MultiplyNTT: componentwise (pointwise) product in `T_q`.
+     .           pub fn multiply_ntt(a: &PolyNTT, b: &PolyNTT) -> PolyNTT {
+     .               let mut c = PolyNTT::zero();
+     .               for i in 0..N {
+36,864 ( 0.75%)          c.coeffs[i] = reduce_q(a.coeffs[i] as i64 * b.coeffs[i] as i64);
+     .               }
+     .               c
+     .           }
+     .           
+     .           /// FIPS 204, Algorithm 46 — AddVectorNTT: sum of two length-`L` vectors over `T_q`.
+     .           pub fn add_vector_ntt<const L: usize>(v: &PolyVecNTT<L>, w: &PolyVecNTT<L>) -> PolyVecNTT<L> {
+     .               let mut u = PolyVecNTT::<L>::zero();
+     .               for i in 0..L {
+     .                   u.v[i] = add_ntt(&v.v[i], &w.v[i]);
+     .               }
+     .               u
+     .           }
+     .           
+     .           /// FIPS 204, Algorithm 47 — ScalarVectorNTT: scalar `c` times a length-`L` vector.
+    10 ( 0.00%)  pub fn scalar_vector_ntt<const L: usize>(c: &PolyNTT, v: &PolyVecNTT<L>) -> PolyVecNTT<L> {
+     .               let mut w = PolyVecNTT::<L>::zero();
+     .               for i in 0..L {
+    28 ( 0.00%)          w.v[i] = multiply_ntt(c, &v.v[i]);
+   750 ( 0.02%)  => ???:0x0000000000171fc0 (18x)
+     .               }
+     .               w
+     9 ( 0.00%)  }
+     .           
+     .           /// FIPS 204, Algorithm 48 — MatrixVectorNTT: `K x L` matrix times length-`L` vector.
+    21 ( 0.00%)  pub fn matrix_vector_ntt<const K: usize, const L: usize>(
+ 6,163 ( 0.13%)  => ???:0x00000000001729c0 (3x)
+     .               m: &PolyMatNTT<K, L>,
+     .               v: &PolyVecNTT<L>,
+     .           ) -> PolyVecNTT<K> {
+     .               let mut w = PolyVecNTT::<K>::zero();
+     .               for i in 0..K {
+     .                   for j in 0..L {
+   120 ( 0.00%)              w.v[i] = add_ntt(&w.v[i], &multiply_ntt(&m.rows[i].v[j], &v.v[j]));
+ 3,740 ( 0.08%)  => ???:0x0000000000171fc0 (90x)
+     .                   }
+     .               }
+     4 ( 0.00%)      w
+   605 ( 0.01%)  => ???:0x0000000000171fc0 (3x)
+     9 ( 0.00%)  }
+     .           
+     .           // --- Improved path: division-free counterparts (value-equal to the above) ---
+     .           
+     .           /// [`add_ntt`] without division: both inputs are canonical `[0, q)`, so one
+     .           /// branchless conditional subtract reduces the sum.
+     .           pub fn add_ntt_fast(a: &PolyNTT, b: &PolyNTT) -> PolyNTT {
+     .               use crate::ct::csubq;
+     .               let mut c = PolyNTT::zero();
+-- line 68 ----------------------------------------
+
+     6 ( 0.00%)  <counts for unidentified lines in ml-dsa/src/ntt_arith.rs>
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/xof_reader.rs
+--------------------------------------------------------------------------------
+Ir              
+
+-- line 33 ----------------------------------------
+     .           impl<T> XofReader for XofReaderCoreWrapper<T>
+     .           where
+     .               T: XofReaderCore,
+     .               T::BlockSize: IsLess<U256>,
+     .               Le<T::BlockSize, U256>: NonZero,
+     .           {
+     .               #[inline]
+     .               fn read(&mut self, buffer: &mut [u8]) {
+ 7,744 ( 0.16%)          let Self { core, buffer: buf } = self;
+38,445 ( 0.78%)          buf.set_data(buffer, |blocks| {
+1,345,527 (27.33%)  => /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs:block_buffer::BlockBuffer<BlockSize,block_buffer::Eager>::set_data (23,067x)
+     .                       for block in blocks {
+     .                           *block = core.read_block();
+     .                       }
+     .                   });
+     .               }
+     .           }
+     .           
+     .           #[cfg(feature = "std")]
+-- line 50 ----------------------------------------
+
+    52 ( 0.00%)  <counts for unidentified lines in /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/digest-0.10.7/src/core_api/xof_reader.rs>
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: ml-dsa/src/field.rs
+--------------------------------------------------------------------------------
+Ir              
+
+-- line 12 ----------------------------------------
+     .           //! tests below pin `to_canonical` to `rem_euclid` over the full `i32` range.
+     .           
+     .           use crate::ct::caddq;
+     .           use crate::params::Q;
+     .           
+     .           /// Reduce a wide value into the canonical range `[0, q)`.
+     .           #[inline]
+     .           pub fn reduce_q(x: i64) -> i32 {
+70,656 ( 1.44%)      x.rem_euclid(Q as i64) as i32
+     .           }
+     .           
+     .           // --- Improved-path reducers (division-free) ---
+     .           
+     .           /// `q^{-1} mod 2^32` (so `Q.wrapping_mul(QINV) == 1` on `u32`).
+     .           const QINV: u32 = 58_728_449;
+     .           
+     .           /// `R^2 mod q` where `R = 2^32` — converts one Montgomery reduction's `R^{-1}` away.
+-- line 28 ----------------------------------------
+-- line 56 ----------------------------------------
+     .               caddq(reduce32(a))
+     .           }
+     .           
+     .           /// Centred modulo `mod± alpha`: the representative of `r` in `(-alpha/2, alpha/2]`.
+     .           /// `alpha` is assumed positive and even (it is `2^d` or `2*gamma2` in this crate).
+     .           #[inline]
+     .           pub fn mod_pm(r: i32, alpha: i32) -> i32 {
+     .               let mut x = r.rem_euclid(alpha);
+ 3,136 ( 0.06%)      if x > alpha / 2 {
+     .                   x -= alpha;
+     .               }
+     .               x
+     .           }
+     .           
+     .           #[cfg(test)]
+     .           mod tests {
+     .               use super::*;
+-- line 72 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/keccak-0.1.6/src/lib.rs
+--------------------------------------------------------------------------------
+Ir             
+
+-- line 158 ----------------------------------------
+    .               Self::from_le_bytes(tmp[..size_of::<Self>()].try_into().unwrap())
+    .           });
+    .           impl_lanesize!(u64, 24, |rc: u64| { rc });
+    .           
+    .           macro_rules! impl_keccak {
+    .               ($pname:ident, $fname:ident, $type:ty) => {
+    .                   /// Keccak-p sponge function
+    .                   pub fn $pname(state: &mut [$type; PLEN], round_count: usize) {
+  208 ( 0.00%)              keccak_p(state, round_count);
+1,280,656 (26.02%)  => /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/keccak-0.1.6/src/lib.rs:keccak::keccak_p (663x)
+    .                   }
+    .           
+    .                   /// Keccak-f sponge function
+    .                   pub fn $fname(state: &mut [$type; PLEN]) {
+    .                       keccak_p(state, <$type>::KECCAK_F_ROUND_COUNT);
+    .                   }
+    .               };
+    .           }
+-- line 174 ----------------------------------------
+-- line 228 ----------------------------------------
+    .           
+    .               impl_keccak!(p1600x2, f1600x2, u64x2);
+    .               impl_keccak!(p1600x4, f1600x4, u64x4);
+    .               impl_keccak!(p1600x8, f1600x8, u64x8);
+    .           }
+    .           
+    .           #[allow(unused_assignments)]
+    .           /// Generic Keccak-p sponge function
+1,456 ( 0.03%)  pub fn keccak_p<L: LaneSize>(state: &mut [L; PLEN], round_count: usize) {
+  416 ( 0.01%)      if round_count > L::KECCAK_F_ROUND_COUNT {
+    .                   panic!("A round_count greater than KECCAK_F_ROUND_COUNT is not supported!");
+    .               }
+    .           
+    .               // https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf#page=25
+    .               // "the rounds of KECCAK-p[b, nr] match the last rounds of KECCAK-f[b]"
+    .               let round_consts = &RC[(L::KECCAK_F_ROUND_COUNT - round_count)..L::KECCAK_F_ROUND_COUNT];
+    .           
+    .               // not unrolling this loop results in a much smaller function, plus
+-- line 245 ----------------------------------------
+-- line 283 ----------------------------------------
+    .                           let t2 = array[(x + 2) % 5];
+    .                           state[y + x] = array[x] ^ (t1 & t2);
+    .                       });
+    .                   });
+    .           
+    .                   // Iota
+    .                   state[0] ^= L::truncate_rc(rc);
+    .               }
+1,664 ( 0.03%)  }
+    .           
+    .           #[cfg(test)]
+    .           mod tests {
+    .               use crate::{keccak_p, LaneSize, PLEN};
+    .           
+    .               fn keccak_f<L: LaneSize>(state_first: [L; PLEN], state_second: [L; PLEN]) {
+    .                   let mut state = [L::default(); PLEN];
+    .           
+-- line 299 ----------------------------------------
+
+  208 ( 0.00%)  <counts for unidentified lines in /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/keccak-0.1.6/src/lib.rs>
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: ml-dsa/src/sample.rs
+--------------------------------------------------------------------------------
+Ir              
+
+-- line 8 ----------------------------------------
+     .           
+     .           use crate::encoding::{bytes_to_bits, coeff_from_half_byte, coeff_from_three_bytes};
+     .           use crate::hash::{G, H};
+     .           use crate::params::{ParameterSet, N};
+     .           use crate::poly::{Poly, PolyNTT};
+     .           
+     .           /// FIPS 204, Algorithm 29 — SampleInBall: `c ∈ R`, `τ` nonzero coeffs in `{−1, 1}`.
+     .           /// `rho` is the commitment hash `c~` (`λ/4` bytes).
+    10 ( 0.00%)  pub fn sample_in_ball<P: ParameterSet>(rho: &[u8]) -> Poly {
+     .               let tau = P::TAU;
+     .               let mut c = Poly::zero();
+     .               let mut reader = {
+     .                   let mut h = H::init();
+     5 ( 0.00%)          h.absorb(rho);
+    44 ( 0.00%)  => /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/hash.rs:ml_dsa::hash::H::absorb (2x)
+     8 ( 0.00%)          h.finalize()
+ 6,412 ( 0.13%)  => /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/hash.rs:ml_dsa::hash::H::finalize (2x)
+    65 ( 0.00%)  => ???:0x0000000000171fc0 (2x)
+     .               };
+     2 ( 0.00%)      let mut s = [0u8; 8];
+     5 ( 0.00%)      reader.squeeze(&mut s); // line 4
+ 6,289 ( 0.13%)  => /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/hash.rs:ml_dsa::hash::HReader::squeeze (2x)
+     3 ( 0.00%)      let hbits = bytes_to_bits(&s); // line 5: 64-bit sign string
+   511 ( 0.01%)  => /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/encoding.rs:ml_dsa::encoding::bytes_to_bits (2x)
+     1 ( 0.00%)      let mut byte = [0u8; 1];
+     .               for i in (N - tau)..N {
+   196 ( 0.00%)          reader.squeeze(&mut byte); // line 7
+ 2,499 ( 0.05%)  => /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/hash.rs:ml_dsa::hash::HReader::squeeze (98x)
+     .                   let mut j = byte[0] as usize;
+   102 ( 0.00%)          while j > i {
+     .                       // line 8: rejection sampling of a position in {0,…,i}
+     .                       reader.squeeze(&mut byte);
+     .                       j = byte[0] as usize;
+     .                   }
+    98 ( 0.00%)          c.coeffs[i] = c.coeffs[j]; // line 11
+   294 ( 0.01%)          c.coeffs[j] = if hbits[i + tau - N] == 1 { -1 } else { 1 }; // line 12: (-1)^h
+     .               }
+     .               c
+     9 ( 0.00%)  }
+     .           
+     .           /// FIPS 204, Algorithm 30 — RejNTTPoly: `â ∈ T_q` from a public 34-byte seed.
+     .           pub fn rej_ntt_poly(rho: &[u8; 34]) -> PolyNTT {
+     .               let mut a = PolyNTT::zero();
+     .               let mut reader = {
+     .                   let mut g = G::init();
+   120 ( 0.00%)          g.absorb(rho);
+ 1,320 ( 0.03%)  => /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/hash.rs:ml_dsa::hash::G::absorb (90x)
+   210 ( 0.00%)          g.finalize()
+192,840 ( 3.92%)  => /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/hash.rs:ml_dsa::hash::G::finalize (90x)
+ 1,950 ( 0.04%)  => ???:0x0000000000171fc0 (90x)
+     .               };
+     .               let mut j = 0usize;
+   126 ( 0.00%)      let mut s = [0u8; 3];
+15,378 ( 0.31%)      while j < N {
+     .                   reader.squeeze(&mut s);
+23,058 ( 0.47%)          if let Some(coeff) = coeff_from_three_bytes(s[0], s[1], s[2]) {
+ 7,680 ( 0.16%)              a.coeffs[j] = coeff;
+ 7,680 ( 0.16%)              j += 1;
+     .                   }
+     .               }
+     .               a
+     .           }
+     .           
+     .           /// FIPS 204, Algorithm 31 — RejBoundedPoly: `a ∈ R`, coeffs in `[−η, η]`, 66-byte seed.
+     .           pub fn rej_bounded_poly<P: ParameterSet>(rho: &[u8; 66]) -> Poly {
+     .               let mut a = Poly::zero();
+-- line 64 ----------------------------------------
+
+ 7,842 ( 0.16%)  <counts for unidentified lines in ml-dsa/src/sample.rs>
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs
+--------------------------------------------------------------------------------
+Ir              
+
+-- line 68 ----------------------------------------
+     .               BlockSize: ArrayLength<u8> + IsLess<U256>,
+     .               Le<BlockSize, U256>: NonZero,
+     .               Kind: BufferKind,
+     .           {
+     .               fn default() -> Self {
+     .                   if BlockSize::USIZE == 0 {
+     .                       panic!("Block size can not be equal to zero");
+     .                   }
+   766 ( 0.02%)          Self {
+     .                       buffer: Default::default(),
+     .                       pos: 0,
+     .                       _pd: PhantomData,
+     .                   }
+     .               }
+     .           }
+     .           
+     .           impl<BlockSize, Kind> Clone for BlockBuffer<BlockSize, Kind>
+-- line 84 ----------------------------------------
+-- line 138 ----------------------------------------
+     .               pub fn digest_blocks(
+     .                   &mut self,
+     .                   mut input: &[u8],
+     .                   mut compress: impl FnMut(&[Block<BlockSize>]),
+     .               ) {
+     .                   let pos = self.get_pos();
+     .                   // using `self.remaining()` for some reason
+     .                   // prevents panic elimination
+    36 ( 0.00%)          let rem = self.size() - pos;
+     .                   let n = input.len();
+     .                   // Note that checking condition `pos + n < BlockSize` is
+     .                   // equivalent to checking `n < rem`, where `rem` is equal
+     .                   // to `BlockSize - pos`. Using the latter allows us to work
+     .                   // around compiler accounting for possible overflow of
+     .                   // `pos + n` which results in it inserting unreachable
+     .                   // panic branches. Using `unreachable_unchecked` in `get_pos`
+     .                   // we convince compiler that `BlockSize - pos` never underflows.
+    36 ( 0.00%)          if Kind::invariant(n, rem) {
+     .                       // double slicing allows to remove panic branches
+     .                       self.buffer[pos..][..n].copy_from_slice(input);
+    34 ( 0.00%)              self.set_pos_unchecked(pos + n);
+     .                       return;
+     .                   }
+     4 ( 0.00%)          if pos != 0 {
+     .                       let (left, right) = input.split_at(rem);
+     .                       input = right;
+     .                       self.buffer[pos..].copy_from_slice(left);
+     .                       compress(slice::from_ref(&self.buffer));
+     .                   }
+     .           
+     .                   let (blocks, leftover) = Kind::split_blocks(input);
+     4 ( 0.00%)          if !blocks.is_empty() {
+     .                       compress(blocks);
+     .                   }
+     .           
+     .                   let n = leftover.len();
+     .                   self.buffer[..n].copy_from_slice(leftover);
+     .                   self.set_pos_unchecked(n);
+     .               }
+     .           
+-- line 177 ----------------------------------------
+-- line 180 ----------------------------------------
+     .               pub fn reset(&mut self) {
+     .                   self.set_pos_unchecked(0);
+     .               }
+     .           
+     .               /// Pad remaining data with zeros and return resulting block.
+     .               #[inline(always)]
+     .               pub fn pad_with_zeros(&mut self) -> &mut Block<BlockSize> {
+     .                   let pos = self.get_pos();
+    68 ( 0.00%)          self.buffer[pos..].iter_mut().for_each(|b| *b = 0);
+   780 ( 0.02%)  => ???:0x00000000001729c0 (90x)
+     .                   self.set_pos_unchecked(0);
+     .                   &mut self.buffer
+     .               }
+     .           
+     .               /// Return current cursor position.
+     .               #[inline(always)]
+     .               pub fn get_pos(&self) -> usize {
+15,560 ( 0.32%)          let pos = self.pos as usize;
+     .                   if !Kind::invariant(pos, BlockSize::USIZE) {
+     .                       debug_assert!(false);
+     .                       // SAFETY: `pos` never breaks the invariant
+     .                       unsafe {
+     .                           core::hint::unreachable_unchecked();
+     .                       }
+     .                   }
+     .                   pos
+-- line 204 ----------------------------------------
+-- line 231 ----------------------------------------
+     .               #[inline(always)]
+     .               pub fn remaining(&self) -> usize {
+     .                   self.size() - self.get_pos()
+     .               }
+     .           
+     .               #[inline(always)]
+     .               fn set_pos_unchecked(&mut self, pos: usize) {
+     .                   debug_assert!(Kind::invariant(pos, BlockSize::USIZE));
+15,250 ( 0.31%)          self.pos = pos as u8;
+     .               }
+     .           }
+     .           
+     .           impl<BlockSize> BlockBuffer<BlockSize, Eager>
+     .           where
+     .               BlockSize: ArrayLength<u8> + IsLess<U256>,
+     .               Le<BlockSize, U256>: NonZero,
+     .           {
+     .               /// Set `data` to generated blocks.
+     .               #[inline]
+84,579 ( 1.72%)      pub fn set_data(
+     .                   &mut self,
+     .                   mut data: &mut [u8],
+     .                   mut process_blocks: impl FnMut(&mut [Block<BlockSize>]),
+     .               ) {
+     .                   let pos = self.get_pos();
+     .                   let r = self.remaining();
+     .                   let n = data.len();
+ 7,746 ( 0.16%)          if pos != 0 {
+22,768 ( 0.46%)              if n < r {
+     .                           // double slicing allows to remove panic branches
+     .                           data.copy_from_slice(&self.buffer[pos..][..n]);
+     .                           self.set_pos_unchecked(pos + n);
+     .                           return;
+     .                       }
+     .                       let (left, right) = data.split_at_mut(r);
+     .                       data = right;
+     .                       left.copy_from_slice(&self.buffer[pos..]);
+     .                   }
+     .           
+     .                   let (blocks, leftover) = to_blocks_mut(data);
+     .                   process_blocks(blocks);
+     .           
+     .                   let n = leftover.len();
+   817 ( 0.02%)          if n != 0 {
+     .                       let mut block = Default::default();
+     .                       process_blocks(slice::from_mut(&mut block));
+     .                       leftover.copy_from_slice(&block[..n]);
+   617 ( 0.01%)              self.buffer = block;
+ 4,500 ( 0.09%)  => ???:0x0000000000171fc0 (450x)
+     .                   }
+     .                   self.set_pos_unchecked(n);
+61,512 ( 1.25%)      }
+     .           
+     .               /// Compress remaining data after padding it with `delim`, zeros and
+     .               /// the `suffix` bytes. If there is not enough unused space, `compress`
+     .               /// will be called twice.
+     .               ///
+     .               /// # Panics
+     .               /// If suffix length is bigger than block size.
+     .               #[inline(always)]
+-- line 289 ----------------------------------------
+-- line 336 ----------------------------------------
+     .                   self.digest_pad(0x80, &data_len.to_be_bytes(), compress);
+     .               }
+     .           }
+     .           
+     .           /// Split message into mutable slice of parallel blocks, blocks, and leftover bytes.
+     .           #[inline(always)]
+     .           fn to_blocks_mut<N: ArrayLength<u8>>(data: &mut [u8]) -> (&mut [Block<N>], &mut [u8]) {
+     .               let nb = data.len() / N::USIZE;
+ 1,767 ( 0.04%)      let (left, right) = data.split_at_mut(nb * N::USIZE);
+     .               let p = left.as_mut_ptr() as *mut Block<N>;
+     .               // SAFETY: we guarantee that `blocks` does not point outside of `data`, and `p` is valid for
+     .               // mutation
+     .               let blocks = unsafe { slice::from_raw_parts_mut(p, nb) };
+     .               (blocks, right)
+     .           }
+
+31,739 ( 0.64%)  <counts for unidentified lines in /home/rick/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4/src/lib.rs>
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: ml-dsa/src/rounding.rs
+--------------------------------------------------------------------------------
+Ir             
+
+-- line 24 ----------------------------------------
+    .           }
+    .           
+    .           /// FIPS 204, Algorithm 36 — Decompose. Returns `(r1, r0)` with `r ≡ r1·(2·gamma2) + r0`.
+    .           pub fn decompose<P: ParameterSet>(r: i32) -> (i32, i32) {
+    .               let two_gamma2 = 2 * P::GAMMA2;
+    .               let rp = r.rem_euclid(Q); // r mod q
+    .               let mut r0 = mod_pm(rp, two_gamma2); // r+ mod± 2γ2
+    .               let r1;
+  768 ( 0.02%)      if rp - r0 == Q - 1 {
+    .                   // special case: r1 wraps to 0 and r0 absorbs the -1 (lines 3-5)
+    .                   r1 = 0;
+    .                   r0 -= 1;
+    .               } else {
+6,528 ( 0.13%)          r1 = (rp - r0) / two_gamma2;
+    .               }
+    .               (r1, r0)
+    .           }
+    .           
+    .           /// FIPS 204, Algorithm 37 — HighBits: the `r1` part of `Decompose(r)`.
+    .           pub fn high_bits<P: ParameterSet>(r: i32) -> i32 {
+    .               decompose::<P>(r).0
+    .           }
+-- line 45 ----------------------------------------
+-- line 53 ----------------------------------------
+    .           pub fn make_hint<P: ParameterSet>(z: i32, r: i32) -> bool {
+    .               high_bits::<P>(r) != high_bits::<P>(r + z)
+    .           }
+    .           
+    .           /// FIPS 204, Algorithm 40 — UseHint: high bits of `r`, adjusted by hint `h`.
+    .           pub fn use_hint<P: ParameterSet>(h: bool, r: i32) -> i32 {
+    .               let m = (Q - 1) / (2 * P::GAMMA2); // 16 for ML-DSA-65/87, 44 for ML-DSA-44
+    .               let (r1, r0) = decompose::<P>(r);
+  384 ( 0.01%)      if h && r0 > 0 {
+  768 ( 0.02%)          (r1 + 1).rem_euclid(m)
+    .               } else if h && r0 <= 0 {
+    .                   (r1 - 1).rem_euclid(m)
+    .               } else {
+    .                   r1
+    .               }
+    .           }
+    .           
+    .           // --- Improved path: branchless (constant-time) variants ---
+-- line 70 ----------------------------------------
+-- line 158 ----------------------------------------
+    .               }
+    .               h
+    .           }
+    .           
+    .           /// UseHint applied componentwise; `h` coefficients are interpreted as `0`/`1`.
+    .           pub fn use_hint_poly<P: ParameterSet>(h: &Poly, r: &Poly) -> Poly {
+    .               let mut out = Poly::zero();
+    .               for i in 0..N {
+1,536 ( 0.03%)          out.coeffs[i] = use_hint::<P>(h.coeffs[i] != 0, r.coeffs[i]);
+    .               }
+    .               out
+    .           }
+    .           
+    .           /// Branchless [`high_bits_poly`].
+    .           pub fn high_bits_poly_ct<P: ParameterSet>(r: &Poly) -> Poly {
+    .               let mut out = Poly::zero();
+    .               for i in 0..N {
+-- line 174 ----------------------------------------
+
+3,072 ( 0.06%)  <counts for unidentified lines in ml-dsa/src/rounding.rs>
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: ml-dsa/src/vecops.rs
+--------------------------------------------------------------------------------
+Ir             
+
+-- line 10 ----------------------------------------
+    .           use crate::rounding::{
+    .               high_bits_poly, low_bits_poly, make_hint_poly, power2round_poly, use_hint_poly,
+    .           };
+    .           
+    .           /// NTT each polynomial of a vector.
+    .           pub fn ntt_vec<const M: usize>(v: &PolyVec<M>) -> PolyVecNTT<M> {
+    .               let mut out = PolyVecNTT::<M>::zero();
+    .               for i in 0..M {
+   84 ( 0.00%)          out.v[i] = ntt(&v.v[i]);
+607,288 (12.34%)  => /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/ntt.rs:ml_dsa::ntt::ntt (11x)
+1,375 ( 0.03%)  => ???:0x0000000000171fc0 (11x)
+    .               }
+    .               out
+    .           }
+    .           
+    .           /// Inverse-NTT each polynomial of a vector.
+    .           pub fn inv_ntt_vec<const M: usize>(v: &PolyVecNTT<M>) -> PolyVec<M> {
+    .               let mut out = PolyVec::<M>::zero();
+    .               for i in 0..M {
+   89 ( 0.00%)          out.v[i] = inv_ntt(&v.v[i]);
+762,300 (15.49%)  => /home/rick/unl/king's/thesis/ml-dsa/ml-dsa/src/ntt.rs:ml_dsa::ntt::inv_ntt (12x)
+1,498 ( 0.03%)  => ???:0x0000000000171fc0 (12x)
+    .               }
+    .               out
+    .           }
+    .           
+    .           /// [`ntt_vec`] on the improved (division-free) component.
+    .           pub fn ntt_vec_fast<const M: usize>(v: &PolyVec<M>) -> PolyVecNTT<M> {
+    .               let mut out = PolyVecNTT::<M>::zero();
+    .               for i in 0..M {
+-- line 35 ----------------------------------------
+-- line 54 ----------------------------------------
+    .                   for j in 0..N {
+    .                       out.v[i].coeffs[j] = reduce_q(a.v[i].coeffs[j] as i64 + b.v[i].coeffs[j] as i64);
+    .                   }
+    .               }
+    .               out
+    .           }
+    .           
+    .           /// Componentwise `a - b` in `R^M` (reduced to `[0, q)`).
+    9 ( 0.00%)  pub fn sub_vec<const M: usize>(a: &PolyVec<M>, b: &PolyVec<M>) -> PolyVec<M> {
+    .               let mut out = PolyVec::<M>::zero();
+    .               for i in 0..M {
+    .                   for j in 0..N {
+6,144 ( 0.12%)              out.v[i].coeffs[j] = reduce_q(a.v[i].coeffs[j] as i64 - b.v[i].coeffs[j] as i64);
+    .                   }
+    .               }
+    .               out
+    7 ( 0.00%)  }
+    .           
+    .           /// Componentwise negation `-a` in `R^M` (reduced to `[0, q)`).
+    .           pub fn neg_vec<const M: usize>(a: &PolyVec<M>) -> PolyVec<M> {
+    .               let mut out = PolyVec::<M>::zero();
+    .               for i in 0..M {
+    .                   for j in 0..N {
+    .                       out.v[i].coeffs[j] = reduce_q(-(a.v[i].coeffs[j] as i64));
+    .                   }
+-- line 78 ----------------------------------------
+-- line 129 ----------------------------------------
+    .               let mut out = PolyVec::<M>::zero();
+    .               for i in 0..M {
+    .                   out.v[i] = make_hint_poly::<P>(&z.v[i], &r.v[i]);
+    .               }
+    .               out
+    .           }
+    .           
+    .           /// UseHint over vectors (componentwise).
+   11 ( 0.00%)  pub fn use_hint_vec<P: ParameterSet, const M: usize>(
+    .               h: &PolyVec<M>,
+    .               r: &PolyVec<M>,
+    .           ) -> PolyVec<M> {
+    .               let mut out = PolyVec::<M>::zero();
+    .               for i in 0..M {
+   29 ( 0.00%)          out.v[i] = use_hint_poly::<P>(&h.v[i], &r.v[i]);
+  750 ( 0.02%)  => ???:0x0000000000171fc0 (6x)
+    .               }
+    .               out
+    8 ( 0.00%)  }
+    .           
+    .           /// Centred infinity norm `‖v‖∞` (each coefficient reduced `mod± q` first).
+    8 ( 0.00%)  pub fn inf_norm<const M: usize>(v: &PolyVec<M>) -> i32 {
+    .               let mut m = 0;
+    .               for i in 0..M {
+    .                   for j in 0..N {
+  320 ( 0.01%)              let a = mod_pm(v.v[i].coeffs[j], Q).abs();
+2,880 ( 0.06%)              if a > m {
+    .                           m = a;
+    .                       }
+    .                   }
+    .               }
+    .               m
+    1 ( 0.00%)  }
+    .           
+    .           /// Number of nonzero (`1`) coefficients across a hint vector.
+    .           pub fn count_ones<const M: usize>(v: &PolyVec<M>) -> usize {
+    .               let mut c = 0;
+    .               for i in 0..M {
+    .                   for j in 0..N {
+    .                       if v.v[i].coeffs[j] != 0 {
+    .                           c += 1;
+-- line 168 ----------------------------------------
+
+   21 ( 0.00%)  <counts for unidentified lines in ml-dsa/src/vecops.rs>
+
+--------------------------------------------------------------------------------
+The following files chosen for auto-annotation could not be found:
+--------------------------------------------------------------------------------
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/alloc.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/raw_vec/mod.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/alloc/src/vec/mod.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/cmp.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/intrinsics/mod.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/iter/range.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/int_macros.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/num/uint_macros.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/bit.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ops/range.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/mod.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/ptr/non_null.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/index.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/core/src/slice/iter/macros.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/alloc.rs
+  /rustc/ac68faa20c58cbccd01ee7208bf3b6e93a7d7f96/library/std/src/sys/alloc/unix.rs
+
+--------------------------------------------------------------------------------
+Ir                 
+--------------------------------------------------------------------------------
+1,270,000 (25.80%)  events annotated
+

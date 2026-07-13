@@ -56,6 +56,23 @@ const fn pow_mod(base: i64, exp: u64, q: i64) -> i64 {
     result
 }
 
+/// `zetas[m] · R mod q` with `R = 2^32` — the twiddle table pre-scaled into the
+/// Montgomery domain, so `montgomery_reduce(ZETAS_MONT[m] · a) = zetas[m] · a mod q`
+/// (the `R` and the `R^{-1}` cancel). Entries are in `[0, q)`.
+pub(crate) const ZETAS_MONT: [i32; N] = {
+    let mut z = [0i32; N];
+    let mut m = 0usize;
+    while m < N {
+        z[m] = ((ZETAS[m] as i128 * (1i128 << 32)) % Q as i128) as i32;
+        m += 1;
+    }
+    z
+};
+
+/// `256^{-1} · R mod q`: one Montgomery reduction by this both applies the final
+/// `256^{-1}` scaling of NTT^{-1} (Algorithm 42, line 21) and cancels the `R^{-1}`.
+const F_256_INV_MONT: i64 = ((F_256_INV as i128 * (1i128 << 32)) % Q as i128) as i64;
+
 /// FIPS 204, Algorithm 41 — NTT: maps `w ∈ R_q` to `ŵ ∈ T_q`.
 pub fn ntt(w: &Poly) -> PolyNTT {
     let mut a = w.coeffs;
@@ -110,6 +127,88 @@ pub fn inv_ntt(w_hat: &PolyNTT) -> Poly {
     }
     for c in a.iter_mut() {
         *c = reduce_q(F_256_INV * (*c as i64)); // lines 21-24: multiply by 256^-1
+    }
+    Poly { coeffs: a }
+}
+
+// --- Improved path: Montgomery + deferred ("lazy") reduction ---
+//
+// Identical loop structure to the baseline above, but each butterfly costs one
+// Montgomery multiply instead of three `rem_euclid` divisions; coefficients are
+// left unreduced between layers and canonicalized once at the end, so the output
+// arrays are **value-equal** to the baseline's (pinned by the equivalence tests).
+
+/// Deferred-reduction NTT: value-equal to [`ntt`], division-free.
+///
+/// Overflow argument: inputs are canonicalized to `[0, q)`; each layer adds a
+/// Montgomery product `|t| < q`, so after the 8 layers `|a[i]| < 9q ≈ 2^26.2`
+/// (fits `i32`), and every Montgomery input is `< q · 9q « 2^31·q`.
+pub fn ntt_fast(w: &Poly) -> PolyNTT {
+    use crate::field::{montgomery_reduce, to_canonical};
+    let mut a = w.coeffs;
+    for c in a.iter_mut() {
+        *c = to_canonical(*c); // line 2, division-free
+    }
+    let mut m = 0usize;
+    let mut len = 128usize;
+    while len >= 1 {
+        let mut start = 0usize;
+        while start < N {
+            m += 1;
+            let z = ZETAS_MONT[m] as i64;
+            let mut j = start;
+            while j < start + len {
+                let t = montgomery_reduce(z * a[j + len] as i64); // line 12
+                a[j + len] = a[j] - t; // line 13 (deferred: no reduction)
+                a[j] += t; // line 14 (deferred: no reduction)
+                j += 1;
+            }
+            start += 2 * len;
+        }
+        len /= 2;
+    }
+    for c in a.iter_mut() {
+        *c = to_canonical(*c); // one canonicalization pass replaces 768 divisions
+    }
+    PolyNTT { coeffs: a }
+}
+
+/// Deferred-reduction NTT^{-1}: value-equal to [`inv_ntt`], division-free.
+///
+/// Overflow argument: the sums `t ± a[j+len]` double the coefficient bound per
+/// layer, so from `[0, q)` the bound after 8 layers is `256q = 2 145 386 752`,
+/// which still fits `i32` (max `2 147 483 647`); every Montgomery input is
+/// `< q · 256q = 256q² < 2^31·q` (the `montgomery_reduce` precondition, tightly).
+pub fn inv_ntt_fast(w_hat: &PolyNTT) -> Poly {
+    use crate::ct::caddq;
+    use crate::field::{montgomery_reduce, to_canonical};
+    let mut a = w_hat.coeffs;
+    for c in a.iter_mut() {
+        *c = to_canonical(*c);
+    }
+    let mut m = 256usize;
+    let mut len = 1usize;
+    while len < N {
+        let mut start = 0usize;
+        while start < N {
+            m -= 1;
+            let z = (Q - ZETAS_MONT[m]) as i64; // -zetas[m]·R mod q
+            let mut j = start;
+            while j < start + len {
+                let t = a[j]; // line 12
+                a[j] = t + a[j + len]; // line 13 (deferred)
+                a[j + len] = t - a[j + len]; // line 14 (deferred)
+                a[j + len] = montgomery_reduce(z * a[j + len] as i64); // line 15
+                j += 1;
+            }
+            start += 2 * len;
+        }
+        len *= 2;
+    }
+    for c in a.iter_mut() {
+        // lines 21-24: multiply by 256^{-1}; the Montgomery form of the constant
+        // absorbs the R^{-1}, and caddq lifts (-q, q) to [0, q).
+        *c = caddq(montgomery_reduce(F_256_INV_MONT * (*c as i64)));
     }
     Poly { coeffs: a }
 }
@@ -195,5 +294,65 @@ mod tests {
         assert_eq!(bit_rev_8(128), 1);
         assert_eq!(bit_rev_8(0), 0);
         assert_eq!(bit_rev_8(0b0000_0011), 0b1100_0000);
+    }
+
+    /// Adversarial coefficient patterns for the fast-path equivalence tests:
+    /// boundary values that maximize intermediate growth (worst case for the
+    /// deferred-reduction overflow argument) plus values outside `[0, q)`.
+    fn adversarial_polys() -> Vec<Poly> {
+        let mut polys = vec![Poly::zero()];
+        let mut all_max = Poly::zero();
+        all_max.coeffs = [Q - 1; N];
+        polys.push(all_max);
+        let mut alternating = Poly::zero();
+        for (i, c) in alternating.coeffs.iter_mut().enumerate() {
+            *c = if i % 2 == 0 { Q - 1 } else { 0 };
+        }
+        polys.push(alternating);
+        let mut extremes = Poly::zero();
+        for (i, c) in extremes.coeffs.iter_mut().enumerate() {
+            *c = match i % 4 {
+                0 => i32::MAX,
+                1 => i32::MIN,
+                2 => -1,
+                _ => Q,
+            };
+        }
+        polys.push(extremes);
+        polys
+    }
+
+    #[test]
+    fn ntt_fast_equals_baseline() {
+        let mut rng = XorShift(0xfa57_fa57_fa57_fa57);
+        for p in adversarial_polys() {
+            assert_eq!(ntt_fast(&p).coeffs, ntt(&p).coeffs);
+        }
+        for _ in 0..200 {
+            let p = random_poly(&mut rng);
+            assert_eq!(ntt_fast(&p).coeffs, ntt(&p).coeffs);
+        }
+    }
+
+    #[test]
+    fn inv_ntt_fast_equals_baseline() {
+        let mut rng = XorShift(0x17e5_0ff1_2345_6789);
+        for p in adversarial_polys() {
+            let ph = PolyNTT { coeffs: p.coeffs };
+            assert_eq!(inv_ntt_fast(&ph).coeffs, inv_ntt(&ph).coeffs);
+        }
+        for _ in 0..200 {
+            let ph = PolyNTT { coeffs: random_poly(&mut rng).coeffs };
+            assert_eq!(inv_ntt_fast(&ph).coeffs, inv_ntt(&ph).coeffs);
+        }
+    }
+
+    #[test]
+    fn fast_round_trip_is_identity() {
+        let mut rng = XorShift(0xabcd_ef01_2345_6789);
+        for _ in 0..50 {
+            let p = random_poly(&mut rng);
+            assert_eq!(inv_ntt_fast(&ntt_fast(&p)).coeffs, p.coeffs);
+        }
     }
 }

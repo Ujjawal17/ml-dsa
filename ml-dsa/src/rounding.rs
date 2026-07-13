@@ -67,6 +67,57 @@ pub fn use_hint<P: ParameterSet>(h: bool, r: i32) -> i32 {
     }
 }
 
+// --- Improved path: branchless (constant-time) variants ---
+//
+// The baseline mirrors the spec's `if`/`else` (the `q−1` special case, the centred
+// reduction) and reduces with division. These variants compute the same values with
+// no secret-dependent branch and no division; the `q−1` case is folded into the
+// final masked subtract. Exhaustive tests below pin them to the baseline over the
+// entire input range `[0, q)` for every γ2 in use.
+
+/// Branchless [`decompose`]: value-equal for all inputs (exhaustively tested).
+///
+/// `r1 ≈ round(r⁺ / 2γ2)` is computed by fixed-point multiply — the constants are
+/// `1025 ≈ 2^22/(2γ2/2^7)` for `γ2 = (q−1)/32` and `11275 ≈ 2^24/(2γ2/2^7)` for
+/// `γ2 = (q−1)/88` (the two classes FIPS 204 uses) — then `r0 = r⁺ − r1·2γ2` is
+/// re-centred with a masked subtract of `q`, which also absorbs the spec's
+/// `r⁺ − r0 = q − 1` special case (lines 3–5 of Algorithm 36).
+pub fn decompose_ct<P: ParameterSet>(r: i32) -> (i32, i32) {
+    use crate::ct::gt_mask;
+    use crate::field::to_canonical;
+    let a = to_canonical(r); // r mod q, branchless
+    let mut a1 = (a + 127) >> 7;
+    if P::GAMMA2 == (Q - 1) / 32 {
+        a1 = (a1 * 1025 + (1 << 21)) >> 22;
+        a1 &= 15;
+    } else if P::GAMMA2 == (Q - 1) / 88 {
+        a1 = (a1 * 11275 + (1 << 23)) >> 24;
+        a1 ^= ((43 - a1) >> 31) & a1;
+    } else {
+        unreachable!("FIPS 204 defines only gamma2 = (q-1)/32 and (q-1)/88");
+    }
+    let mut a0 = a - a1 * 2 * P::GAMMA2;
+    a0 -= gt_mask(a0, (Q - 1) / 2) & Q;
+    (a1, a0)
+}
+
+/// Branchless [`high_bits`].
+pub fn high_bits_ct<P: ParameterSet>(r: i32) -> i32 {
+    decompose_ct::<P>(r).0
+}
+
+/// Branchless [`low_bits`].
+pub fn low_bits_ct<P: ParameterSet>(r: i32) -> i32 {
+    decompose_ct::<P>(r).1
+}
+
+/// Branchless [`make_hint`]: `0`/`1` instead of `bool`, computed by masked
+/// comparison of the two high-bits values.
+pub fn make_hint_ct<P: ParameterSet>(z: i32, r: i32) -> i32 {
+    use crate::ct::ne_bit;
+    ne_bit(high_bits_ct::<P>(r), high_bits_ct::<P>(r + z))
+}
+
 // --- Componentwise `Poly` variants (FIPS 204 §7.4 applies these coefficientwise) ---
 
 /// Power2Round applied to every coefficient; returns `(t1, t0)`.
@@ -115,6 +166,33 @@ pub fn use_hint_poly<P: ParameterSet>(h: &Poly, r: &Poly) -> Poly {
         out.coeffs[i] = use_hint::<P>(h.coeffs[i] != 0, r.coeffs[i]);
     }
     out
+}
+
+/// Branchless [`high_bits_poly`].
+pub fn high_bits_poly_ct<P: ParameterSet>(r: &Poly) -> Poly {
+    let mut out = Poly::zero();
+    for i in 0..N {
+        out.coeffs[i] = high_bits_ct::<P>(r.coeffs[i]);
+    }
+    out
+}
+
+/// Branchless [`low_bits_poly`].
+pub fn low_bits_poly_ct<P: ParameterSet>(r: &Poly) -> Poly {
+    let mut out = Poly::zero();
+    for i in 0..N {
+        out.coeffs[i] = low_bits_ct::<P>(r.coeffs[i]);
+    }
+    out
+}
+
+/// Branchless [`make_hint_poly`].
+pub fn make_hint_poly_ct<P: ParameterSet>(z: &Poly, r: &Poly) -> Poly {
+    let mut h = Poly::zero();
+    for i in 0..N {
+        h.coeffs[i] = make_hint_ct::<P>(z.coeffs[i], r.coeffs[i]);
+    }
+    h
 }
 
 #[cfg(test)]
@@ -194,5 +272,54 @@ mod tests {
         hint_correctness_invariant_for::<MlDsa44>();
         hint_correctness_invariant_for::<MlDsa65>();
         hint_correctness_invariant_for::<MlDsa87>();
+    }
+
+    /// The branchless decompose must be value-equal to the baseline over the
+    /// ENTIRE input domain [0, q) — exhaustive, not sampled, because the fixed-
+    /// point constants only "round correctly" if they do so for every input.
+    /// MlDsa44 covers γ2 = (q−1)/88; MlDsa65 covers (q−1)/32 (shared with 87).
+    fn decompose_ct_exhaustive_for<P: ParameterSet>() {
+        for r in 0..Q {
+            assert_eq!(decompose_ct::<P>(r), decompose::<P>(r), "r = {r}");
+        }
+    }
+
+    #[test]
+    fn decompose_ct_exhaustive_gamma2_32() {
+        decompose_ct_exhaustive_for::<MlDsa65>();
+    }
+
+    #[test]
+    fn decompose_ct_exhaustive_gamma2_88() {
+        decompose_ct_exhaustive_for::<MlDsa44>();
+    }
+
+    /// Branchless decompose must also handle non-canonical inputs like the
+    /// baseline does (both reduce mod q first).
+    #[test]
+    fn decompose_ct_non_canonical_inputs() {
+        for r in [-1, -Q, Q, Q + 1, 2 * Q - 1, i32::MAX, i32::MIN] {
+            assert_eq!(decompose_ct::<MlDsa65>(r), decompose::<MlDsa65>(r), "r = {r}");
+            assert_eq!(decompose_ct::<MlDsa44>(r), decompose::<MlDsa44>(r), "r = {r}");
+        }
+    }
+
+    #[test]
+    fn make_hint_ct_equals_baseline() {
+        let mut rng = XorShift(0x3141_5926_5358_9793);
+        for _ in 0..100_000 {
+            let r = rng.coeff();
+            let z = rng.coeff() - Q / 2;
+            assert_eq!(
+                make_hint_ct::<MlDsa65>(z, r),
+                make_hint::<MlDsa65>(z, r) as i32,
+                "z = {z}, r = {r}"
+            );
+            assert_eq!(
+                make_hint_ct::<MlDsa44>(z, r),
+                make_hint::<MlDsa44>(z, r) as i32,
+                "z = {z}, r = {r}"
+            );
+        }
     }
 }

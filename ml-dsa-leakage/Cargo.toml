@@ -1,0 +1,29 @@
+[package]
+name = "ml-dsa-leakage"
+version = "0.0.0"
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Side-channel (constant-time) and fault analysis harnesses for ml-dsa"
+
+[dependencies]
+# Valgrind client-request bindings for the whole-program constant-time (TIMECOP)
+# audit. Its build uses bindgen, which needs libclang (`clang` package).
+crabgrind = "0.3.0"
+ml-dsa = { path = "../ml-dsa" }
+
+[dev-dependencies]
+# Version MUST match the installed `iai-callgrind-runner` binary (0.14.0).
+iai-callgrind = "=0.14.0"
+dudect-bencher = "0.6"
+rand = "0.8"
+
+# Deterministic control-flow leak test: instruction-count invariance under callgrind.
+[[bench]]
+name = "ct_invariance"
+harness = false
+
+# Statistical timing test (Welch t-test) via std::time::Instant.
+[[bench]]
+name = "dudect_ct"
+harness = false

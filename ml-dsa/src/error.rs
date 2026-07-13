@@ -14,6 +14,10 @@ pub enum Error {
     ContextTooLong,
     /// FIPS "bottom" (⊥): a decode or verify step rejected.
     Reject,
+    /// Verify-after-sign failed: the freshly produced signature did not verify,
+    /// indicating a fault during signing; the signature was withheld
+    /// (Bruinderink–Pessl countermeasure).
+    FaultDetected,
 }
 
 impl fmt::Display for Error {
@@ -25,6 +29,9 @@ impl fmt::Display for Error {
             Error::MalformedInput => write!(f, "malformed input"),
             Error::ContextTooLong => write!(f, "context string exceeds 255 bytes"),
             Error::Reject => write!(f, "rejected (bottom)"),
+            Error::FaultDetected => {
+                write!(f, "verify-after-sign failed: fault detected, signature withheld")
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["ml-dsa", "ml-dsa-kat"]
+members = ["ml-dsa", "ml-dsa-kat", "ml-dsa-bench", "ml-dsa-leakage"]
 
 [workspace.package]
 edition = "2021"
@@ -12,3 +12,6 @@ sha3 = "0.10"        # SHAKE128/256 (FIPS 202) — we treat Keccak as below the 
 subtle = "2.5"       # constant-time selection / comparison
 zeroize = { version = "1", features = ["derive"] }  # clear secret intermediates
 rand_core = "0.6"    # CryptoRng abstraction; RNG is always injected for KAT replay
+
+[profile.release]
+debug = true

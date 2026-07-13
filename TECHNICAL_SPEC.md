@@ -42,7 +42,9 @@ Common to all sets: `q = 8 380 417` (= 2²³ − 2¹³ + 1), `N = 256`, `d = 13`
 - `PolyNTT` = a distinct type for the NTT image `T_q` — prevents pointwise-multiplying a non-NTT
   polynomial by accident.
 - `PolyVec<const K>`, `PolyVecNTT<const K>`, `PolyMatNTT<const K, const L>`.
-- Long-term secrets (`s1, s2, t0, K`) are zeroised on drop.
+- Secrets that **persist beyond a single call** — the prepared signer's cached `K, ŝ1, ŝ2, t̂0`
+  — are zeroised on drop. Transient stack copies inside one call are out of scope: safe Rust
+  cannot scrub compiler-made moves/copies (a documented limitation, not an oversight).
 - The crate is compiled under `#![forbid(unsafe_code)]` (compiler-enforced memory safety).
 
 ## 4. Algorithm inventory (FIPS 204)

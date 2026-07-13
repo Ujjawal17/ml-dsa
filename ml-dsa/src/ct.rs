@@ -22,6 +22,22 @@ pub(crate) fn csubq(a: i32) -> i32 {
     b + ((b >> 31) & Q)
 }
 
+/// All-ones mask iff `a > b` (signed), else zero — without a branch.
+/// Valid when `b - a` does not overflow `i32` (all uses here are values in
+/// `(-q, q)`-scale ranges, far from the `i32` limits).
+#[inline(always)]
+pub(crate) fn gt_mask(a: i32, b: i32) -> i32 {
+    (b - a) >> 31
+}
+
+/// `1` iff `a != b`, else `0` — without a branch: `x | -x` has its sign bit set
+/// exactly when `x != 0`.
+#[inline(always)]
+pub(crate) fn ne_bit(a: i32, b: i32) -> i32 {
+    let x = a ^ b;
+    ((x | x.wrapping_neg()) >> 31) & 1
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

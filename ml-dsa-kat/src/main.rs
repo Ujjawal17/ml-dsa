@@ -10,33 +10,45 @@ type KeyGenFn = fn(&[u8; 32]) -> (Vec<u8>, Vec<u8>);
 type SignFn = fn(&[u8], &[u8], &[u8; 32]) -> Vec<u8>;
 type VerifyFn = fn(&[u8], &[u8], &[u8]) -> bool;
 
-/// The per-set §5/§6 entry points, so one KAT loop can drive all three sets.
+/// One implementation of one parameter set's §5/§6 entry points, so a single KAT
+/// loop can drive every (parameter set × implementation) pair. The **improved**
+/// rows run the exact same vectors through the optimized/hardened path — its
+/// primary correctness evidence, since it has no KAT of its own.
 struct Api {
-    name: &'static str,
+    /// ACVP `parameterSet` string this row consumes.
+    param_set: &'static str,
+    /// Display label (distinguishes reference from improved).
+    label: &'static str,
     key_gen_internal: KeyGenFn,
     sign_internal: SignFn,
     verify_internal: VerifyFn,
 }
 
-const APIS: [Api; 3] = [
-    Api {
-        name: "ML-DSA-44",
-        key_gen_internal: ml_dsa::ml_dsa_44::key_gen_internal,
-        sign_internal: ml_dsa::ml_dsa_44::sign_internal,
-        verify_internal: ml_dsa::ml_dsa_44::verify_internal,
-    },
-    Api {
-        name: "ML-DSA-65",
-        key_gen_internal: ml_dsa::ml_dsa_65::key_gen_internal,
-        sign_internal: ml_dsa::ml_dsa_65::sign_internal,
-        verify_internal: ml_dsa::ml_dsa_65::verify_internal,
-    },
-    Api {
-        name: "ML-DSA-87",
-        key_gen_internal: ml_dsa::ml_dsa_87::key_gen_internal,
-        sign_internal: ml_dsa::ml_dsa_87::sign_internal,
-        verify_internal: ml_dsa::ml_dsa_87::verify_internal,
-    },
+macro_rules! api_rows {
+    ($name:literal, $module:ident) => {
+        [
+            Api {
+                param_set: $name,
+                label: concat!($name, " [reference]"),
+                key_gen_internal: ml_dsa::$module::key_gen_internal,
+                sign_internal: ml_dsa::$module::sign_internal,
+                verify_internal: ml_dsa::$module::verify_internal,
+            },
+            Api {
+                param_set: $name,
+                label: concat!($name, " [improved] "),
+                key_gen_internal: ml_dsa::$module::key_gen_internal_fast,
+                sign_internal: ml_dsa::$module::sign_internal_fast,
+                verify_internal: ml_dsa::$module::verify_internal_fast,
+            },
+        ]
+    };
+}
+
+const APIS: [[Api; 2]; 3] = [
+    api_rows!("ML-DSA-44", ml_dsa_44),
+    api_rows!("ML-DSA-65", ml_dsa_65),
+    api_rows!("ML-DSA-87", ml_dsa_87),
 ];
 
 fn vectors(name: &str) -> serde_json::Value {
@@ -76,7 +88,7 @@ fn run_keygen_kat(api: &Api) -> Tally {
     let json = vectors("keygen.json");
     let mut t = Tally::default();
     for group in json["testGroups"].as_array().unwrap() {
-        if group["parameterSet"].as_str() != Some(api.name) {
+        if group["parameterSet"].as_str() != Some(api.param_set) {
             continue;
         }
         for test in group["tests"].as_array().unwrap() {
@@ -87,7 +99,7 @@ fn run_keygen_kat(api: &Api) -> Tally {
                 t.pass += 1;
             } else {
                 t.fail += 1;
-                eprintln!("  {} keyGen tcId {} FAILED", api.name, test["tcId"]);
+                eprintln!("  {} keyGen tcId {} FAILED", api.label, test["tcId"]);
             }
         }
     }
@@ -98,7 +110,7 @@ fn run_siggen_kat(api: &Api) -> Tally {
     let json = vectors("siggen.json");
     let mut t = Tally::default();
     for group in json["testGroups"].as_array().unwrap() {
-        if group["parameterSet"].as_str() != Some(api.name) {
+        if group["parameterSet"].as_str() != Some(api.param_set) {
             continue;
         }
         let pure = group["preHash"].as_str() == Some("pure");
@@ -130,7 +142,7 @@ fn run_siggen_kat(api: &Api) -> Tally {
                 t.pass += 1;
             } else {
                 t.fail += 1;
-                eprintln!("  {} sigGen tcId {} FAILED", api.name, test["tcId"]);
+                eprintln!("  {} sigGen tcId {} FAILED", api.label, test["tcId"]);
             }
         }
     }
@@ -141,7 +153,7 @@ fn run_sigver_kat(api: &Api) -> Tally {
     let json = vectors("sigver.json");
     let mut t = Tally::default();
     for group in json["testGroups"].as_array().unwrap() {
-        if group["parameterSet"].as_str() != Some(api.name) {
+        if group["parameterSet"].as_str() != Some(api.param_set) {
             continue;
         }
         let pure = group["preHash"].as_str() == Some("pure");
@@ -166,7 +178,7 @@ fn run_sigver_kat(api: &Api) -> Tally {
                 t.pass += 1;
             } else {
                 t.fail += 1;
-                eprintln!("  {} sigVer tcId {} FAILED (expected {expected})", api.name, test["tcId"]);
+                eprintln!("  {} sigVer tcId {} FAILED (expected {expected})", api.label, test["tcId"]);
             }
         }
     }
@@ -175,18 +187,18 @@ fn run_sigver_kat(api: &Api) -> Tally {
 
 fn main() {
     let mut failures = 0;
-    for api in &APIS {
+    for api in APIS.iter().flatten() {
         let k = run_keygen_kat(api);
-        println!("{} keyGen ACVP KAT: {} passed, {} failed", api.name, k.pass, k.fail);
+        println!("{} keyGen ACVP KAT: {} passed, {} failed", api.label, k.pass, k.fail);
         let s = run_siggen_kat(api);
         println!(
             "{} sigGen ACVP KAT: {} passed, {} failed, {} skipped",
-            api.name, s.pass, s.fail, s.skipped
+            api.label, s.pass, s.fail, s.skipped
         );
         let v = run_sigver_kat(api);
         println!(
             "{} sigVer ACVP KAT: {} passed, {} failed, {} skipped",
-            api.name, v.pass, v.fail, v.skipped
+            api.label, v.pass, v.fail, v.skipped
         );
         failures += k.fail + s.fail + v.fail;
     }
@@ -201,28 +213,28 @@ mod tests {
 
     #[test]
     fn keygen_kat_all_sets() {
-        for api in &APIS {
+        for api in APIS.iter().flatten() {
             let t = run_keygen_kat(api);
-            assert!(t.pass > 0, "no {} keyGen tests found", api.name);
-            assert_eq!(t.fail, 0, "{} {} keyGen failures", t.fail, api.name);
+            assert!(t.pass > 0, "no {} keyGen tests found", api.label);
+            assert_eq!(t.fail, 0, "{} {} keyGen failures", t.fail, api.label);
         }
     }
 
     #[test]
     fn siggen_kat_all_sets() {
-        for api in &APIS {
+        for api in APIS.iter().flatten() {
             let t = run_siggen_kat(api);
-            assert!(t.pass > 0, "no {} sigGen tests found", api.name);
-            assert_eq!(t.fail, 0, "{} {} sigGen failures", t.fail, api.name);
+            assert!(t.pass > 0, "no {} sigGen tests found", api.label);
+            assert_eq!(t.fail, 0, "{} {} sigGen failures", t.fail, api.label);
         }
     }
 
     #[test]
     fn sigver_kat_all_sets() {
-        for api in &APIS {
+        for api in APIS.iter().flatten() {
             let t = run_sigver_kat(api);
-            assert!(t.pass > 0, "no {} sigVer tests found", api.name);
-            assert_eq!(t.fail, 0, "{} {} sigVer failures", t.fail, api.name);
+            assert!(t.pass > 0, "no {} sigVer tests found", api.label);
+            assert_eq!(t.fail, 0, "{} {} sigVer failures", t.fail, api.label);
         }
     }
 }

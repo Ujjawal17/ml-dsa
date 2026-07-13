@@ -24,6 +24,7 @@ pub mod rounding;
 pub mod sample;
 pub mod serdes;
 pub mod sign;
+pub mod signer;
 pub mod vecops;
 pub mod verify;
 
@@ -104,6 +105,36 @@ macro_rules! parameter_set_api {
             pub fn verify_internal(pk: &[u8], m_prime: &[u8], sig: &[u8]) -> bool {
                 crate::verify::verify_internal::<Params, K, L>(pk, m_prime, sig)
             }
+
+            // --- Improved path (byte-identical outputs; see `signer` module) ---
+
+            /// The amortized, prepared signer for this parameter set.
+            pub type Signer = crate::signer::Signer<Params, K, L>;
+
+            /// Improved-path KeyGen (division-free NTT; byte-identical output).
+            pub fn key_gen_fast<R: CryptoRng + RngCore>(rng: &mut R) -> (Vec<u8>, Vec<u8>) {
+                crate::keygen::key_gen_fast::<Params, K, L, R>(rng)
+            }
+
+            /// Improved-path KeyGen_internal (deterministic in `ξ`).
+            pub fn key_gen_internal_fast(xi: &[u8; 32]) -> (Vec<u8>, Vec<u8>) {
+                crate::keygen::key_gen_internal_fast::<Params, K, L>(xi)
+            }
+
+            /// Improved-path Sign_internal via a one-shot prepared [`Signer`].
+            pub fn sign_internal_fast(sk: &[u8], m_prime: &[u8], rnd: &[u8; 32]) -> Vec<u8> {
+                Signer::from_sk(sk).expect("valid secret key").sign_internal(m_prime, rnd)
+            }
+
+            /// Improved-path Verify.
+            pub fn verify_fast(pk: &[u8], m: &[u8], sig: &[u8], ctx: &[u8]) -> bool {
+                crate::verify::verify_fast::<Params, K, L>(pk, m, sig, ctx)
+            }
+
+            /// Improved-path Verify_internal.
+            pub fn verify_internal_fast(pk: &[u8], m_prime: &[u8], sig: &[u8]) -> bool {
+                crate::verify::verify_internal_fast::<Params, K, L>(pk, m_prime, sig)
+            }
         }
     };
 }
@@ -131,5 +162,67 @@ mod tests {
         round_trip!(ml_dsa_44);
         round_trip!(ml_dsa_65);
         round_trip!(ml_dsa_87);
+    }
+
+    /// Randomized reference == improved equivalence over fresh keys, messages,
+    /// and randomness — the guardrail the fixed KAT vectors cannot provide
+    /// (e.g. deferred-reduction boundary cases), across all three sets.
+    #[test]
+    fn improved_path_equals_reference_randomized() {
+        struct XorShift(u64);
+        impl XorShift {
+            fn next_u64(&mut self) -> u64 {
+                let mut x = self.0;
+                x ^= x << 13;
+                x ^= x >> 7;
+                x ^= x << 17;
+                self.0 = x;
+                x
+            }
+            fn bytes<const B: usize>(&mut self) -> [u8; B] {
+                let mut out = [0u8; B];
+                for c in out.iter_mut() {
+                    *c = self.next_u64() as u8;
+                }
+                out
+            }
+        }
+
+        macro_rules! equivalence {
+            ($api:ident, $rng:expr) => {
+                for _ in 0..10 {
+                    let xi: [u8; 32] = $rng.bytes();
+                    let (pk_r, sk_r) = crate::$api::key_gen_internal(&xi);
+                    let (pk_f, sk_f) = crate::$api::key_gen_internal_fast(&xi);
+                    assert_eq!(pk_r, pk_f);
+                    assert_eq!(sk_r, sk_f);
+
+                    let signer = crate::$api::Signer::from_sk(&sk_r).unwrap();
+                    let msg: [u8; 40] = $rng.bytes();
+                    let rnd: [u8; 32] = $rng.bytes();
+                    let m_prime = {
+                        let mut mp = vec![0u8, 0u8];
+                        mp.extend_from_slice(&msg);
+                        mp
+                    };
+                    let sig_r = crate::$api::sign_internal(&sk_r, &m_prime, &rnd);
+                    let sig_f = signer.sign_internal(&m_prime, &rnd);
+                    assert_eq!(sig_r, sig_f);
+
+                    assert!(crate::$api::verify_internal_fast(&pk_r, &m_prime, &sig_f));
+                    let mut tampered = sig_f.clone();
+                    tampered[17] ^= 1;
+                    assert_eq!(
+                        crate::$api::verify_internal(&pk_r, &m_prime, &tampered),
+                        crate::$api::verify_internal_fast(&pk_r, &m_prime, &tampered)
+                    );
+                }
+            };
+        }
+
+        let mut rng = XorShift(0x0e91_5a1e_2026_0707 ^ 0x9e37_79b9_7f4a_7c15);
+        equivalence!(ml_dsa_44, rng);
+        equivalence!(ml_dsa_65, rng);
+        equivalence!(ml_dsa_87, rng);
     }
 }

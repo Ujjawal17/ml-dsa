@@ -57,6 +57,54 @@ pub fn key_gen<P: ParameterSet, const K: usize, const L: usize, R: CryptoRng + R
     key_gen_internal::<P, K, L>(&xi)
 }
 
+/// Improved-path [`key_gen_internal`]: identical structure and byte-identical
+/// output, using the division-free NTT components.
+pub fn key_gen_internal_fast<P: ParameterSet, const K: usize, const L: usize>(
+    xi: &[u8; 32],
+) -> (Vec<u8>, Vec<u8>) {
+    use crate::ntt_arith::matrix_vector_ntt_fast;
+    use crate::vecops::{inv_ntt_vec_fast, ntt_vec_fast};
+
+    let mut h = H::init();
+    h.absorb(xi);
+    h.absorb(&[K as u8, L as u8]);
+    let seed = h.finalize().squeeze_vec(128);
+    let mut rho = [0u8; 32];
+    rho.copy_from_slice(&seed[..32]);
+    let mut rho_prime = [0u8; 64];
+    rho_prime.copy_from_slice(&seed[32..96]);
+    let mut k_seed = [0u8; 32];
+    k_seed.copy_from_slice(&seed[96..128]);
+
+    let a_hat = expand_a::<K, L>(&rho);
+    let (s1, s2) = expand_s::<P, K, L>(&rho_prime);
+
+    let s1_hat = ntt_vec_fast(&s1);
+    let as1 = matrix_vector_ntt_fast(&a_hat, &s1_hat);
+    let t = add_vec(&inv_ntt_vec_fast(&as1), &s2);
+
+    let (t1, t0) = power2round_vec(&t);
+
+    let pk = pk_encode::<P, K>(&rho, &t1);
+
+    let mut th = H::init();
+    th.absorb(&pk);
+    let mut tr = [0u8; 64];
+    th.finalize().squeeze(&mut tr);
+
+    let sk = sk_encode::<P, K, L>(&rho, &k_seed, &tr, &s1, &s2, &t0);
+    (pk, sk)
+}
+
+/// Improved-path [`key_gen`].
+pub fn key_gen_fast<P: ParameterSet, const K: usize, const L: usize, R: CryptoRng + RngCore>(
+    rng: &mut R,
+) -> (Vec<u8>, Vec<u8>) {
+    let mut xi = [0u8; 32];
+    rng.fill_bytes(&mut xi);
+    key_gen_internal_fast::<P, K, L>(&xi)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
