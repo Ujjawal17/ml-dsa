@@ -1,8 +1,5 @@
 //! NIST ACVP known-answer-test runner for ML-DSA.
-//!
-//! Reads the official ACVP `internalProjection.json` vectors and checks our
-//! implementation byte-for-byte. Covers keyGen, sigGen, and sigVer (pure,
-//! non-externalMu) for all three parameter sets: ML-DSA-44, -65, and -87.
+//! It reads the official ACVP `internalProjection.json` vectors and checks the implementation byte-for-byte.
 
 use std::path::Path;
 
@@ -10,14 +7,11 @@ type KeyGenFn = fn(&[u8; 32]) -> (Vec<u8>, Vec<u8>);
 type SignFn = fn(&[u8], &[u8], &[u8; 32]) -> Vec<u8>;
 type VerifyFn = fn(&[u8], &[u8], &[u8]) -> bool;
 
-/// One implementation of one parameter set's §5/§6 entry points, so a single KAT
-/// loop can drive every (parameter set × implementation) pair. The **improved**
-/// rows run the exact same vectors through the optimized/hardened path — its
-/// primary correctness evidence, since it has no KAT of its own.
+/// It maps entry points of a parameter set to run both reference and improved implementations under the same KAT loop as its primary correctness evidence.
 struct Api {
-    /// ACVP `parameterSet` string this row consumes.
+    /// ACVP parameterSet string this row consumes.
     param_set: &'static str,
-    /// Display label (distinguishes reference from improved).
+    /// Display label (to distinguishes reference from improved).
     label: &'static str,
     key_gen_internal: KeyGenFn,
     sign_internal: SignFn,
@@ -68,7 +62,6 @@ fn hex_field(test: &serde_json::Value, key: &str) -> Vec<u8> {
     hex_to_bytes(test[key].as_str().unwrap_or(""))
 }
 
-/// `IntegerToBytes(0,1) || IntegerToBytes(|ctx|,1) || ctx || M` (pure variant).
 fn format_m_prime(ctx: &[u8], m: &[u8]) -> Vec<u8> {
     let mut mp = vec![0u8, ctx.len() as u8];
     mp.extend_from_slice(ctx);
@@ -76,7 +69,7 @@ fn format_m_prime(ctx: &[u8], m: &[u8]) -> Vec<u8> {
     mp
 }
 
-/// Per-parameter-set pass/fail/skip tally.
+/// Per-parameter-set pass/fail/skip checking.
 #[derive(Default, Clone, Copy)]
 struct Tally {
     pass: usize,
@@ -185,6 +178,107 @@ fn run_sigver_kat(api: &Api) -> Tally {
     t
 }
 
+const PARAM_SETS: [&str; 3] = ["ML-DSA-44", "ML-DSA-65", "ML-DSA-87"];
+
+/// HashML-DSA (pre-hash, Algorithm 4) sigGen KAT for one parameter set.
+fn run_prehash_siggen(param_set: &str) -> Tally {
+    let json = vectors("siggen.json");
+    let mut t = Tally::default();
+    for group in json["testGroups"].as_array().unwrap() {
+        if group["parameterSet"].as_str() != Some(param_set) {
+            continue;
+        }
+        if group["preHash"].as_str() != Some("preHash")
+            || group["externalMu"].as_bool().unwrap_or(false)
+        {
+            continue;
+        }
+        let deterministic = group["deterministic"].as_bool().unwrap_or(false);
+        for test in group["tests"].as_array().unwrap() {
+            if test["signature"].as_str().is_none() {
+                t.skipped += 1;
+                continue;
+            }
+            let ph = match ml_dsa::PreHash::from_acvp(test["hashAlg"].as_str().unwrap_or("")) {
+                Some(p) => p,
+                None => {
+                    t.skipped += 1;
+                    continue;
+                }
+            };
+            let sk = hex_field(test, "sk");
+            let msg = hex_field(test, "message");
+            let ctx = hex_field(test, "context");
+            let rnd_vec = if deterministic { vec![0u8; 32] } else { hex_field(test, "rnd") };
+            let mut rnd = [0u8; 32];
+            rnd.copy_from_slice(&rnd_vec);
+            let sig = match param_set {
+                "ML-DSA-44" => ml_dsa::ml_dsa_44::hash_sign_with_rnd(&sk, &msg, &ctx, ph, &rnd),
+                "ML-DSA-65" => ml_dsa::ml_dsa_65::hash_sign_with_rnd(&sk, &msg, &ctx, ph, &rnd),
+                "ML-DSA-87" => ml_dsa::ml_dsa_87::hash_sign_with_rnd(&sk, &msg, &ctx, ph, &rnd),
+                _ => continue,
+            }
+            .expect("valid context length");
+            if sig == hex_field(test, "signature") {
+                t.pass += 1;
+            } else {
+                t.fail += 1;
+                eprintln!(
+                    "  {param_set} preHash sigGen tcId {} ({}) FAILED",
+                    test["tcId"], test["hashAlg"]
+                );
+            }
+        }
+    }
+    t
+}
+
+/// HashML-DSA (pre-hash, Algorithm 5) sigVer KAT for one parameter set.
+fn run_prehash_sigver(param_set: &str) -> Tally {
+    let json = vectors("sigver.json");
+    let mut t = Tally::default();
+    for group in json["testGroups"].as_array().unwrap() {
+        if group["parameterSet"].as_str() != Some(param_set) {
+            continue;
+        }
+        if group["preHash"].as_str() != Some("preHash")
+            || group["externalMu"].as_bool().unwrap_or(false)
+        {
+            continue;
+        }
+        for test in group["tests"].as_array().unwrap() {
+            let ph = match ml_dsa::PreHash::from_acvp(test["hashAlg"].as_str().unwrap_or("")) {
+                Some(p) => p,
+                None => {
+                    t.skipped += 1;
+                    continue;
+                }
+            };
+            let pk = hex_field(test, "pk");
+            let sig = hex_field(test, "signature");
+            let msg = hex_field(test, "message");
+            let ctx = hex_field(test, "context");
+            let expected = test["testPassed"].as_bool().unwrap();
+            let got = match param_set {
+                "ML-DSA-44" => ml_dsa::ml_dsa_44::hash_verify(&pk, &msg, &sig, &ctx, ph),
+                "ML-DSA-65" => ml_dsa::ml_dsa_65::hash_verify(&pk, &msg, &sig, &ctx, ph),
+                "ML-DSA-87" => ml_dsa::ml_dsa_87::hash_verify(&pk, &msg, &sig, &ctx, ph),
+                _ => continue,
+            };
+            if got == expected {
+                t.pass += 1;
+            } else {
+                t.fail += 1;
+                eprintln!(
+                    "  {param_set} preHash sigVer tcId {} ({}) FAILED (expected {expected})",
+                    test["tcId"], test["hashAlg"]
+                );
+            }
+        }
+    }
+    t
+}
+
 fn main() {
     let mut failures = 0;
     for api in APIS.iter().flatten() {
@@ -201,6 +295,20 @@ fn main() {
             api.label, v.pass, v.fail, v.skipped
         );
         failures += k.fail + s.fail + v.fail;
+    }
+    // HashML-DSA (pre-hash) — Algorithms 4 & 5, once per parameter set.
+    for ps in PARAM_SETS {
+        let s = run_prehash_siggen(ps);
+        println!(
+            "{ps} HashML-DSA sigGen KAT: {} passed, {} failed, {} skipped",
+            s.pass, s.fail, s.skipped
+        );
+        let v = run_prehash_sigver(ps);
+        println!(
+            "{ps} HashML-DSA sigVer KAT: {} passed, {} failed, {} skipped",
+            v.pass, v.fail, v.skipped
+        );
+        failures += s.fail + v.fail;
     }
     if failures > 0 {
         std::process::exit(1);
@@ -235,6 +343,18 @@ mod tests {
             let t = run_sigver_kat(api);
             assert!(t.pass > 0, "no {} sigVer tests found", api.label);
             assert_eq!(t.fail, 0, "{} {} sigVer failures", t.fail, api.label);
+        }
+    }
+
+    #[test]
+    fn prehash_kat_all_sets() {
+        for ps in PARAM_SETS {
+            let s = run_prehash_siggen(ps);
+            assert!(s.pass > 0, "no {ps} HashML-DSA sigGen tests found");
+            assert_eq!(s.fail, 0, "{} {ps} HashML-DSA sigGen failures", s.fail);
+            let v = run_prehash_sigver(ps);
+            assert!(v.pass > 0, "no {ps} HashML-DSA sigVer tests found");
+            assert_eq!(v.fail, 0, "{} {ps} HashML-DSA sigVer failures", v.fail);
         }
     }
 }

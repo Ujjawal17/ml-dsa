@@ -1,11 +1,7 @@
-//! The centerpiece: amortized multi-signature workload (one key, N signatures).
+//! amortized multi-signature workload (one key, N signatures).
 //!
-//! Baseline re-runs `skDecode + ExpandA + NTT(s1,s2,t0)` on every signature;
-//! the improved path runs them once in `Signer::from_sk` and reuses `Â, ŝ1, ŝ2, t̂0`.
-//! Both sign the same N messages under the same key, so they hit identical
-//! rejection-loop counts — the instruction-count delta is exactly the amortization
-//! (plus the Montgomery/lazy-NTT win in the shared loop body). Divide by N for the
-//! per-signature figure.
+//! Baseline version re-runs `skDecode + ExpandA + NTT(s1,s2,t0)` on every signature but the improved path runs them once in `Signer::from_sk` and reuses `Â, ŝ1, ŝ2, t̂0`.
+//! Both sign the same N messages under the same key, so they hit identical rejection-loop counts and the instruction-count delta is exactly the amortization
 
 use std::hint::black_box;
 

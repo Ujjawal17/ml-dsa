@@ -1,19 +1,15 @@
-//! SHAKE wrappers named after FIPS 204: `H = SHAKE256`, `G = SHAKE128`.
-//!
-//! The API is **incremental** (absorb, then squeeze) because rejection sampling
-//! (RejNTTPoly / RejBoundedPoly / SampleInBall) consumes an amount of output that
-//! is not known in advance. We wrap the `sha3` crate rather than implement Keccak;
-//! the standard's properties are independent of which SHAKE is plugged in.
+//! SHAKE wrappers named after FIPS 204: H = SHAKE256, G = SHAKE128.
+//! The API is incremental (absorb, then squeeze) because rejection sampling consumes an amount of output that is not known in advance.
 
 use sha3::digest::{ExtendableOutput, Update, XofReader};
 use sha3::{Shake128, Shake256};
 
-/// `H` = SHAKE256 (FIPS 204 §3.7) — absorb side.
+/// H = SHAKE256, absorb side.
 pub struct H {
     state: Shake256,
 }
 
-/// Squeeze side of an [`H`] instance.
+///squeeze side of an H instance.
 pub struct HReader {
     reader: <Shake256 as ExtendableOutput>::Reader,
 }
@@ -33,12 +29,12 @@ impl H {
 }
 
 impl HReader {
-    /// Squeeze exactly `out.len()` bytes into `out`.
+    ///squeeze exactly out.len() bytes into out.
     pub fn squeeze(&mut self, out: &mut [u8]) {
         self.reader.read(out);
     }
 
-    /// Squeeze `n` bytes into a freshly allocated buffer.
+    ///squeeze n bytes into a freshly allocated buffer.
     pub fn squeeze_vec(&mut self, n: usize) -> Vec<u8> {
         let mut buf = vec![0u8; n];
         self.reader.read(&mut buf);
@@ -46,12 +42,12 @@ impl HReader {
     }
 }
 
-/// `G` = SHAKE128 (FIPS 204 §3.7) — absorb side.
+/// G = SHAKE128, absorb side.
 pub struct G {
     state: Shake128,
 }
 
-/// Squeeze side of a [`G`] instance.
+///squeeze side of a G instance.
 pub struct GReader {
     reader: <Shake128 as ExtendableOutput>::Reader,
 }
@@ -71,12 +67,12 @@ impl G {
 }
 
 impl GReader {
-    /// Squeeze exactly `out.len()` bytes into `out`.
+    ///squeeze exactly out.len() bytes into out.
     pub fn squeeze(&mut self, out: &mut [u8]) {
         self.reader.read(out);
     }
 
-    /// Squeeze `n` bytes into a freshly allocated buffer.
+    ///squeeze n bytes into a freshly allocated buffer.
     pub fn squeeze_vec(&mut self, n: usize) -> Vec<u8> {
         let mut buf = vec![0u8; n];
         self.reader.read(&mut buf);
@@ -88,7 +84,7 @@ impl GReader {
 mod tests {
     use super::*;
 
-    /// SHAKE256("") first 8 bytes are a well-known value — confirms wiring/endianness.
+    /// SHAKE256("") first 8 bytes are a well-known value which confirms wiring/endianness.
     #[test]
     fn shake256_empty_known_answer() {
         let mut r = H::init().finalize();

@@ -1,18 +1,10 @@
-//! Deterministic constant-time audit via callgrind instruction counts (a battery).
+//! Deterministic constant-time audit via callgrind instruction counts.
+//! For each function two secret input classes are run andequal counts means constant-time, so differing counts means leak.
 //!
-//! callgrind counts are exact, so a function whose instruction count depends on the
-//! secret input has a control-flow (data-dependent branch or variable loop) leak.
-//! For each function two secret input classes are run; **equal counts ⇒ constant-time,
-//! differing counts ⇒ leak.**
-//!
-//!   rounding   `decompose`   baseline vs `_ct`   (special-case vs common input)
-//!   hint       `make_hint`   baseline vs `_ct`
-//!   arithmetic `montgomery_reduce`                (two wide-product classes)
-//!   sampling   `sample_in_ball`, `rej_bounded_poly` (two seeds each)
-//!
-//! Expectation: the per-coefficient rounding/hint/arithmetic primitives are invariant
-//! (constant-time — the compiler lowers the source branches to cmov), while the
-//! rejection samplers vary with the seed (the documented accepted-leakage loop count).
+//!   rounding   decompose   baseline vs _ct   
+//!   hint       make_hint   baseline vs _ct
+//!   arithmetic montgomery_reduce                
+//!   sampling   sample_in_ball, rej_bounded_poly 
 
 use std::hint::black_box;
 
@@ -25,7 +17,7 @@ use ml_dsa_leakage::{
     make_hint_baseline_batch, make_hint_ct_batch, montgomery_batch, wide_fixed,
 };
 
-// --- Decompose ---
+//Decompose
 
 #[library_benchmark(setup = batch_special)]
 fn decompose_baseline_special(v: Vec<i32>) -> i32 {
@@ -50,7 +42,7 @@ library_benchmark_group!(
                  decompose_ct_special, decompose_ct_common
 );
 
-// --- MakeHint ---
+//MakeHint
 
 #[library_benchmark(setup = batch_special)]
 fn make_hint_baseline_a(v: Vec<i32>) -> i32 {
@@ -74,7 +66,7 @@ library_benchmark_group!(
     benchmarks = make_hint_baseline_a, make_hint_baseline_b, make_hint_ct_a, make_hint_ct_b
 );
 
-// --- Montgomery reduction (arithmetic) ---
+//Montgomery reduction
 
 fn wide_a() -> Vec<i64> {
     wide_fixed(12_345)
@@ -94,7 +86,7 @@ fn montgomery_b(v: Vec<i64>) -> i32 {
 
 library_benchmark_group!(name = arithmetic; benchmarks = montgomery_a, montgomery_b);
 
-// --- Rejection samplers (expected NON-constant-time: variable loop count) ---
+//Rejection samplers
 
 fn ball_seed_a() -> Vec<u8> {
     vec![7u8; 48]

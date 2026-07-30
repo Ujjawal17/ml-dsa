@@ -1,22 +1,14 @@
-//! FIPS 204 §7.1 — data conversion (Algorithms 9–19). **Little-endian** throughout.
-//!
-//! Implemented literally against the pseudocode (building explicit bit vectors) so
-//! it reads against the standard; the fast direct-bit-twiddling version is a Part 2
-//! optimization. The pack/unpack routines run over fixed-length loops with no
-//! secret-dependent branches, so they are constant-time on the secret surface.
-//!
-//! Indexed loops mirror "for i from 0 to 255" / "for i from 0 to α−1".
-#![allow(clippy::needless_range_loop)]
+#![allow(clippy::needless_range_loop)] //to avoid warnings, since using index loops to match the FIPS specification
 
 use crate::params::{ParameterSet, N, Q};
 use crate::poly::Poly;
 
-/// `bitlen b` — number of bits in the binary representation of `b` (`bitlen 0 = 0`).
+/// number of bits in the binary representation of b
 pub const fn bitlen(b: u32) -> u32 {
     32 - b.leading_zeros()
 }
 
-/// FIPS 204, Algorithm 9 — IntegerToBits: `x mod 2^α` as `α` bits, little-endian.
+/// FIPS 204, Algorithm 9
 pub fn integer_to_bits(x: u64, alpha: usize) -> Vec<u8> {
     let mut y = vec![0u8; alpha];
     let mut xp = x;
@@ -27,7 +19,7 @@ pub fn integer_to_bits(x: u64, alpha: usize) -> Vec<u8> {
     y
 }
 
-/// FIPS 204, Algorithm 10 — BitsToInteger: integer value of an `α`-bit little-endian string.
+/// FIPS 204, Algorithm 10
 pub fn bits_to_integer(y: &[u8], alpha: usize) -> u64 {
     let mut x = 0u64;
     for i in 1..=alpha {
@@ -36,7 +28,7 @@ pub fn bits_to_integer(y: &[u8], alpha: usize) -> u64 {
     x
 }
 
-/// FIPS 204, Algorithm 11 — IntegerToBytes: `x mod 256^α` as `α` bytes, little-endian.
+/// FIPS 204, Algorithm 11
 pub fn integer_to_bytes(x: u64, alpha: usize) -> Vec<u8> {
     let mut y = vec![0u8; alpha];
     let mut xp = x;
@@ -47,7 +39,7 @@ pub fn integer_to_bytes(x: u64, alpha: usize) -> Vec<u8> {
     y
 }
 
-/// FIPS 204, Algorithm 12 — BitsToBytes: pack a bit string into bytes, LSB-first.
+/// FIPS 204, Algorithm 12
 pub fn bits_to_bytes(y: &[u8]) -> Vec<u8> {
     let alpha = y.len();
     let mut z = vec![0u8; alpha.div_ceil(8)];
@@ -57,7 +49,7 @@ pub fn bits_to_bytes(y: &[u8]) -> Vec<u8> {
     z
 }
 
-/// FIPS 204, Algorithm 13 — BytesToBits: unpack bytes into a bit string, LSB-first.
+/// FIPS 204, Algorithm 13
 pub fn bytes_to_bits(z: &[u8]) -> Vec<u8> {
     let alpha = z.len();
     let mut y = vec![0u8; 8 * alpha];
@@ -71,44 +63,42 @@ pub fn bytes_to_bits(z: &[u8]) -> Vec<u8> {
     y
 }
 
-/// FIPS 204, Algorithm 14 — CoeffFromThreeBytes: 3 bytes → an element of `{0,…,q−1}` or `⊥`.
+/// FIPS 204, Algorithm 14
 pub fn coeff_from_three_bytes(b0: u8, b1: u8, b2: u8) -> Option<i32> {
     let b2p = (b2 & 0x7f) as i32; // clear the top bit of b2
     let z = (b2p << 16) + ((b1 as i32) << 8) + b0 as i32; // 0 ≤ z ≤ 2^23 − 1
     if z < Q {
-        Some(z)
+        Some(z) //3 bytes to an element of {0,…,q−1}
     } else {
-        None // ⊥ (rejection)
+        None //⊥ (rejection)
     }
 }
 
-/// FIPS 204, Algorithm 15 — CoeffFromHalfByte: nibble → an element of `{−η,…,η}` or `⊥`.
-/// The two branches are the spec's lines 1–2 (`η = 2`, with the `mod 5` fold) and
-/// lines 3–4 (`η = 4`).
+/// FIPS 204, Algorithm 15
 pub fn coeff_from_half_byte<P: ParameterSet>(b: u8) -> Option<i32> {
     if P::ETA == 2 && b < 15 {
-        Some(2 - (b % 5) as i32)
+        Some(2 - (b % 5) as i32) // η=2: 2 − (b mod 5) for b < 15; b = 15 rejects
     } else if P::ETA == 4 && b < 9 {
-        Some(4 - b as i32)
+        Some(4 - b as i32) // η = 4: 4 - b for b < 9; b >= 9 rejects
     } else {
         None // ⊥ (rejection)
     }
 }
 
-/// FIPS 204, Algorithm 16 — SimpleBitPack: pack `w` (coeffs in `[0, b]`) into bytes.
+/// FIPS 204, Algorithm 16
 pub fn simple_bit_pack(w: &Poly, b: u32) -> Vec<u8> {
     let c = bitlen(b) as usize;
-    let mut bits = Vec::with_capacity(N * c);
+    let mut bits = Vec::with_capacity(N * c); //Packing w (coeffs in [0,b])
     for i in 0..N {
         bits.extend_from_slice(&integer_to_bits(w.coeffs[i] as u64, c));
     }
     bits_to_bytes(&bits)
 }
 
-/// FIPS 204, Algorithm 17 — BitPack: pack `w` (coeffs in `[−a, b]`) into bytes.
+/// FIPS 204, Algorithm 17
 pub fn bit_pack(w: &Poly, a: u32, b: u32) -> Vec<u8> {
     let c = bitlen(a + b) as usize;
-    let mut bits = Vec::with_capacity(N * c);
+    let mut bits = Vec::with_capacity(N * c); //Packing w (coeffs in [-a,b])
     for i in 0..N {
         let v = b as i64 - w.coeffs[i] as i64; // b − w_i ∈ [0, a + b]
         bits.extend_from_slice(&integer_to_bits(v as u64, c));

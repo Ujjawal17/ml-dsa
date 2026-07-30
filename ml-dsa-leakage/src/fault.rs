@@ -1,15 +1,5 @@
-//! Differential-fault harness (Bruinderink–Pessl).
-//!
-//! A **mirror** of `ML-DSA.Sign_internal`, reassembled from the library's public
-//! building blocks so a single-bit fault can be injected at a named intermediate
-//! (`cs1 = c·s1`, after MultiplyNTT + inverse NTT) — the production crate is left
-//! untouched. A fidelity test asserts the no-fault mirror is **byte-identical** to
-//! the real `sign_internal`, so the mirror is a faithful stand-in, not an approximation.
-//!
-//! The experiment models the classic attack: a fault during signing yields a faulty
-//! signature; whether that (exploitable) artifact escapes is governed by
-//! **verify-after-sign** (withhold if the signature fails an internal check), reported
-//! over the {deterministic, hedged} × {verify-after-sign on, off} 2×2.
+//! Differential-fault harness.
+//! This experiment models the classic attack where a fault during signing yields a faulty signature and whether that artifact escapes is governed by verify-after-sign
 
 use ml_dsa::expand::{expand_a, expand_mask};
 use ml_dsa::hash::H;
@@ -26,17 +16,13 @@ use ml_dsa::vecops::{
 /// A single-bit fault injected at a named signing intermediate.
 #[derive(Clone, Copy, Debug)]
 pub enum Fault {
-    /// No fault — the mirror reproduces `sign_internal` exactly.
+    /// No fault
     None,
-    /// Flip bit `bit` of coefficient `coeff` in polynomial `poly` of `cs1 = c·s1`
-    /// (after MultiplyNTT + inverse NTT). Low bits keep `z` within the norm bound so
-    /// the signer still accepts, while the fault propagates through verification via
-    /// `A·Δ` (a full-magnitude change), so the faulty signature does not verify.
+    /// Flip bit of coefficient in polynomial poly of cs1
     Cs1BitFlip { poly: usize, coeff: usize, bit: u32 },
 }
 
-/// Mirror of the baseline `sign_internal`; byte-identical to it when
-/// `fault == Fault::None` (asserted by the fidelity test below).
+/// Mirror of the baseline sign_internal and byte-identical to it when fault == Fault::None
 pub fn sign_internal_mirror<P: ParameterSet, const K: usize, const L: usize>(
     sk: &[u8],
     m_prime: &[u8],
@@ -76,7 +62,7 @@ pub fn sign_internal_mirror<P: ParameterSet, const K: usize, const L: usize>(
         let c_hat = ntt(&c);
 
         let mut cs1 = inv_ntt_vec(&scalar_vector_ntt(&c_hat, &s1_hat));
-        // ---- fault injection point (a plain line of code; no library hooks) ----
+        // fault injection point
         if let Fault::Cs1BitFlip { poly, coeff, bit } = fault {
             cs1.v[poly].coeffs[coeff] ^= 1 << bit;
         }
@@ -105,16 +91,15 @@ pub fn sign_internal_mirror<P: ParameterSet, const K: usize, const L: usize>(
 /// Outcome of one 2×2 cell.
 #[derive(Clone, Copy, Debug)]
 pub struct Cell {
-    /// The faulty signature differs from the unfaulted signature on the same `rnd`.
+    /// The faulty signature differs from the unfaulted signature on the same rnd.
     pub faulty: bool,
     /// The faulty signature verifies under the real public key.
     pub verifies: bool,
     /// The faulty signature is released (verify-after-sign off, or on but it verified).
     pub released: bool,
-    /// A faulty, exploitable artifact escaped the signer.
+    /// A faulty artifact escaped the signer.
     pub escaped: bool,
-    /// Deterministic mode: the attacker can reproduce the matching correct signature
-    /// on the same `y`, giving the directly-comparable correct/faulty pair.
+    /// Deterministic mode
     pub comparable_pair: bool,
 }
 
@@ -147,8 +132,6 @@ mod tests {
         }
     }
 
-    /// A low-bit cs1 fault keeps the signer accepting (z stays in bound) but the
-    /// faulty signature must not verify (fault propagates through A·Δ).
     #[test]
     fn cs1_fault_produces_non_verifying_signature() {
         let (pk, sk) = ml_dsa_65::key_gen_internal(&[0x42u8; 32]);

@@ -1,9 +1,3 @@
-//! FIPS 204 §7.3 — pseudorandom sampling (Algorithms 29–31).
-//!
-//! `RejNTTPoly`/`RejBoundedPoly` reject on **public** seed-derived bytes, so their
-//! data-dependent loop counts are acceptable (the conventional position). The inner
-//! `while j > i` loop of `SampleInBall` leaks only its *count* per signing call —
-//! the documented accepted leakage (Appendix C bounds it).
 #![allow(clippy::needless_range_loop)]
 
 use crate::encoding::{bytes_to_bits, coeff_from_half_byte, coeff_from_three_bytes};
@@ -11,8 +5,7 @@ use crate::hash::{G, H};
 use crate::params::{ParameterSet, N};
 use crate::poly::{Poly, PolyNTT};
 
-/// FIPS 204, Algorithm 29 — SampleInBall: `c ∈ R`, `τ` nonzero coeffs in `{−1, 1}`.
-/// `rho` is the commitment hash `c~` (`λ/4` bytes).
+/// FIPS 204, Algorithm 29 — SampleInBall
 pub fn sample_in_ball<P: ParameterSet>(rho: &[u8]) -> Poly {
     let tau = P::TAU;
     let mut c = Poly::zero();
@@ -39,7 +32,7 @@ pub fn sample_in_ball<P: ParameterSet>(rho: &[u8]) -> Poly {
     c
 }
 
-/// FIPS 204, Algorithm 30 — RejNTTPoly: `â ∈ T_q` from a public 34-byte seed.
+/// FIPS 204, Algorithm 30 — RejNTTPoly
 pub fn rej_ntt_poly(rho: &[u8; 34]) -> PolyNTT {
     let mut a = PolyNTT::zero();
     let mut reader = {
@@ -59,7 +52,7 @@ pub fn rej_ntt_poly(rho: &[u8; 34]) -> PolyNTT {
     a
 }
 
-/// FIPS 204, Algorithm 31 — RejBoundedPoly: `a ∈ R`, coeffs in `[−η, η]`, 66-byte seed.
+/// FIPS 204, Algorithm 31 — RejBoundedPoly
 pub fn rej_bounded_poly<P: ParameterSet>(rho: &[u8; 66]) -> Poly {
     let mut a = Poly::zero();
     let mut reader = {

@@ -1,6 +1,3 @@
-//! Vector lifts of the poly-level operations, shared by keygen / sign / verify.
-//! FIPS 204 applies NTT, rounding, and hints componentwise over `R^k` / `R^l`
-//! (§7.4, §7.6); these helpers express that lifting once.
 #![allow(clippy::needless_range_loop)]
 
 use crate::field::{mod_pm, reduce_q};
@@ -29,7 +26,7 @@ pub fn inv_ntt_vec<const M: usize>(v: &PolyVecNTT<M>) -> PolyVec<M> {
     out
 }
 
-/// [`ntt_vec`] on the improved (division-free) component.
+/// [ntt_vec] on the improved (division-free) component.
 pub fn ntt_vec_fast<const M: usize>(v: &PolyVec<M>) -> PolyVecNTT<M> {
     let mut out = PolyVecNTT::<M>::zero();
     for i in 0..M {
@@ -38,7 +35,7 @@ pub fn ntt_vec_fast<const M: usize>(v: &PolyVec<M>) -> PolyVecNTT<M> {
     out
 }
 
-/// [`inv_ntt_vec`] on the improved (division-free) component.
+/// [inv_ntt_vec] on the improved (division-free) component.
 pub fn inv_ntt_vec_fast<const M: usize>(v: &PolyVecNTT<M>) -> PolyVec<M> {
     let mut out = PolyVec::<M>::zero();
     for i in 0..M {
@@ -47,7 +44,7 @@ pub fn inv_ntt_vec_fast<const M: usize>(v: &PolyVecNTT<M>) -> PolyVec<M> {
     out
 }
 
-/// Componentwise `a + b` in `R^M` (reduced to `[0, q)`).
+/// Componentwise a + b in R^M (reduced to [0, q)).
 pub fn add_vec<const M: usize>(a: &PolyVec<M>, b: &PolyVec<M>) -> PolyVec<M> {
     let mut out = PolyVec::<M>::zero();
     for i in 0..M {
@@ -58,7 +55,7 @@ pub fn add_vec<const M: usize>(a: &PolyVec<M>, b: &PolyVec<M>) -> PolyVec<M> {
     out
 }
 
-/// Componentwise `a - b` in `R^M` (reduced to `[0, q)`).
+/// Componentwise a - b in R^M (reduced to [0, q)).
 pub fn sub_vec<const M: usize>(a: &PolyVec<M>, b: &PolyVec<M>) -> PolyVec<M> {
     let mut out = PolyVec::<M>::zero();
     for i in 0..M {
@@ -69,7 +66,7 @@ pub fn sub_vec<const M: usize>(a: &PolyVec<M>, b: &PolyVec<M>) -> PolyVec<M> {
     out
 }
 
-/// Componentwise negation `-a` in `R^M` (reduced to `[0, q)`).
+/// Componentwise negation -a in R^M (reduced to [0, q)).
 pub fn neg_vec<const M: usize>(a: &PolyVec<M>) -> PolyVec<M> {
     let mut out = PolyVec::<M>::zero();
     for i in 0..M {
@@ -80,7 +77,7 @@ pub fn neg_vec<const M: usize>(a: &PolyVec<M>) -> PolyVec<M> {
     out
 }
 
-/// Map each coefficient to its centred representative `mod± q` (in `(-q/2, q/2]`).
+/// Map each coefficient to its centred representative mod± q (in (-q/2, q/2]).
 pub fn center_vec<const M: usize>(a: &PolyVec<M>) -> PolyVec<M> {
     let mut out = PolyVec::<M>::zero();
     for i in 0..M {
@@ -91,7 +88,7 @@ pub fn center_vec<const M: usize>(a: &PolyVec<M>) -> PolyVec<M> {
     out
 }
 
-/// Power2Round over a vector; returns `(t1, t0)`.
+/// Power2Round over a vector and it returns (t1, t0).
 pub fn power2round_vec<const M: usize>(v: &PolyVec<M>) -> (PolyVec<M>, PolyVec<M>) {
     let mut t1 = PolyVec::<M>::zero();
     let mut t0 = PolyVec::<M>::zero();
@@ -145,7 +142,7 @@ pub fn use_hint_vec<P: ParameterSet, const M: usize>(
     out
 }
 
-/// Centred infinity norm `‖v‖∞` (each coefficient reduced `mod± q` first).
+/// Centred infinity norm ‖v‖∞ (each coefficient reduced mod± q first).
 pub fn inf_norm<const M: usize>(v: &PolyVec<M>) -> i32 {
     let mut m = 0;
     for i in 0..M {
@@ -159,7 +156,7 @@ pub fn inf_norm<const M: usize>(v: &PolyVec<M>) -> i32 {
     m
 }
 
-/// Number of nonzero (`1`) coefficients across a hint vector.
+/// Number of nonzero (1) coefficients across a hint vector.
 pub fn count_ones<const M: usize>(v: &PolyVec<M>) -> usize {
     let mut c = 0;
     for i in 0..M {
@@ -172,12 +169,7 @@ pub fn count_ones<const M: usize>(v: &PolyVec<M>) -> usize {
     c
 }
 
-// --- Improved path: branchless variants ---
-
-/// Branchless `‖v‖∞ >= bound`: value-equal to `inf_norm(v) >= bound` (tested),
-/// with no per-coefficient branch — a violation mask is OR-accumulated and only
-/// the *aggregate* answer becomes a branch at the caller, which is exactly the
-/// accept/reject decision whose count is the documented rejection-loop leakage.
+//Improved path: branchless variants
 pub fn exceeds_bound_ct<const M: usize>(v: &PolyVec<M>, bound: i32) -> bool {
     use crate::ct::gt_mask;
     use crate::field::to_canonical;
@@ -195,8 +187,7 @@ pub fn exceeds_bound_ct<const M: usize>(v: &PolyVec<M>, bound: i32) -> bool {
     violation != 0
 }
 
-/// Branchless [`count_ones`]. Contract: coefficients must be `0`/`1` (true for
-/// every hint vector by construction), so counting is plain summation.
+/// Branchless [count_ones]..
 pub fn count_ones_ct<const M: usize>(v: &PolyVec<M>) -> usize {
     let mut c = 0usize;
     for i in 0..M {
@@ -265,8 +256,6 @@ mod tests {
         v
     }
 
-    /// `exceeds_bound_ct` must agree with `inf_norm >= bound` everywhere,
-    /// including exactly at the boundary (the off-by-one a KAT would miss).
     #[test]
     fn exceeds_bound_ct_equals_inf_norm_check() {
         let mut rng = XorShift(0x600d_b075_1234_5678);

@@ -1,15 +1,5 @@
-//! `Z_q` arithmetic primitives.
-//!
-//! The faithful baseline works in the **canonical range `[0, q)`** and reduces with
-//! plain `mod q` (`rem_euclid`, a hardware division), exactly as FIPS 204's
-//! pseudocode writes it. The centred representative `mod±` is provided for the few
-//! places the spec calls for it explicitly (Power2Round, Decompose).
-//!
-//! The **improved path** replaces the division with Montgomery reduction
-//! (FIPS 204 Appendix A / Algorithm 49) and a branchless canonicalization
-//! ([`reduce32`] + `caddq`): multiplications and shifts only. Both reducers are
-//! *value-equal* to the baseline at every function boundary — the equivalence
-//! tests below pin `to_canonical` to `rem_euclid` over the full `i32` range.
+//! `Z_q` modular arithmetic primitives.
+//! Baseline uses plain hardware division (`rem_euclid`), while the optimized path uses division-free Montgomery reduction.
 
 use crate::ct::caddq;
 use crate::params::Q;
@@ -20,20 +10,15 @@ pub fn reduce_q(x: i64) -> i32 {
     x.rem_euclid(Q as i64) as i32
 }
 
-// --- Improved-path reducers (division-free) ---
+//Improved-path reducers (division-free)
 
-/// `q^{-1} mod 2^32` (so `Q.wrapping_mul(QINV) == 1` on `u32`).
+/// q^{-1} mod 2^32
 const QINV: u32 = 58_728_449;
 
-/// `R^2 mod q` where `R = 2^32` — converts one Montgomery reduction's `R^{-1}` away.
+/// R^2 mod q where R = 2^32
 pub(crate) const R2: i64 = ((1u128 << 64) % Q as u128) as i64;
 
-/// FIPS 204, Algorithm 49 — MontgomeryReduce: for `|a| < 2^31·q` (strict), returns
-/// `r ≡ a · 2^{-32} (mod q)` with `|r| < q`, using only multiplications and shifts
-/// (no division). The wrapping multiply takes the low 32 bits mod `2^32`, exactly
-/// the `mod 2^32` of the spec. (At `a = ±2^31·q` exactly, the result can reach `q`,
-/// so the precondition is strict; the widest caller, `inv_ntt_fast`, stays below
-/// it at `256q² < 2^31·q`.)
+/// FIPS 204, Algorithm 49 — MontgomeryReduce
 #[inline]
 pub fn montgomery_reduce(a: i64) -> i32 {
     debug_assert!(a.unsigned_abs() < (1u64 << 31) * Q as u64);
@@ -41,23 +26,20 @@ pub fn montgomery_reduce(a: i64) -> i32 {
     ((a - t as i64 * Q as i64) >> 32) as i32
 }
 
-/// Division-free partial reduction: for any `i32`, returns `r ≡ a (mod q)` with
-/// `|r| < q` (in fact `|r| ≤ 2^22 + 2^13`), via one shift and one multiply.
+///for any i32, returns r ≡ a (mod q) with |r| < q, via one shift and one multiply.
 #[inline]
 pub(crate) fn reduce32(a: i32) -> i32 {
     let t = ((a as i64 + (1 << 22)) >> 23) as i32; // ≈ round(a / 2^23)
     (a as i64 - t as i64 * Q as i64) as i32
 }
 
-/// Branchless canonicalization to `[0, q)`: value-equal to `a.rem_euclid(Q)` for
-/// every `i32` input (pinned by test), with no division and no branch.
+/// Branchless canonicalization to [0, q) without division and branch.
 #[inline]
 pub(crate) fn to_canonical(a: i32) -> i32 {
     caddq(reduce32(a))
 }
 
-/// Centred modulo `mod± alpha`: the representative of `r` in `(-alpha/2, alpha/2]`.
-/// `alpha` is assumed positive and even (it is `2^d` or `2*gamma2` in this crate).
+///the representative of r in (-alpha/2, alpha/2].
 #[inline]
 pub fn mod_pm(r: i32, alpha: i32) -> i32 {
     let mut x = r.rem_euclid(alpha);

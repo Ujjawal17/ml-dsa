@@ -1,24 +1,14 @@
-//! FIPS 204 §7.5 — the Number-Theoretic Transform and its inverse.
-//!
-//! Faithful transcription using plain `mod q` arithmetic. The zeta convention is
-//! **observable through the KAT** (the matrix `A-hat` is sampled directly in the NTT
-//! domain by RejNTTPoly), so it must match the spec exactly:
-//! `zetas[m] = ζ^BitRev8(m) mod q` with `ζ = 1753`. The table is computed at compile
-//! time from `ζ` and `BitRev8` so it can be audited rather than trusted as a blob.
-//!
-//! Indexed `while`/`for` loops mirror the spec pseudocode line-for-line on purpose.
-
 use crate::field::reduce_q;
 use crate::params::{N, Q};
 use crate::poly::{Poly, PolyNTT};
 
-/// `ζ = 1753`, a 512th root of unity modulo `q` (FIPS 204 §2.5).
+/// ζ = 1753, a 512th root of unity modulo q.
 const ZETA: i64 = 1753;
 
-/// `256^{-1} mod q`, applied at the end of NTT^{-1} (FIPS 204 Algorithm 42, line 21).
+/// 256^{-1} mod q, applied at the end of NTT^{-1}.
 const F_256_INV: i64 = 8_347_681;
 
-/// FIPS 204, Algorithm 43 — BitRev8: reverse the bits of an 8-bit integer.
+/// FIPS 204, Algorithm 43 — BitRev8 to reverse the bits of an 8-bit integer.
 pub const fn bit_rev_8(m: u8) -> u8 {
     let mut r = 0u8;
     let mut i = 0;
@@ -29,8 +19,8 @@ pub const fn bit_rev_8(m: u8) -> u8 {
     r
 }
 
-/// `zetas[m] = ζ^BitRev8(m) mod q`, in `[0, q)` (FIPS 204 §7.5 / Appendix B).
-/// Computed at compile time so the table is derivable from `ζ` and `BitRev8`.
+/// zetas[m] = ζ^BitRev8(m) mod q, in [0, q)
+///below is computed at compile time so the table is derivable from ζ and BitRev8.
 pub const ZETAS: [i32; N] = {
     let mut z = [0i32; N];
     let mut m = 0usize;
@@ -41,7 +31,7 @@ pub const ZETAS: [i32; N] = {
     z
 };
 
-/// Compile-time modular exponentiation (used only to build `ZETAS`).
+/// below is for compile-time modular exponentiation (used only to build ZETAS).
 const fn pow_mod(base: i64, exp: u64, q: i64) -> i64 {
     let mut result = 1i64;
     let mut b = base % q;
@@ -56,9 +46,7 @@ const fn pow_mod(base: i64, exp: u64, q: i64) -> i64 {
     result
 }
 
-/// `zetas[m] · R mod q` with `R = 2^32` — the twiddle table pre-scaled into the
-/// Montgomery domain, so `montgomery_reduce(ZETAS_MONT[m] · a) = zetas[m] · a mod q`
-/// (the `R` and the `R^{-1}` cancel). Entries are in `[0, q)`.
+/// zetas[m] * R mod q with R = 2^32 — the twiddle table pre-scaled into the Montgomery domain.
 pub(crate) const ZETAS_MONT: [i32; N] = {
     let mut z = [0i32; N];
     let mut m = 0usize;
@@ -69,11 +57,10 @@ pub(crate) const ZETAS_MONT: [i32; N] = {
     z
 };
 
-/// `256^{-1} · R mod q`: one Montgomery reduction by this both applies the final
-/// `256^{-1}` scaling of NTT^{-1} (Algorithm 42, line 21) and cancels the `R^{-1}`.
+/// 256^{-1} · R mod q: one Montgomery reduction by this both applies the final 256^{-1} scaling of NTT^{-1}.
 const F_256_INV_MONT: i64 = ((F_256_INV as i128 * (1i128 << 32)) % Q as i128) as i64;
 
-/// FIPS 204, Algorithm 41 — NTT: maps `w ∈ R_q` to `ŵ ∈ T_q`.
+/// FIPS 204, Algorithm 41 — NTT to map w ∈ R_q to ŵ ∈ T_q.
 pub fn ntt(w: &Poly) -> PolyNTT {
     let mut a = w.coeffs;
     for c in a.iter_mut() {
@@ -100,7 +87,7 @@ pub fn ntt(w: &Poly) -> PolyNTT {
     PolyNTT { coeffs: a }
 }
 
-/// FIPS 204, Algorithm 42 — NTT^{-1}: maps `ŵ ∈ T_q` back to `w ∈ R_q`.
+/// FIPS 204, Algorithm 42 — NTT^{-1} to map ŵ ∈ T_q back to w ∈ R_q.
 pub fn inv_ntt(w_hat: &PolyNTT) -> Poly {
     let mut a = w_hat.coeffs;
     for c in a.iter_mut() {
@@ -112,7 +99,7 @@ pub fn inv_ntt(w_hat: &PolyNTT) -> Poly {
         let mut start = 0usize;
         while start < N {
             m -= 1;
-            let z = reduce_q(-(ZETAS[m] as i64)) as i64; // line 10: z ← -zetas[m] mod q
+            let z = reduce_q(-(ZETAS[m] as i64)) as i64;
             let mut j = start;
             while j < start + len {
                 let t = a[j]; // line 12
@@ -131,18 +118,7 @@ pub fn inv_ntt(w_hat: &PolyNTT) -> Poly {
     Poly { coeffs: a }
 }
 
-// --- Improved path: Montgomery + deferred ("lazy") reduction ---
-//
-// Identical loop structure to the baseline above, but each butterfly costs one
-// Montgomery multiply instead of three `rem_euclid` divisions; coefficients are
-// left unreduced between layers and canonicalized once at the end, so the output
-// arrays are **value-equal** to the baseline's (pinned by the equivalence tests).
-
-/// Deferred-reduction NTT: value-equal to [`ntt`], division-free.
-///
-/// Overflow argument: inputs are canonicalized to `[0, q)`; each layer adds a
-/// Montgomery product `|t| < q`, so after the 8 layers `|a[i]| < 9q ≈ 2^26.2`
-/// (fits `i32`), and every Montgomery input is `< q · 9q « 2^31·q`.
+//Improved path: Montgomery + deferred ("lazy") reduction
 pub fn ntt_fast(w: &Poly) -> PolyNTT {
     use crate::field::{montgomery_reduce, to_canonical};
     let mut a = w.coeffs;
@@ -173,12 +149,7 @@ pub fn ntt_fast(w: &Poly) -> PolyNTT {
     PolyNTT { coeffs: a }
 }
 
-/// Deferred-reduction NTT^{-1}: value-equal to [`inv_ntt`], division-free.
-///
-/// Overflow argument: the sums `t ± a[j+len]` double the coefficient bound per
-/// layer, so from `[0, q)` the bound after 8 layers is `256q = 2 145 386 752`,
-/// which still fits `i32` (max `2 147 483 647`); every Montgomery input is
-/// `< q · 256q = 256q² < 2^31·q` (the `montgomery_reduce` precondition, tightly).
+/// Deferred-reduction NTT^{-1}, division-free.
 pub fn inv_ntt_fast(w_hat: &PolyNTT) -> Poly {
     use crate::ct::caddq;
     use crate::field::{montgomery_reduce, to_canonical};
@@ -206,8 +177,6 @@ pub fn inv_ntt_fast(w_hat: &PolyNTT) -> Poly {
         len *= 2;
     }
     for c in a.iter_mut() {
-        // lines 21-24: multiply by 256^{-1}; the Montgomery form of the constant
-        // absorbs the R^{-1}, and caddq lifts (-q, q) to [0, q).
         *c = caddq(montgomery_reduce(F_256_INV_MONT * (*c as i64)));
     }
     Poly { coeffs: a }
@@ -242,8 +211,6 @@ mod tests {
         p
     }
 
-    /// Schoolbook negacyclic multiply in R_q (X^256 = -1) — the reference the NTT
-    /// path must agree with. Indexed loops mirror the textbook convolution.
     #[allow(clippy::needless_range_loop)]
     fn schoolbook(a: &Poly, b: &Poly) -> Poly {
         let mut acc = [0i64; N];
@@ -296,9 +263,6 @@ mod tests {
         assert_eq!(bit_rev_8(0b0000_0011), 0b1100_0000);
     }
 
-    /// Adversarial coefficient patterns for the fast-path equivalence tests:
-    /// boundary values that maximize intermediate growth (worst case for the
-    /// deferred-reduction overflow argument) plus values outside `[0, q)`.
     fn adversarial_polys() -> Vec<Poly> {
         let mut polys = vec![Poly::zero()];
         let mut all_max = Poly::zero();

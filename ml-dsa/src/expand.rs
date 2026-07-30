@@ -1,9 +1,3 @@
-//! FIPS 204 §7.3 — ExpandA / ExpandS / ExpandMask (Algorithms 32–34).
-//!
-//! `ExpandA` samples the public matrix directly in the NTT domain (`Â`). `ExpandS`
-//! samples the secrets `s1, s2`. `ExpandMask` derives the per-signature masking
-//! vector `y` from a secret-derived seed (no rejection — `BitUnpack` always succeeds
-//! because `γ1` is a power of two), so it is straightforwardly constant-time.
 #![allow(clippy::needless_range_loop)]
 
 use crate::encoding::{bit_unpack, bitlen, integer_to_bytes};
@@ -12,7 +6,7 @@ use crate::params::ParameterSet;
 use crate::poly::{PolyMatNTT, PolyVec};
 use crate::sample::{rej_bounded_poly, rej_ntt_poly};
 
-/// FIPS 204, Algorithm 32 — ExpandA: the `K×L` matrix `Â` in the NTT domain.
+/// FIPS 204, Algorithm 32 — ExpandA to the K×L matrix Â in the NTT domain.
 pub fn expand_a<const K: usize, const L: usize>(rho: &[u8; 32]) -> PolyMatNTT<K, L> {
     let mut a = PolyMatNTT::<K, L>::zero();
     for r in 0..K {
@@ -27,7 +21,7 @@ pub fn expand_a<const K: usize, const L: usize>(rho: &[u8; 32]) -> PolyMatNTT<K,
     a
 }
 
-/// FIPS 204, Algorithm 33 — ExpandS: secret vectors `s1 ∈ R^L`, `s2 ∈ R^K` in `[−η, η]`.
+/// FIPS 204, Algorithm 33 — ExpandS to secret vectors s1 ∈ R^L, s2 ∈ R^K in [−η, η].
 pub fn expand_s<P: ParameterSet, const K: usize, const L: usize>(
     rho: &[u8; 64],
 ) -> (PolyVec<L>, PolyVec<K>) {
@@ -42,7 +36,7 @@ pub fn expand_s<P: ParameterSet, const K: usize, const L: usize>(
     (s1, s2)
 }
 
-/// Build the 66-byte RejBoundedPoly seed `ρ || IntegerToBytes(nonce, 2)`.
+/// It builds the 66-byte RejBoundedPoly seed ρ || IntegerToBytes(nonce, 2).
 fn bounded_seed(rho: &[u8; 64], nonce: u64) -> [u8; 66] {
     let mut seed = [0u8; 66];
     seed[..64].copy_from_slice(rho);
@@ -52,9 +46,9 @@ fn bounded_seed(rho: &[u8; 64], nonce: u64) -> [u8; 66] {
     seed
 }
 
-/// FIPS 204, Algorithm 34 — ExpandMask: masking vector `y ∈ R^L`, coeffs in `(−γ1, γ1]`.
+/// FIPS 204, Algorithm 34 — ExpandMask to masking vector y ∈ R^L, coeffs in (−γ1, γ1].
 pub fn expand_mask<P: ParameterSet, const L: usize>(rho: &[u8; 64], mu: u32) -> PolyVec<L> {
-    let c = 1 + bitlen(P::GAMMA1 as u32 - 1) as usize; // 20 (or 18 for ML-DSA-44)
+    let c = 1 + bitlen(P::GAMMA1 as u32 - 1) as usize; //20 (or 18 for ML-DSA-44)
     let mut y = PolyVec::<L>::zero();
     for r in 0..L {
         let mut h = H::init();

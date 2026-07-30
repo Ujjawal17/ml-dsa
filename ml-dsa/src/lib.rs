@@ -1,13 +1,6 @@
-#![forbid(unsafe_code)]
+#![forbid(unsafe_code)] //to make "pure safe Rust" a compiler-enforced property of the whole crate
+
 //! ML-DSA (FIPS 204) — a faithful reference implementation in pure safe Rust.
-//!
-//! The core algorithms are generic over a [`params::ParameterSet`] (plus explicit
-//! `K`/`L` const generics — a stable-Rust constraint, see `params.rs`); the
-//! [`ml_dsa_44`], [`ml_dsa_65`], and [`ml_dsa_87`] modules instantiate them per
-//! parameter set so callers never spell the generics out.
-//!
-//! `#![forbid(unsafe_code)]` above makes "pure safe Rust" a compiler-enforced
-//! property of the whole crate — a hardening claim the C reference cannot state.
 
 pub mod encoding;
 pub mod error;
@@ -20,6 +13,7 @@ pub mod ntt;
 pub mod ntt_arith;
 pub mod params;
 pub mod poly;
+pub mod prehash;
 pub mod rounding;
 pub mod sample;
 pub mod serdes;
@@ -33,9 +27,9 @@ mod ct;
 pub use error::{Error, Result};
 pub use ntt::{inv_ntt, ntt};
 pub use poly::{Poly, PolyMatNTT, PolyNTT, PolyVec, PolyVecNTT};
+pub use prehash::PreHash;
 
-/// Instantiate the §5/§6 interfaces for one parameter set as a module of plain
-/// (non-generic) functions.
+/// Below instantiate the interfaces for one parameter set as a module of plain functions.
 macro_rules! parameter_set_api {
     ($mod_name:ident, $doc:literal, $param:ty) => {
         #[doc = $doc]
@@ -45,7 +39,6 @@ macro_rules! parameter_set_api {
             use crate::params::ParameterSet;
             use crate::Result;
 
-            /// The `ParameterSet` marker type of this module.
             pub type Params = $param;
             const K: usize = <$param>::K;
             const L: usize = <$param>::L;
@@ -62,7 +55,7 @@ macro_rules! parameter_set_api {
                 crate::keygen::key_gen::<Params, K, L, R>(rng)
             }
 
-            /// FIPS 204, Algorithm 6 — ML-DSA.KeyGen_internal (deterministic in `ξ`).
+            /// FIPS 204, Algorithm 6 — ML-DSA.KeyGen_internal (deterministic in ξ).
             pub fn key_gen_internal(xi: &[u8; 32]) -> (Vec<u8>, Vec<u8>) {
                 crate::keygen::key_gen_internal::<Params, K, L>(xi)
             }
@@ -77,12 +70,12 @@ macro_rules! parameter_set_api {
                 crate::sign::sign::<Params, K, L, R>(sk, m, ctx, rng)
             }
 
-            /// Deterministic signing variant (FIPS 204 §3.4): `rnd = {0}^32`.
+            /// Deterministic signing variant using rnd = {0}^32.
             pub fn sign_deterministic(sk: &[u8], m: &[u8], ctx: &[u8]) -> Result<Vec<u8>> {
                 crate::sign::sign_deterministic::<Params, K, L>(sk, m, ctx)
             }
 
-            /// Deterministic signing that also returns the rejection-loop count.
+            /// Deterministic signing that returns the rejection-loop count.
             pub fn sign_deterministic_traced(
                 sk: &[u8],
                 m: &[u8],
@@ -106,17 +99,17 @@ macro_rules! parameter_set_api {
                 crate::verify::verify_internal::<Params, K, L>(pk, m_prime, sig)
             }
 
-            // --- Improved path (byte-identical outputs; see `signer` module) ---
+            //Improved path (byte-identical outputs)
 
-            /// The amortized, prepared signer for this parameter set.
+            /// The amortized signer for this parameter set.
             pub type Signer = crate::signer::Signer<Params, K, L>;
 
-            /// Improved-path KeyGen (division-free NTT; byte-identical output).
+            ///Improved-path KeyGen (division-free NTT and byte-identical output).
             pub fn key_gen_fast<R: CryptoRng + RngCore>(rng: &mut R) -> (Vec<u8>, Vec<u8>) {
                 crate::keygen::key_gen_fast::<Params, K, L, R>(rng)
             }
 
-            /// Improved-path KeyGen_internal (deterministic in `ξ`).
+            /// Improved-path KeyGen_internal (deterministic in ξ).
             pub fn key_gen_internal_fast(xi: &[u8; 32]) -> (Vec<u8>, Vec<u8>) {
                 crate::keygen::key_gen_internal_fast::<Params, K, L>(xi)
             }
@@ -135,6 +128,46 @@ macro_rules! parameter_set_api {
             pub fn verify_internal_fast(pk: &[u8], m_prime: &[u8], sig: &[u8]) -> bool {
                 crate::verify::verify_internal_fast::<Params, K, L>(pk, m_prime, sig)
             }
+
+            //HashML-DSA (pre-hash)
+            pub use crate::prehash::PreHash;
+
+            /// FIPS 204, Algorithm 4 — HashML-DSA.Sign (hedged).
+            pub fn hash_sign<R: CryptoRng + RngCore>(
+                sk: &[u8],
+                m: &[u8],
+                ctx: &[u8],
+                ph: PreHash,
+                rng: &mut R,
+            ) -> Result<Vec<u8>> {
+                crate::sign::hash_sign::<Params, K, L, R>(sk, m, ctx, ph, rng)
+            }
+
+            /// Deterministic HashML-DSA.Sign (rnd = {0}^32).
+            pub fn hash_sign_deterministic(
+                sk: &[u8],
+                m: &[u8],
+                ctx: &[u8],
+                ph: PreHash,
+            ) -> Result<Vec<u8>> {
+                crate::sign::hash_sign_deterministic::<Params, K, L>(sk, m, ctx, ph)
+            }
+
+            /// HashML-DSA.Sign with an explicit rnd.
+            pub fn hash_sign_with_rnd(
+                sk: &[u8],
+                m: &[u8],
+                ctx: &[u8],
+                ph: PreHash,
+                rnd: &[u8; 32],
+            ) -> Result<Vec<u8>> {
+                crate::sign::hash_sign_with_rnd::<Params, K, L>(sk, m, ctx, ph, rnd)
+            }
+
+            /// FIPS 204, Algorithm 5 — HashML-DSA.Verify.
+            pub fn hash_verify(pk: &[u8], m: &[u8], sig: &[u8], ctx: &[u8], ph: PreHash) -> bool {
+                crate::verify::hash_verify::<Params, K, L>(pk, m, sig, ctx, ph)
+            }
         }
     };
 }
@@ -145,7 +178,7 @@ parameter_set_api!(ml_dsa_87, "ML-DSA-87 (security category 5).", crate::params:
 
 #[cfg(test)]
 mod tests {
-    /// Full sign→verify round trip through the per-set wrappers, all three sets.
+    /// Full sign→verify round trip for all three sets.
     #[test]
     fn round_trip_all_parameter_sets() {
         macro_rules! round_trip {
@@ -164,9 +197,6 @@ mod tests {
         round_trip!(ml_dsa_87);
     }
 
-    /// Randomized reference == improved equivalence over fresh keys, messages,
-    /// and randomness — the guardrail the fixed KAT vectors cannot provide
-    /// (e.g. deferred-reduction boundary cases), across all three sets.
     #[test]
     fn improved_path_equals_reference_randomized() {
         struct XorShift(u64);

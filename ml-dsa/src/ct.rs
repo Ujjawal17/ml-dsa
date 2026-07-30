@@ -1,37 +1,30 @@
-//! Constant-time helpers. Secret-dependent code must use these rather than a data
-//! `if`, so that running time does not depend on secret values — the property the
-//! Part 2 side-channel chapter measures. These are branchless: on `i32`, `a >> 31`
-//! is all-ones iff `a` is negative, which gives a mask with no branch.
-//!
-//! (Allowed dead-code in Phase 0: `field.rs` in Phase 1 is the first consumer.)
-#![allow(dead_code)]
+//! Constant-time helpers. Secret-dependent code use these rather than a data if, so that running time does not depend on secret values. 
+//! These are branchless on i32, a >> 31 is all-ones iff a is negative, which gives a mask with no branch.
+
+#![allow(dead_code)] //to avoid unused function warnings
 
 use crate::params::Q;
 
-/// Conditional add of `q`: returns `a + q` if `a < 0`, else `a`. Normalizes a
-/// possibly-negative centred value toward `[0, q)` without a data-dependent branch.
+/// conitional add of q and normalize towards range [0,q) by adding Q
 #[inline(always)]
 pub(crate) fn caddq(a: i32) -> i32 {
-    a + ((a >> 31) & Q)
+    a + ((a >> 31) & Q) 
 }
 
-/// Conditional subtract of `q`: returns `a - q` if `a >= q`, else `a`.
+/// conditional subtract of q
 #[inline(always)]
 pub(crate) fn csubq(a: i32) -> i32 {
     let b = a - Q;
     b + ((b >> 31) & Q)
 }
 
-/// All-ones mask iff `a > b` (signed), else zero — without a branch.
-/// Valid when `b - a` does not overflow `i32` (all uses here are values in
-/// `(-q, q)`-scale ranges, far from the `i32` limits).
+/// All-ones mask iff a > b (signed), else zero
 #[inline(always)]
 pub(crate) fn gt_mask(a: i32, b: i32) -> i32 {
     (b - a) >> 31
 }
 
-/// `1` iff `a != b`, else `0` — without a branch: `x | -x` has its sign bit set
-/// exactly when `x != 0`.
+/// 1 iff a != b, else 0
 #[inline(always)]
 pub(crate) fn ne_bit(a: i32, b: i32) -> i32 {
     let x = a ^ b;

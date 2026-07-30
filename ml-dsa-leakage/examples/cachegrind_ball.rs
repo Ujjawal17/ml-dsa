@@ -1,12 +1,5 @@
-//! Cachegrind target for `SampleInBall`'s data-dependent memory behaviour.
-//!
-//! Runs `sample_in_ball` on a seed byte chosen from argv, so two runs with different
-//! seeds can be compared under `valgrind --tool=cachegrind`. `cg_annotate --auto=yes`
-//! then shows, per source line in `sample.rs`:
-//!   * the rejection-sampling line (`squeeze` / `j = byte`) — data accesses that VARY
-//!     with the seed (the variable loop-count leak), and
-//!   * the write `c.coeffs[j] = c.coeffs[i]` — executed a FIXED τ = 49 times, but at
-//!     a secret-derived index `j` (the data-address / cache-line leak).
+//! It runs `sample_in_ball` on a seed byte chosen from argv, so two runs with different seeds can be compared under 
+// valgrind --tool=cachegrind. cg_annotate --auto=yes
 
 use std::hint::black_box;
 

@@ -1,15 +1,10 @@
-//! FIPS 204 §7.6 — linear algebra in the NTT domain `T_q` (faithful, plain mod q).
-//!
-//! Indexed loops mirror the spec pseudocode ("for i from 0 to 255"), so the
-//! `needless_range_loop` lint is intentionally allowed here for readability against
-//! the standard.
 #![allow(clippy::needless_range_loop)]
 
 use crate::field::reduce_q;
 use crate::params::N;
 use crate::poly::{PolyMatNTT, PolyNTT, PolyVecNTT};
 
-/// FIPS 204, Algorithm 44 — AddNTT: componentwise sum in `T_q`.
+/// FIPS 204, Algorithm 44 — AddNTT to calculate the componentwise sum in T_q.
 pub fn add_ntt(a: &PolyNTT, b: &PolyNTT) -> PolyNTT {
     let mut c = PolyNTT::zero();
     for i in 0..N {
@@ -18,16 +13,16 @@ pub fn add_ntt(a: &PolyNTT, b: &PolyNTT) -> PolyNTT {
     c
 }
 
-/// FIPS 204, Algorithm 45 — MultiplyNTT: componentwise (pointwise) product in `T_q`.
+/// FIPS 204, Algorithm 45 — MultiplyNTT to calculate the componentwise (pointwise) product in T_q.
 pub fn multiply_ntt(a: &PolyNTT, b: &PolyNTT) -> PolyNTT {
     let mut c = PolyNTT::zero();
     for i in 0..N {
         c.coeffs[i] = reduce_q(a.coeffs[i] as i64 * b.coeffs[i] as i64);
     }
-    c
+    c   
 }
 
-/// FIPS 204, Algorithm 46 — AddVectorNTT: sum of two length-`L` vectors over `T_q`.
+/// FIPS 204, Algorithm 46 — AddVectorNTT to calculate the sum of two length-L vectors over T_q.
 pub fn add_vector_ntt<const L: usize>(v: &PolyVecNTT<L>, w: &PolyVecNTT<L>) -> PolyVecNTT<L> {
     let mut u = PolyVecNTT::<L>::zero();
     for i in 0..L {
@@ -36,7 +31,7 @@ pub fn add_vector_ntt<const L: usize>(v: &PolyVecNTT<L>, w: &PolyVecNTT<L>) -> P
     u
 }
 
-/// FIPS 204, Algorithm 47 — ScalarVectorNTT: scalar `c` times a length-`L` vector.
+/// FIPS 204, Algorithm 47 — ScalarVectorNTT to calculate the product of a scalar c times a length-L vector.
 pub fn scalar_vector_ntt<const L: usize>(c: &PolyNTT, v: &PolyVecNTT<L>) -> PolyVecNTT<L> {
     let mut w = PolyVecNTT::<L>::zero();
     for i in 0..L {
@@ -45,7 +40,7 @@ pub fn scalar_vector_ntt<const L: usize>(c: &PolyNTT, v: &PolyVecNTT<L>) -> Poly
     w
 }
 
-/// FIPS 204, Algorithm 48 — MatrixVectorNTT: `K x L` matrix times length-`L` vector.
+/// FIPS 204, Algorithm 48 — MatrixVectorNTT to calculate the product of a K x L matrix times length-L vector.
 pub fn matrix_vector_ntt<const K: usize, const L: usize>(
     m: &PolyMatNTT<K, L>,
     v: &PolyVecNTT<L>,
@@ -59,10 +54,9 @@ pub fn matrix_vector_ntt<const K: usize, const L: usize>(
     w
 }
 
-// --- Improved path: division-free counterparts (value-equal to the above) ---
+//Improved path: division-free counterparts
 
-/// [`add_ntt`] without division: both inputs are canonical `[0, q)`, so one
-/// branchless conditional subtract reduces the sum.
+/// [add_ntt] without division
 pub fn add_ntt_fast(a: &PolyNTT, b: &PolyNTT) -> PolyNTT {
     use crate::ct::csubq;
     let mut c = PolyNTT::zero();
@@ -72,9 +66,7 @@ pub fn add_ntt_fast(a: &PolyNTT, b: &PolyNTT) -> PolyNTT {
     c
 }
 
-/// [`multiply_ntt`] without division: `montgomery_reduce(a·b)` yields `ab·R^{-1}`;
-/// a second reduction against `R² mod q` cancels the `R^{-1}`, and `caddq` lifts
-/// the `(-q, q)` result to canonical `[0, q)`.
+/// [multiply_ntt] without division
 pub fn multiply_ntt_fast(a: &PolyNTT, b: &PolyNTT) -> PolyNTT {
     use crate::ct::caddq;
     use crate::field::{montgomery_reduce, R2};
@@ -86,7 +78,7 @@ pub fn multiply_ntt_fast(a: &PolyNTT, b: &PolyNTT) -> PolyNTT {
     c
 }
 
-/// [`add_vector_ntt`] on the fast component.
+/// [add_vector_ntt] on the fast component.
 pub fn add_vector_ntt_fast<const L: usize>(
     v: &PolyVecNTT<L>,
     w: &PolyVecNTT<L>,
@@ -98,7 +90,7 @@ pub fn add_vector_ntt_fast<const L: usize>(
     u
 }
 
-/// [`scalar_vector_ntt`] on the fast component.
+/// [scalar_vector_ntt] on the fast component.
 pub fn scalar_vector_ntt_fast<const L: usize>(c: &PolyNTT, v: &PolyVecNTT<L>) -> PolyVecNTT<L> {
     let mut w = PolyVecNTT::<L>::zero();
     for i in 0..L {
@@ -107,7 +99,7 @@ pub fn scalar_vector_ntt_fast<const L: usize>(c: &PolyNTT, v: &PolyVecNTT<L>) ->
     w
 }
 
-/// [`matrix_vector_ntt`] on the fast components.
+/// [matrix_vector_ntt] on the fast components.
 pub fn matrix_vector_ntt_fast<const K: usize, const L: usize>(
     m: &PolyMatNTT<K, L>,
     v: &PolyVecNTT<L>,
@@ -137,8 +129,6 @@ mod tests {
         assert_eq!(add_ntt(&a, &b).coeffs[0], 4); // (q-1)+5 = q+4 ≡ 4
     }
 
-    /// MatrixVectorNTT over a 1x1 matrix must equal a single pointwise product,
-    /// and inverse-transform to the schoolbook product of the two operands.
     #[test]
     fn matrix_vector_1x1_matches_pointwise() {
         let mut a = Poly::zero();
@@ -174,8 +164,6 @@ mod tests {
         p
     }
 
-    /// The fast pointwise ops must be value-equal to the baseline on canonical
-    /// inputs, including the boundary pattern all-(q−1) that maximizes products.
     #[test]
     fn fast_arith_equals_baseline() {
         let mut rng = XorShift(0x0123_4567_89ab_cdef);

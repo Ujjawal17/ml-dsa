@@ -1,35 +1,25 @@
-//! FIPS 204 §7.2 — hint packing (Algorithms 20, 21).
-//!
-//! The hint `h` is a vector of `K` polynomials with binary coefficients and at most
-//! `ω` ones in total. HintBitPack stores, in its first `ω` bytes, the positions of
-//! the ones (per polynomial, ascending), and in its last `K` bytes a running count.
-//! HintBitUnpack reverses this and returns `⊥` (None) on any malformed encoding —
-//! a security requirement (FIPS 204 §6.3): Verify must reject a bad hint.
-//!
-//! The encoding is `ω + K` bytes; since `ω` comes from the `ParameterSet` trait it
-//! cannot size an array on stable Rust, so these return/accept `Vec<u8>`/slices.
 #![allow(clippy::needless_range_loop)]
 
 use crate::params::{ParameterSet, N};
 use crate::poly::PolyVec;
 
-/// FIPS 204, Algorithm 20 — HintBitPack: encode binary hint `h` into `ω + K` bytes.
+/// FIPS 204, Algorithm 20 — HintBitPack to encode/serialize binary hint h into ω + K bytes.
 pub fn hint_bit_pack<P: ParameterSet, const K: usize>(h: &PolyVec<K>) -> Vec<u8> {
     let mut y = vec![0u8; P::OMEGA + K];
     let mut index = 0usize;
     for i in 0..K {
         for j in 0..N {
             if h.v[i].coeffs[j] != 0 {
-                y[index] = j as u8; // position of a nonzero coeff
+                y[index] = j as u8; //position of a nonzero coeff
                 index += 1;
             }
         }
-        y[P::OMEGA + i] = index as u8; // running count after poly i
+        y[P::OMEGA + i] = index as u8; //running count after poly i
     }
-    y
+    y 
 }
 
-/// FIPS 204, Algorithm 21 — HintBitUnpack: reverse HintBitPack, or `⊥` (None) if malformed.
+/// FIPS 204, Algorithm 21 — HintBitUnpack to reverse HintBitPack, or ⊥ (None) if malformed.
 pub fn hint_bit_unpack<P: ParameterSet, const K: usize>(y: &[u8]) -> Option<PolyVec<K>> {
     if y.len() != P::OMEGA + K {
         return None;
@@ -39,12 +29,12 @@ pub fn hint_bit_unpack<P: ParameterSet, const K: usize>(y: &[u8]) -> Option<Poly
     for i in 0..K {
         let end = y[P::OMEGA + i] as usize;
         if end < index || end > P::OMEGA {
-            return None; // malformed: count out of order / too large
+            return None; //malformed: either count out of order or too large
         }
         let first = index;
         while index < end {
             if index > first && y[index - 1] >= y[index] {
-                return None; // positions must be strictly increasing
+                return None; //positions must be strictly increasing
             }
             h.v[i].coeffs[y[index] as usize] = 1;
             index += 1;

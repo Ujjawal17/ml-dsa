@@ -1,12 +1,3 @@
-//! FIPS 204 §7.2 — key and signature (de)serialization (Algorithms 22–28).
-//!
-//! Decoders that may see adversary-controlled bytes (`pk_decode`, `sig_decode`)
-//! length-check their input first and return an error on mismatch — a security
-//! requirement, not a convenience. `sk_decode` is for trusted input (the spec notes
-//! it may return out-of-range values on malformed input).
-//!
-//! All encoded sizes are derived from the `ParameterSet` scalars; the per-set
-//! totals are pinned to FIPS 204 Table 2 by the tests in `params.rs`.
 #![allow(clippy::needless_range_loop)]
 
 use crate::encoding::{bit_pack, bit_unpack, bitlen, simple_bit_pack, simple_bit_unpack};
@@ -15,29 +6,27 @@ use crate::hint::{hint_bit_pack, hint_bit_unpack};
 use crate::params::{ParameterSet, D, Q};
 use crate::poly::PolyVec;
 
-// --- Per-polynomial encoded sizes (FIPS 204 Table 2 derivations) ---
-
-/// Top of the `t1` coefficient range: `2^(bitlen(q-1) − d) − 1` = 1023.
+/// Top of the t1 coefficient range, 2^(bitlen(q-1) - d) - 1 = 1023.
 const T1_TOP: u32 = (1u32 << (bitlen((Q - 1) as u32) - D as u32)) - 1;
-/// Bytes per `t1` polynomial under SimpleBitPack: `32 · bitlen(T1_TOP)` = 320.
+/// Bytes per t1 polynomial under SimpleBitPack, 32 * bitlen(T1_TOP) = 320.
 const T1_BYTES: usize = 32 * bitlen(T1_TOP) as usize;
-/// `t0` is packed with `a = 2^(d-1) − 1`, `b = 2^(d-1)`.
+/// t0 is packed with a = 2^(d-1) - 1, b = 2^(d-1).
 const T0_A: u32 = (1u32 << (D - 1)) - 1; // 4095
 const T0_B: u32 = 1u32 << (D - 1); // 4096
-/// Bytes per `t0` polynomial: `32 · bitlen(a+b)` = 416.
+/// Bytes per t0 polynomial, 32 * bitlen(a+b) = 416.
 const T0_BYTES: usize = 32 * bitlen(T0_A + T0_B) as usize;
 
-/// Bytes per `s1`/`s2` polynomial under BitPack(η, η): `32 · bitlen(2η)`.
+/// Bytes per s1/s2 polynomial under BitPack(η, η), 32 * bitlen(2η).
 fn eta_bytes<P: ParameterSet>() -> usize {
     32 * bitlen(2 * P::ETA as u32) as usize
 }
 
-/// Bytes per `z` polynomial under BitPack(γ1−1, γ1): `32 · bitlen(2γ1−1)`.
+/// Bytes per z polynomial under BitPack(γ1−1, γ1), 32 * bitlen(2γ1−1).
 fn z_bytes<P: ParameterSet>() -> usize {
     32 * bitlen((P::GAMMA1 - 1) as u32 + P::GAMMA1 as u32) as usize
 }
 
-/// Top of the `w1` coefficient range: `(q-1)/(2γ2) − 1` (15 or 43).
+/// Top of the w1 coefficient range, (q-1)/(2γ2) - 1 (15 or 43).
 fn w1_top<P: ParameterSet>() -> u32 {
     ((Q - 1) / (2 * P::GAMMA2)) as u32 - 1
 }
@@ -52,7 +41,7 @@ pub fn pk_encode<P: ParameterSet, const K: usize>(rho: &[u8; 32], t1: &PolyVec<K
     pk
 }
 
-/// FIPS 204, Algorithm 23 — pkDecode. Length-checked (untrusted input).
+/// FIPS 204, Algorithm 23 — pkDecode. Length checked for untrusted input.
 pub fn pk_decode<P: ParameterSet, const K: usize>(pk: &[u8]) -> Result<([u8; 32], PolyVec<K>)> {
     if pk.len() != P::PK_BYTES {
         return Err(Error::InvalidLength { expected: P::PK_BYTES, got: pk.len() });
@@ -95,7 +84,7 @@ pub fn sk_encode<P: ParameterSet, const K: usize, const L: usize>(
     sk
 }
 
-/// FIPS 204, Algorithm 25 — skDecode. Trusted input (may be out of range if malformed).
+/// FIPS 204, Algorithm 25 — skDecode. Only trusted input is accepted as it may be out of range if malformed.
 pub fn sk_decode<P: ParameterSet, const K: usize, const L: usize>(
     sk: &[u8],
 ) -> Result<DecodedSk<K, L>> {
@@ -144,7 +133,7 @@ pub fn sig_encode<P: ParameterSet, const K: usize, const L: usize>(
     sigma
 }
 
-/// FIPS 204, Algorithm 27 — sigDecode. Length-checked; returns `⊥` on a malformed hint.
+/// FIPS 204, Algorithm 27 — sigDecode. Length checked and returns ⊥ on a malformed hint.
 pub fn sig_decode<P: ParameterSet, const K: usize, const L: usize>(
     sigma: &[u8],
 ) -> Result<(Vec<u8>, PolyVec<L>, PolyVec<K>)> {

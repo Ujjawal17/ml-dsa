@@ -1,16 +1,9 @@
-//! Statistical timing leak test (dudect: Welch's t-test on real `std::time::Instant`
-//! measurements). Two input classes — a **fixed** secret (Left) and a **random**
-//! secret (Right) — are timed through `Decompose`; if the timing distributions
-//! differ (|t| ≳ 4.5), timing depends on the secret ⇒ leak.
-//!
-//! **All inputs are generated up front**, then timed in a separate loop, so no RNG
-//! or fill work is interleaved with the measurements — otherwise the per-class setup
-//! cost (constant fill vs 256 RNG draws) leaks into the timing and produces a false
-//! positive even for a constant-time target.
-//!
-//! Run the compiled binary directly (dudect-bencher rejects cargo's `--bench` arg):
+//! Statistical timing leak test (dudect: Welch's t-test on real std::time::Instant measurements). 
+//! Two input classes where a fixed secret (Left) and a random secret (Right) are timed through 
+//! Decompose and if the timing distributions differ, since timing depends on the secret it causes leak.
+
+//! To run the compiled binary:
 //!   `cargo bench -p ml-dsa-leakage --no-run` then execute the `dudect_ct-*` binary.
-//! Expect: `baseline` |t| vs `constant_time` |t| — the before/after leakage signal.
 
 use std::hint::black_box;
 
@@ -21,8 +14,6 @@ use rand::Rng;
 
 const SAMPLES: usize = 80_000;
 
-/// Drive `target` over pre-built inputs: Left = a fixed secret (all `q−1`, the
-/// baseline's special-case branch), Right = a fresh random secret.
 fn run(runner: &mut CtRunner, rng: &mut BenchRng, target: fn(&[i32]) -> i32) {
     let mut samples: Vec<(Class, Vec<i32>)> = Vec::with_capacity(SAMPLES);
     for _ in 0..SAMPLES {
@@ -33,7 +24,7 @@ fn run(runner: &mut CtRunner, rng: &mut BenchRng, target: fn(&[i32]) -> i32) {
             samples.push((Class::Right, v));
         }
     }
-    // Timing loop: only `target` runs inside run_one; no generation here.
+    // In timing loop, only target runs inside run_one and no generation is done here.
     for (class, input) in &samples {
         runner.run_one(*class, || black_box(target(black_box(input))));
     }

@@ -1,6 +1,4 @@
-//! The three top-level operations, reference vs improved path (single call each).
-//! Note: one-shot signing constructs a throwaway `Signer`, so it pays the full key
-//! setup; the amortized win lives in `signer_amortized.rs`, not here.
+//! The three top-level operations for reference vs improved path (single call each).
 
 use std::hint::black_box;
 
@@ -8,7 +6,7 @@ use iai_callgrind::{library_benchmark, library_benchmark_group, main};
 use ml_dsa::ml_dsa_65;
 use ml_dsa_bench::{keypair, m_prime, SEED};
 
-// --- KeyGen ---
+//KeyGen
 
 #[library_benchmark]
 fn keygen_baseline() -> (Vec<u8>, Vec<u8>) {
@@ -20,7 +18,7 @@ fn keygen_improved() -> (Vec<u8>, Vec<u8>) {
     black_box(ml_dsa_65::key_gen_internal_fast(black_box(&SEED)))
 }
 
-// --- Sign (single-shot) ---
+//Sign (single-shot)
 
 fn sign_fixture() -> (Vec<u8>, Vec<u8>) {
     let (_pk, sk) = keypair();
@@ -39,7 +37,7 @@ fn sign_improved_oneshot(fx: (Vec<u8>, Vec<u8>)) -> Vec<u8> {
     black_box(ml_dsa_65::sign_internal_fast(black_box(&sk), black_box(&mp), black_box(&[0u8; 32])))
 }
 
-// --- Verify ---
+//Verify
 
 fn verify_fixture() -> (Vec<u8>, Vec<u8>, Vec<u8>) {
     let (pk, sk) = keypair();

@@ -1,9 +1,3 @@
-//! FIPS 204 §6.3 / §5.3 — verification (Algorithms 8 and 3).
-//!
-//! Verify operates entirely on public data and adversary-controlled bytes, so it
-//! length-checks `pk`/`σ` (returning false on mismatch) and rejects a malformed hint
-//! (`sigDecode` → `⊥`). It reconstructs `w' = Az − c·t1·2^d` and checks the
-//! commitment hash matches.
 #![allow(clippy::needless_range_loop)]
 
 use crate::expand::expand_a;
@@ -23,7 +17,7 @@ pub fn verify_internal<P: ParameterSet, const K: usize, const L: usize>(
     m_prime: &[u8],
     sig: &[u8],
 ) -> bool {
-    // line 1-3: decode; bad length or malformed hint (⊥) ⇒ invalid.
+    // line 1-3: decode and if bad length or malformed hint (⊥) returns invalid.
     let (rho, t1) = match pk_decode::<P, K>(pk) {
         Ok(v) => v,
         Err(_) => return false,
@@ -35,13 +29,13 @@ pub fn verify_internal<P: ParameterSet, const K: usize, const L: usize>(
 
     let a_hat = expand_a::<K, L>(&rho); // line 5
 
-    // line 6: tr ← H(pk, 64)
+    // line 6
     let mut th = H::init();
     th.absorb(pk);
     let mut tr = [0u8; 64];
     th.finalize().squeeze(&mut tr);
 
-    // line 7: μ ← H(BytesToBits(tr) || M', 64)
+    // line 7
     let mut hm = H::init();
     hm.absorb(&tr);
     hm.absorb(m_prime);
@@ -50,7 +44,7 @@ pub fn verify_internal<P: ParameterSet, const K: usize, const L: usize>(
 
     let c = sample_in_ball::<P>(&c_tilde); // line 8
 
-    // line 9: w' = NTT^-1(Â ∘ NTT(z) − NTT(c) ∘ NTT(t1·2^d))
+    // line 9
     let mut t1_scaled = PolyVec::<K>::zero();
     for i in 0..K {
         for j in 0..N {
@@ -63,19 +57,17 @@ pub fn verify_internal<P: ParameterSet, const K: usize, const L: usize>(
 
     let w1_prime = use_hint_vec::<P, K>(&h, &w_prime); // line 10
 
-    // line 12: c~' ← H(μ || w1Encode(w1'), λ/4)
+    // line 12
     let mut hc = H::init();
     hc.absorb(&mu);
     hc.absorb(&w1_encode::<P, K>(&w1_prime));
     let c_tilde_prime = hc.finalize().squeeze_vec(P::C_TILDE_BYTES);
 
-    // line 13: ‖z‖∞ < γ1 − β  AND  c~ = c~'
+    // line 13
     inf_norm(&z) < P::GAMMA1 - P::BETA && c_tilde == c_tilde_prime
 }
 
-/// Improved-path [`verify_internal`]: identical structure and results, using the
-/// division-free NTT components. Verification handles only public data, so the
-/// branchless `_ct` variants are not required here.
+/// Improved-path [verify_internal]: identical structure and results, using the division-free NTT components.
 pub fn verify_internal_fast<P: ParameterSet, const K: usize, const L: usize>(
     pk: &[u8],
     m_prime: &[u8],
@@ -129,7 +121,7 @@ pub fn verify_internal_fast<P: ParameterSet, const K: usize, const L: usize>(
     inf_norm(&z) < P::GAMMA1 - P::BETA && c_tilde == c_tilde_prime
 }
 
-/// Improved-path [`verify`].
+/// Improved-path [verify].
 pub fn verify_fast<P: ParameterSet, const K: usize, const L: usize>(
     pk: &[u8],
     m: &[u8],
@@ -153,6 +145,20 @@ pub fn verify<P: ParameterSet, const K: usize, const L: usize>(
         return false;
     }
     verify_internal::<P, K, L>(pk, &format_m_prime(ctx, m), sig)
+}
+
+/// FIPS 204, Algorithm 5 — HashML-DSA.Verify (pre-hash). Builds M' same as Algorithm 4 does, then goes to Verify_internal.
+pub fn hash_verify<P: ParameterSet, const K: usize, const L: usize>(
+    pk: &[u8],
+    m: &[u8],
+    sig: &[u8],
+    ctx: &[u8],
+    ph: crate::prehash::PreHash,
+) -> bool {
+    if ctx.len() > 255 {
+        return false;
+    }
+    verify_internal::<P, K, L>(pk, &crate::sign::format_m_prime_prehash(ctx, m, ph), sig)
 }
 
 #[cfg(test)]

@@ -1,5 +1,4 @@
-//! NTT / NTT^-1 in isolation: faithful (`rem_euclid`) vs improved (Montgomery +
-//! deferred reduction). The cleanest view of the pure arithmetic win, free of SHAKE.
+//! NTT / NTT^-1 in isolation: faithful (`rem_euclid`) vs improved (Montgomery + deferred reduction).
 
 use std::hint::black_box;
 
@@ -7,7 +6,7 @@ use iai_callgrind::{library_benchmark, library_benchmark_group, main};
 use ml_dsa::ntt::{inv_ntt, inv_ntt_fast, ntt, ntt_fast};
 use ml_dsa::{Poly, PolyNTT};
 
-/// Deterministic pseudo-random polynomial with coefficients in `[0, q)`.
+/// Deterministic pseudo-random polynomial with coefficients in [0, q).
 fn sample_poly() -> Poly {
     let mut p = Poly::zero();
     let mut x = 0x1234_5678_9abc_def0u64;

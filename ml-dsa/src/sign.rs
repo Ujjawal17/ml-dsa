@@ -1,11 +1,3 @@
-//! FIPS 204 §6.2 / §5.2 — signing (Algorithms 7 and 2).
-//!
-//! `sign_internal` is the rejection-sampling loop (Fiat–Shamir with Aborts). The
-//! **number** of iterations is secret-dependent and leaks — this is the documented,
-//! accepted leakage analysed in Part 2; the loop *body* must not leak beyond that.
-//! The accept/reject decisions use norm comparisons that Part 2 will make constant
-//! time; the faithful baseline keeps them straightforward.
-
 use rand_core::{CryptoRng, RngCore};
 
 use crate::error::{Error, Result};
@@ -14,6 +6,7 @@ use crate::hash::H;
 use crate::ntt::ntt;
 use crate::ntt_arith::{matrix_vector_ntt, scalar_vector_ntt};
 use crate::params::ParameterSet;
+use crate::prehash::PreHash;
 use crate::sample::sample_in_ball;
 use crate::serdes::{sig_encode, sk_decode};
 use crate::vecops::{
@@ -30,9 +23,7 @@ pub fn sign_internal<P: ParameterSet, const K: usize, const L: usize>(
     sign_internal_traced::<P, K, L>(sk, m_prime, rnd).0
 }
 
-/// Like [`sign_internal`], but also returns the number of rejection-loop iterations
-/// (attempts until acceptance). That count is the documented, accepted leakage of
-/// Fiat–Shamir with Aborts — the signal the Part 2 side-channel chapter studies.
+/// Like [`sign_internal`], but also returns the number of rejection-loop iterations (attempts until acceptance).
 pub fn sign_internal_traced<P: ParameterSet, const K: usize, const L: usize>(
     sk: &[u8],
     m_prime: &[u8],
@@ -45,14 +36,14 @@ pub fn sign_internal_traced<P: ParameterSet, const K: usize, const L: usize>(
     let t0_hat = ntt_vec(&t0); // line 4
     let a_hat = expand_a::<K, L>(&rho); // line 5
 
-    // line 6: μ ← H(BytesToBits(tr) || M', 64)  == H(tr || m_prime, 64)
+    // line 6
     let mut hm = H::init();
     hm.absorb(&tr);
     hm.absorb(m_prime);
     let mut mu = [0u8; 64];
     hm.finalize().squeeze(&mut mu);
 
-    // line 7: ρ'' ← H(K || rnd || μ, 64)
+    // line 7
     let mut hr = H::init();
     hr.absorb(&k_seed);
     hr.absorb(rnd);
@@ -69,7 +60,7 @@ pub fn sign_internal_traced<P: ParameterSet, const K: usize, const L: usize>(
         let w = inv_ntt_vec(&matrix_vector_ntt(&a_hat, &ntt_vec(&y)));
         let w1 = high_bits_vec::<P, K>(&w);
 
-        // line 15-17: commitment hash, challenge
+        // line 15-17
         let mut hc = H::init();
         hc.absorb(&mu);
         hc.absorb(&crate::serdes::w1_encode::<P, K>(&w1));
@@ -83,30 +74,29 @@ pub fn sign_internal_traced<P: ParameterSet, const K: usize, const L: usize>(
         let z = add_vec(&y, &cs1);
         let r0 = low_bits_vec::<P, K>(&sub_vec(&w, &cs2));
 
-        // line 23: first validity check
+        // line 23
         if inf_norm(&z) >= P::GAMMA1 - P::BETA || inf_norm(&r0) >= P::GAMMA2 - P::BETA {
             kappa += L as u32;
             continue;
         }
 
-        // line 25-26: hint
+        // line 25-26
         let ct0 = inv_ntt_vec(&scalar_vector_ntt(&c_hat, &t0_hat));
         let r_arg = add_vec(&sub_vec(&w, &cs2), &ct0); // w − cs2 + ct0
         let h = make_hint_vec::<P, K>(&neg_vec(&ct0), &r_arg);
 
-        // line 28: second validity check
+        // line 28
         if inf_norm(&ct0) >= P::GAMMA2 || count_ones(&h) > P::OMEGA {
             kappa += L as u32;
             continue;
         }
 
-        // line 33: σ ← sigEncode(c~, z mod± q, h)
+        // line 33
         return (sig_encode::<P, K, L>(&c_tilde, &center_vec(&z), &h), attempts);
     }
 }
 
-/// Format `M'` for the pure (non-prehash) variant:
-/// `IntegerToBytes(0,1) || IntegerToBytes(|ctx|,1) || ctx || M`.
+///below format `M'` for the pure (non-prehash) variant:
 pub(crate) fn format_m_prime(ctx: &[u8], m: &[u8]) -> Vec<u8> {
     let mut mp = Vec::with_capacity(2 + ctx.len() + m.len());
     mp.push(0);
@@ -116,7 +106,7 @@ pub(crate) fn format_m_prime(ctx: &[u8], m: &[u8]) -> Vec<u8> {
     mp
 }
 
-/// FIPS 204, Algorithm 2 — ML-DSA.Sign (hedged): draws `rnd` from the injected RNG.
+/// FIPS 204, Algorithm 2 — ML-DSA.Sign (hedged), it draws rnd from the injected RNG.
 pub fn sign<P: ParameterSet, const K: usize, const L: usize, R: CryptoRng + RngCore>(
     sk: &[u8],
     m: &[u8],
@@ -131,8 +121,7 @@ pub fn sign<P: ParameterSet, const K: usize, const L: usize, R: CryptoRng + RngC
     Ok(sign_internal::<P, K, L>(sk, &format_m_prime(ctx, m), &rnd))
 }
 
-/// Deterministic variant (FIPS 204 §3.4): `rnd = {0}^32`. Not recommended where
-/// side-channel attacks are a concern.
+/// Deterministic variant and it uses rnd = {0}^32.
 pub fn sign_deterministic<P: ParameterSet, const K: usize, const L: usize>(
     sk: &[u8],
     m: &[u8],
@@ -151,6 +140,58 @@ pub fn sign_deterministic_traced<P: ParameterSet, const K: usize, const L: usize
         return Err(Error::ContextTooLong);
     }
     Ok(sign_internal_traced::<P, K, L>(sk, &format_m_prime(ctx, m), &[0u8; 32]))
+}
+
+//HashML-DSA (pre-hash) — FIPS 204, Algorithm 4
+
+/// Format `M'` for the pre-hash variant (Algorithm 4, line 23)
+pub(crate) fn format_m_prime_prehash(ctx: &[u8], m: &[u8], ph: PreHash) -> Vec<u8> {
+    let oid = ph.oid();
+    let phm = ph.digest(m);
+    let mut mp = Vec::with_capacity(2 + ctx.len() + oid.len() + phm.len());
+    mp.push(1);
+    mp.push(ctx.len() as u8);
+    mp.extend_from_slice(ctx);
+    mp.extend_from_slice(&oid);
+    mp.extend_from_slice(&phm);
+    mp
+}
+
+/// FIPS 204, Algorithm 4 — HashML-DSA.Sign
+pub fn hash_sign_with_rnd<P: ParameterSet, const K: usize, const L: usize>(
+    sk: &[u8],
+    m: &[u8],
+    ctx: &[u8],
+    ph: PreHash,
+    rnd: &[u8; 32],
+) -> Result<Vec<u8>> {
+    if ctx.len() > 255 {
+        return Err(Error::ContextTooLong);
+    }
+    Ok(sign_internal::<P, K, L>(sk, &format_m_prime_prehash(ctx, m, ph), rnd))
+}
+
+/// FIPS 204, Algorithm 4 — HashML-DSA.Sign (hedged), it draws rnd from the RNG.
+pub fn hash_sign<P: ParameterSet, const K: usize, const L: usize, R: CryptoRng + RngCore>(
+    sk: &[u8],
+    m: &[u8],
+    ctx: &[u8],
+    ph: PreHash,
+    rng: &mut R,
+) -> Result<Vec<u8>> {
+    let mut rnd = [0u8; 32];
+    rng.fill_bytes(&mut rnd);
+    hash_sign_with_rnd::<P, K, L>(sk, m, ctx, ph, &rnd)
+}
+
+/// Deterministic HashML-DSA.Sign (rnd = {0}^32).
+pub fn hash_sign_deterministic<P: ParameterSet, const K: usize, const L: usize>(
+    sk: &[u8],
+    m: &[u8],
+    ctx: &[u8],
+    ph: PreHash,
+) -> Result<Vec<u8>> {
+    hash_sign_with_rnd::<P, K, L>(sk, m, ctx, ph, &[0u8; 32])
 }
 
 #[cfg(test)]

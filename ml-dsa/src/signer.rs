@@ -1,23 +1,3 @@
-//! The improved signing path: an amortized, prepared [`Signer`].
-//!
-//! FIPS 204's Algorithm 7, transcribed faithfully, re-derives the key material on
-//! **every** call: `skDecode`, `ExpandA(ρ)` (a large SHAKE cost) and the NTTs of
-//! `s1, s2, t0` — none of which depend on the message. A [`Signer`] performs that
-//! work **once at construction** and reuses `Â, ŝ1, ŝ2, t̂0` across signatures.
-//! Per-signature output is **byte-identical** to the baseline `sign_internal`
-//! (asserted by the equivalence tests and by running the ACVP KAT through this
-//! path), so the amortization is purely a cost transformation.
-//!
-//! The loop body uses the improved components throughout: division-free
-//! Montgomery/lazy NTT (`*_fast`) and the branchless rounding/norm-check variants
-//! (`*_ct`) — this is the combined optimized + hardened path. The number of
-//! rejection-loop iterations remains secret-dependent (documented accepted
-//! leakage); the loop *body* contains no secret-dependent branch.
-//!
-//! Long-lived secrets (`K`, `ŝ1`, `ŝ2`, `t̂0`) are **zeroized on drop**. Transient
-//! stack copies made inside a single call are out of scope (the compiler may move
-//! or copy values invisibly; no safe-Rust mechanism can scrub those).
-
 use core::marker::PhantomData;
 
 use rand_core::{CryptoRng, RngCore};
@@ -39,8 +19,7 @@ use crate::vecops::{
 };
 use crate::verify::verify_internal_fast;
 
-/// A prepared ML-DSA signing key: the key-dependent, message-independent work of
-/// Algorithm 7 (lines 1–5) done once, reused for every signature.
+/// A prepared ML-DSA signing key, in this the key-dependent, message-independent work of Algorithm 7 (lines 1–5) done once and reused for every signature.
 pub struct Signer<P: ParameterSet, const K: usize, const L: usize> {
     k_seed: [u8; 32],
     tr: [u8; 64],
@@ -48,18 +27,13 @@ pub struct Signer<P: ParameterSet, const K: usize, const L: usize> {
     s1_hat: PolyVecNTT<L>,
     s2_hat: PolyVecNTT<K>,
     t0_hat: PolyVecNTT<K>,
-    /// Re-encoded public key, kept for verify-after-sign.
+    /// Re-encoded public key and kept for verify-after-sign.
     pk: Vec<u8>,
     _params: PhantomData<P>,
 }
 
 impl<P: ParameterSet, const K: usize, const L: usize> Signer<P, K, L> {
-    /// Build a prepared signer from an encoded secret key: `skDecode` +
-    /// `ExpandA(ρ)` + `NTT(s1), NTT(s2), NTT(t0)`, exactly once.
-    ///
-    /// The public key is re-derived (`t1 = Power2Round(A·s1 + s2)` route is not
-    /// needed — `pk` is only required for verify-after-sign, and Algorithm 8
-    /// recomputes everything from `pk` bytes; we reconstruct them from `ρ, t1`).
+    /// Build a prepared signer from an encoded secret key, that is skDecode + ExpandA(ρ) + NTT(s1), NTT(s2), NTT(t0), once.
     pub fn from_sk(sk: &[u8]) -> Result<Self> {
         let (rho, k_seed, tr, s1, s2, t0) = sk_decode::<P, K, L>(sk)?;
         let a_hat = expand_a::<K, L>(&rho);
@@ -67,8 +41,7 @@ impl<P: ParameterSet, const K: usize, const L: usize> Signer<P, K, L> {
         let s2_hat = ntt_vec_fast(&s2);
         let t0_hat = ntt_vec_fast(&t0);
 
-        // Reconstruct pk = pkEncode(ρ, t1) for verify-after-sign:
-        // t = A·s1 + s2 (Algorithm 6 line 5), then t1 = Power2Round(t).0.
+        // Reconstruct pk = pkEncode(ρ, t1) for verify-after-sign, t = A·s1 + s2 (Algorithm 6 line 5), then t1 = Power2Round(t).0.
         let as1 = matrix_vector_ntt_fast(&a_hat, &s1_hat);
         let t = add_vec(&inv_ntt_vec_fast(&as1), &s2);
         let (t1, _t0) = crate::vecops::power2round_vec(&t);
@@ -86,17 +59,16 @@ impl<P: ParameterSet, const K: usize, const L: usize> Signer<P, K, L> {
         })
     }
 
-    /// FIPS 204, Algorithm 7 (lines 6 onward) — byte-identical to the baseline
-    /// `sign_internal`, with the key-dependent prefix amortized away.
+    /// FIPS 204, Algorithm 7 (lines 6 onward) is byte-identical to the baseline sign_internal, with the key-dependent prefix amortized away.
     pub fn sign_internal(&self, m_prime: &[u8], rnd: &[u8; 32]) -> Vec<u8> {
-        // line 6: μ ← H(tr || M', 64)
+        // line 6
         let mut hm = H::init();
         hm.absorb(&self.tr);
         hm.absorb(m_prime);
         let mut mu = [0u8; 64];
         hm.finalize().squeeze(&mut mu);
 
-        // line 7: ρ'' ← H(K || rnd || μ, 64)
+        // line 7
         let mut hr = H::init();
         hr.absorb(&self.k_seed);
         hr.absorb(rnd);
@@ -111,7 +83,7 @@ impl<P: ParameterSet, const K: usize, const L: usize> Signer<P, K, L> {
             let w = inv_ntt_vec_fast(&matrix_vector_ntt_fast(&self.a_hat, &ntt_vec_fast(&y)));
             let w1 = high_bits_vec_ct::<P, K>(&w);
 
-            // lines 15-17: commitment hash, challenge
+            // lines 15-17
             let mut hc = H::init();
             hc.absorb(&mu);
             hc.absorb(&w1_encode::<P, K>(&w1));
@@ -125,8 +97,7 @@ impl<P: ParameterSet, const K: usize, const L: usize> Signer<P, K, L> {
             let z = add_vec(&y, &cs1);
             let r0 = low_bits_vec_ct::<P, K>(&sub_vec(&w, &cs2));
 
-            // line 23: first validity check (branchless per coefficient; the
-            // aggregate accept/reject branch is the documented rejection leak)
+            // line 23
             if exceeds_bound_ct(&z, P::GAMMA1 - P::BETA)
                 || exceeds_bound_ct(&r0, P::GAMMA2 - P::BETA)
             {
@@ -134,12 +105,12 @@ impl<P: ParameterSet, const K: usize, const L: usize> Signer<P, K, L> {
                 continue;
             }
 
-            // lines 25-26: hint
+            // lines 25-26
             let ct0 = inv_ntt_vec_fast(&scalar_vector_ntt_fast(&c_hat, &self.t0_hat));
             let r_arg = add_vec(&sub_vec(&w, &cs2), &ct0);
             let h = make_hint_vec_ct::<P, K>(&crate::vecops::neg_vec(&ct0), &r_arg);
 
-            // line 28: second validity check
+            // line 28
             if exceeds_bound_ct(&ct0, P::GAMMA2) || count_ones_ct(&h) > P::OMEGA {
                 kappa += L as u32;
                 continue;
@@ -165,7 +136,7 @@ impl<P: ParameterSet, const K: usize, const L: usize> Signer<P, K, L> {
         Ok(self.sign_internal(&format_m_prime(ctx, m), &rnd))
     }
 
-    /// Deterministic signing variant (`rnd = {0}^32`) on the prepared key.
+    /// Deterministic signing variant (rnd = {0}^32) on the prepared key.
     pub fn sign_deterministic(&self, m: &[u8], ctx: &[u8]) -> Result<Vec<u8>> {
         if ctx.len() > 255 {
             return Err(Error::ContextTooLong);
@@ -173,11 +144,8 @@ impl<P: ParameterSet, const K: usize, const L: usize> Signer<P, K, L> {
         Ok(self.sign_internal(&format_m_prime(ctx, m), &[0u8; 32]))
     }
 
-    /// Verify-after-sign (opt-in fault countermeasure, Bruinderink–Pessl):
-    /// hedged signing, then internal verification against this key's public key
-    /// **before** the signature is released. A verification failure means a fault
-    /// occurred during signing; the (potentially exploitable) signature is
-    /// withheld and an error returned instead.
+    /// hedged signing, then internal verification is done against this key's public key, **before** the signature is released. 
+    // A verification failure means a fault occurred during signing and the (potentially exploitable) signature is withheld and an error returned instead.
     pub fn sign_verified<R: CryptoRng + RngCore>(
         &self,
         m: &[u8],
@@ -216,8 +184,7 @@ impl<P: ParameterSet, const K: usize, const L: usize> Signer<P, K, L> {
     }
 }
 
-/// Zeroize the persistent secrets on drop: the signing seed `K` and the cached
-/// NTT-domain secrets `ŝ1, ŝ2, t̂0`. (`ρ`, `tr`, `Â`, `pk` are public values.)
+/// Zeroize the persistent secrets on drop
 impl<P: ParameterSet, const K: usize, const L: usize> Drop for Signer<P, K, L> {
     fn drop(&mut self) {
         self.k_seed.zeroize();

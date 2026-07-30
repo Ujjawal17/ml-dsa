@@ -9,6 +9,7 @@ license = "MIT OR Apache-2.0"
 # Shared dependency versions, inherited by member crates via `<dep>.workspace = true`.
 [workspace.dependencies]
 sha3 = "0.10"        # SHAKE128/256 (FIPS 202) — we treat Keccak as below the line
+sha2 = "0.10"        # SHA-2 family for HashML-DSA pre-hash (FIPS 204 §5.4, Algs 4/5)
 subtle = "2.5"       # constant-time selection / comparison
 zeroize = { version = "1", features = ["derive"] }  # clear secret intermediates
 rand_core = "0.6"    # CryptoRng abstraction; RNG is always injected for KAT replay

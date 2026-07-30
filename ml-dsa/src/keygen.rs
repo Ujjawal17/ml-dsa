@@ -1,7 +1,3 @@
-//! FIPS 204 §6.1 / §5.1 — key generation (Algorithms 6 and 1).
-//!
-//! `key_gen_internal` is the CAVP-tested surface: deterministic in its 32-byte seed
-//! `ξ`. `key_gen` is the public wrapper that draws `ξ` from an injected RNG.
 use rand_core::{CryptoRng, RngCore};
 
 use crate::expand::{expand_a, expand_s};
@@ -11,7 +7,7 @@ use crate::params::ParameterSet;
 use crate::serdes::{pk_encode, sk_encode};
 use crate::vecops::{add_vec, inv_ntt_vec, ntt_vec, power2round_vec};
 
-/// FIPS 204, Algorithm 6 — ML-DSA.KeyGen_internal: encoded `(pk, sk)` from seed `ξ`.
+/// FIPS 204, Algorithm 6 — ML-DSA.KeyGen_internal draws (pk, sk) from seed ξ.
 pub fn key_gen_internal<P: ParameterSet, const K: usize, const L: usize>(
     xi: &[u8; 32],
 ) -> (Vec<u8>, Vec<u8>) {
@@ -48,7 +44,7 @@ pub fn key_gen_internal<P: ParameterSet, const K: usize, const L: usize>(
     (pk, sk)
 }
 
-/// FIPS 204, Algorithm 1 — ML-DSA.KeyGen: draw `ξ` from the injected RNG, then expand.
+/// FIPS 204, Algorithm 1 — ML-DSA.KeyGen draws ξ from the injected RNG, then expand.
 pub fn key_gen<P: ParameterSet, const K: usize, const L: usize, R: CryptoRng + RngCore>(
     rng: &mut R,
 ) -> (Vec<u8>, Vec<u8>) {
@@ -57,8 +53,7 @@ pub fn key_gen<P: ParameterSet, const K: usize, const L: usize, R: CryptoRng + R
     key_gen_internal::<P, K, L>(&xi)
 }
 
-/// Improved-path [`key_gen_internal`]: identical structure and byte-identical
-/// output, using the division-free NTT components.
+/// Improved-path [key_gen_internal] has identical structure and byte-identical output, but using the division-free NTT components.
 pub fn key_gen_internal_fast<P: ParameterSet, const K: usize, const L: usize>(
     xi: &[u8; 32],
 ) -> (Vec<u8>, Vec<u8>) {
@@ -96,7 +91,7 @@ pub fn key_gen_internal_fast<P: ParameterSet, const K: usize, const L: usize>(
     (pk, sk)
 }
 
-/// Improved-path [`key_gen`].
+/// Improved-path [key_gen].
 pub fn key_gen_fast<P: ParameterSet, const K: usize, const L: usize, R: CryptoRng + RngCore>(
     rng: &mut R,
 ) -> (Vec<u8>, Vec<u8>) {

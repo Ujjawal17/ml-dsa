@@ -1,8 +1,5 @@
 //! Differential-fault 2×2: {deterministic, hedged} × {verify-after-sign on, off}.
-//!
-//! Injects a single-bit fault at `cs1` during signing and reports, per cell, whether
-//! an exploitable faulty artifact escapes the signer. Success criterion is *escape of
-//! an exploitable correct/faulty artifact*, not key recovery (cited: Bruinderink–Pessl).
+//! Injects a single-bit fault at `cs1` during signing and reports (per cell) whether an exploitable faulty artifact escapes the signer. 
 
 use ml_dsa::ml_dsa_65;
 use ml_dsa::params::{MlDsa65, ParameterSet};
@@ -32,8 +29,6 @@ fn run_cell(
     deterministic: bool,
     verify_after_sign: bool,
 ) -> Cell {
-    // Deterministic: rnd = 0 (reproducible, so the correct/faulty pair shares y).
-    // Hedged: fresh randomness for the faulty signing call.
     let rnd = if deterministic { [0u8; 32] } else { rnd_from(0xC0FFEE) };
 
     let faulty = sign_internal_mirror::<MlDsa65, K, L>(sk, m_prime, &rnd, fault);
@@ -68,8 +63,7 @@ fn main() {
     let (pk, sk) = ml_dsa_65::key_gen_internal(&[0x42u8; 32]);
     let mut m_prime = vec![0u8, 0u8];
     m_prime.extend_from_slice(b"differential fault experiment");
-    // Low-bit cs1 fault: keeps z within the norm bound (signer accepts) while breaking
-    // verification (fault propagates through A·Δ).
+    // Low-bit cs1 fault, it keeps z within the norm bound (signer accepts) while breaking verification (fault propagates through A·Δ).
     let fault = Fault::Cs1BitFlip { poly: 0, coeff: 0, bit: 3 };
 
     println!("Single-bit fault at cs1[0][0] bit 3 (ML-DSA-65)\n");
