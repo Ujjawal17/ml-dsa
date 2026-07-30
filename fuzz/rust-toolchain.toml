@@ -1,4 +1,0 @@
-# cargo-fuzz requires nightly (libFuzzer / sanitizer support). This overrides the
-# parent workspace's stable pin for the fuzz crate only.
-[toolchain]
-channel = "nightly"

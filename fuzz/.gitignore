@@ -1,4 +1,0 @@
-target/
-artifacts/
-coverage/
-# corpus/ is committed (checked-in seeds + fuzzer-found inputs).
