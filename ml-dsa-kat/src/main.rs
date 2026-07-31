@@ -314,6 +314,10 @@ fn main() {
         );
         failures += s.fail + v.fail;
     }
+    println!(
+        "\nSkipped groups are counted but not run here: HashML-DSA (reported separately \
+         above) and externalMu (outside the implemented scope)."
+    );
     if failures > 0 {
         std::process::exit(1);
     }
