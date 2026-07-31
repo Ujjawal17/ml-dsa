@@ -106,13 +106,16 @@ fn run_siggen_kat(api: &Api) -> Tally {
         if group["parameterSet"].as_str() != Some(api.param_set) {
             continue;
         }
-        let pure = group["preHash"].as_str() == Some("pure");
+        let prehash = group["preHash"].as_str() == Some("preHash");
         let external_mu = group["externalMu"].as_bool().unwrap_or(false);
         let internal = group["signatureInterface"].as_str() == Some("internal");
         let deterministic = group["deterministic"].as_bool().unwrap_or(false);
         let tests = group["tests"].as_array().unwrap();
-        if !pure || external_mu {
-            t.skipped += tests.len(); // HashML-DSA / externalMu are out of scope here
+        if prehash || external_mu {
+            // HashML-DSA is covered by the dedicated pre-hash KATs below;
+            // externalMu is out of scope. Both the pure (external) and the
+            // plain internal-interface groups are exercised here.
+            t.skipped += tests.len();
             continue;
         }
         for test in tests {
@@ -149,11 +152,12 @@ fn run_sigver_kat(api: &Api) -> Tally {
         if group["parameterSet"].as_str() != Some(api.param_set) {
             continue;
         }
-        let pure = group["preHash"].as_str() == Some("pure");
+        let prehash = group["preHash"].as_str() == Some("preHash");
         let external_mu = group["externalMu"].as_bool().unwrap_or(false);
         let internal = group["signatureInterface"].as_str() == Some("internal");
         let tests = group["tests"].as_array().unwrap();
-        if !pure || external_mu {
+        if prehash || external_mu {
+            // HashML-DSA covered by the dedicated pre-hash KATs; externalMu out of scope.
             t.skipped += tests.len();
             continue;
         }

@@ -19,7 +19,7 @@ use ml_dsa::ml_dsa_65::{
 
 const PK_FILE: &str = "roundtrip_pk.bin";
 const SIG_FILE: &str = "roundtrip_sig.bin";
-const DEFAULT_MSG: &str = "Hello, post-quantum world!";
+const DEFAULT_MSG: &str = "How's Life!";
 
 /// First n bytes of a buffer as hex, plus the total length.
 fn hex_prefix(bytes: &[u8], n: usize) -> String {
@@ -43,7 +43,7 @@ fn do_sign(message: &str, context: &str) {
     println!("  rejection-loop iterations: {attempts}");
     println!("  public key -> {PK_FILE}   {}", hex_prefix(&pk, 8));
     println!("  signature  -> {SIG_FILE}  {}", hex_prefix(&sig, 8));
-    println!("\nNow verify it:");
+    println!("\nTo verify it:");
     println!("  cargo run --example roundtrip -- verify {message:?} {context:?}");
 }
 
@@ -96,7 +96,7 @@ fn do_demo(message: &str, context: &str) {
     let wrong = verify(&pk, b"a different message", &sig, context.as_bytes());
     println!("   wrong message             -> {wrong:<5}  (expected: false)");
 
-    println!("\nTry: cargo run --example roundtrip -- sign \"test message\"");
+    println!("\nFor custom message: cargo run --example roundtrip -- sign \"test message\"");
 }
 
 fn main() {
