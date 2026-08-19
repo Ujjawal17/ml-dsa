@@ -1,7 +1,7 @@
 # ml-dsa
 
 An implementation of ML-DSA (FIPS 204), the NIST post-quantum signature scheme, in
-plain safe Rust. Alongside the implementation there's the benchmarking, side-channel,
+plain safe Rust. Alongside the implementation, there's the benchmarking, side-channel,
 and fault-analysis work that was done on top of it.
 
 The whole crate is `#![forbid(unsafe_code)]`, so there's no unsafe anywhere.
@@ -20,7 +20,7 @@ sensitive primitives have branchless `_ct` versions that are constant-time by
 construction.
 
 All three parameter sets (44, 65, 87) are supported through the `ParameterSet` trait
-with `K`/`L` as const generics. Both signing interfaces are there — plain ML-DSA and
+with `K`/`L` as const generics. Both signing interfaces are there, plain ML-DSA and
 the HashML-DSA pre-hash variants (all twelve approved hashes). `externalMu` is the
 one thing left out.
 
@@ -42,13 +42,13 @@ The library itself. Every function carries its FIPS reference in a doc comment
 - arithmetic: `field`, `ntt` and `ntt_arith` (reference and Montgomery), `poly`,
   `vecops`, `rounding`, `hint`
 - sampling and expansion: `sample`, `expand`, `hash` (SHAKE/Keccak)
-- encoding: `encoding`, `serdes` — the bit-packing of keys and signatures
+- encoding: `encoding`, `serdes`, the bit-packing of keys and signatures
 - operations: `keygen`, `sign`, `verify`, plus `signer`, which caches the one-time
   key setup so you can sign many messages cheaply in a session
 - interfaces: `prehash` (HashML-DSA), `params` (the trait and `MlDsa44/65/87`),
   `ct`, `error`
 
-You call it through a per-parameter-set module — `mldsa44`, `mldsa65`, `mldsa87` —
+You call it through a per-parameter-set module: `mldsa44`, `mldsa65`, `mldsa87`,
 each of which gives you `key_gen`, `sign`, `verify`, the `*_internal` and `*_fast`
 variants, `hash_sign`/`hash_verify`, and the `PK_BYTES`/`SK_BYTES`/`SIG_BYTES`
 constants. You always pass in your own RNG (`rand_core::CryptoRng`), which is what
@@ -74,10 +74,10 @@ Everything should come back green with 0 failed.
 Instruction-count benchmarks using `iai-callgrind`. Counting retired instructions
 instead of wall-clock time keeps before/after comparisons exact and repeatable.
 
-- `benches/ntt.rs` — the NTT, reference vs Montgomery
-- `benches/operations.rs` — keygen, sign, verify
-- `benches/signer_amortized.rs` — the reusable `Signer` across a session
-- `examples/latency.rs` — the one actual wall-clock timing (thesis §7.3)
+- `benches/ntt.rs` : the NTT, reference vs Montgomery
+- `benches/operations.rs` : keygen, sign, verify
+- `benches/signer_amortized.rs` : the reusable `Signer` across a session
+- `examples/latency.rs` : the one actual wall-clock timing (thesis §7.3)
 
 ```
 cargo bench -p ml-dsa-bench
@@ -87,22 +87,19 @@ cargo bench -p ml-dsa-bench
 
 The constant-time and fault harnesses.
 
-- `benches/ct_invariance.rs` — checks instruction counts don't vary with secret
+- `benches/ct_invariance.rs` : checks instruction counts don't vary with secret
   data (a control-flow leak test under callgrind)
-- `benches/dudect_ct.rs` — the statistical timing test (Welch t-test) via dudect
-- `examples/timecop.rs` — whole-program constant-time audit using Valgrind client
+- `benches/dudect_ct.rs` : the statistical timing test (Welch t-test) via dudect
+- `examples/timecop.rs` : whole-program constant-time audit using Valgrind client
   requests (`crabgrind`)
-- `examples/cachegrind_ball.rs` — cache behaviour of `SampleInBall`
-- `examples/fault_2x2.rs` — the fault experiment (signing mode against
+- `examples/cachegrind_ball.rs` : cache behaviour of `SampleInBall`
+- `examples/fault_2x2.rs` : the fault experiment (signing mode against
   verify-after-sign)
-- `src/fault.rs` — a copy of the signer wired up for fault injection
+- `src/fault.rs` :[text](../thesis/ml-dsa) a copy of the signer wired up for fault injection
 
 ### `results`
 
-The measurements the thesis refers to. The `.md` files are the write-ups —
-`README.md` (baseline profile), `methods.md` (what's tested and why), `bench.md`
-(before/after), `ct.md` (constant-time), `fault.md` (fault analysis), `latency.md` —
-and the rest is the raw callgrind/cachegrind/dudect/timecop output behind them.
+The measurements the thesis refers to.
 
 ## Building and checking
 
